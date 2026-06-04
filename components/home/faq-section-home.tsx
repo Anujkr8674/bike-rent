@@ -1,0 +1,67 @@
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import { SectionReveal } from "@/components/ui/section-reveal";
+import { PremiumAccordion } from "@/components/faq/premium-accordion";
+import { allFaqs } from "@/lib/content/faqs";
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
+import { siteAssets } from "@/lib/site-assets";
+
+const homeFaqItems = allFaqs.slice(0, 6).map((f, i) => ({
+  id: `faq-${i}`,
+  question: f.q,
+  answer: f.a,
+}));
+
+export function FaqSectionHome() {
+  return (
+    <section id="faq" className="relative overflow-hidden py-20 md:py-28">
+      <div className="absolute inset-0 bg-zinc-50/80" />
+      <div className="pointer-events-none absolute right-0 top-0 h-72 w-72 rounded-full bg-violet-400/10 blur-3xl" />
+
+      <div className="page-wrap relative z-10">
+        <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-14">
+          <SectionReveal className="lg:sticky lg:top-28">
+            <p className="text-sm font-semibold uppercase tracking-widest text-blue-600">Support</p>
+            <h2 className="section-title mt-2 text-balance">Questions? We&apos;ve got answers.</h2>
+            <p className="section-subtitle mt-3 text-pretty">
+              Everything about booking, payments, and riding in Ranchi — in one premium help center.
+            </p>
+            <div className="relative mt-8 aspect-[4/5] max-h-[480px] overflow-hidden rounded-3xl border border-zinc-200 shadow-2xl shadow-blue-500/10">
+              <Image
+                src={siteAssets.pageHeroes.faq}
+                alt="Support for Ranchi bike rental"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/60 via-transparent to-transparent" />
+              <div className="absolute bottom-6 left-6 right-6 rounded-xl bg-white/95 p-4 backdrop-blur">
+                <p className="text-sm font-semibold text-zinc-900">24×7 Ranchi support</p>
+                <p className="mt-1 text-xs text-zinc-600">Active rentals get priority roadside help</p>
+              </div>
+            </div>
+            <Link href="/faq" className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-blue-600 hover:underline">
+              Full FAQ page <ArrowRight className="h-4 w-4" />
+            </Link>
+          </SectionReveal>
+
+          <SectionReveal delay={0.1}>
+            <PremiumAccordion items={homeFaqItems} />
+            <div className="mt-8 rounded-2xl bg-gradient-to-r from-blue-600 to-violet-600 p-6 text-white">
+              <p className="font-semibold">Still need help?</p>
+              <p className="mt-1 text-sm text-blue-100">Chat with our Ranchi team on WhatsApp.</p>
+              <Link href="/contact" className="mt-4 inline-block">
+                <Button variant="glass" size="sm" className="border-white/30 bg-white text-indigo-700">
+                  Contact support
+                </Button>
+              </Link>
+            </div>
+          </SectionReveal>
+        </div>
+      </div>
+    </section>
+  );
+}

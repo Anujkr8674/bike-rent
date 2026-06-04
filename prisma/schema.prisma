@@ -1,0 +1,476 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum BookingStatus {
+  AWAITING_DOCUMENTS
+  VERIFICATION_PENDING
+  CONFIRMED
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum GuestPaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum DocumentVerificationStatus {
+  NOT_UPLOADED
+  UPLOADED
+  APPROVED
+  REJECTED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum TransmissionType {
+  MANUAL
+  AUTOMATIC
+}
+
+enum FuelType {
+  PETROL
+  ELECTRIC
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  FOLLOW_UP
+  CLOSED
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  FILE
+}
+
+enum ActivityType {
+  LOGIN
+  LOGOUT
+  CREATE
+  UPDATE
+  DELETE
+  PASSWORD_CHANGE
+  PROFILE_UPDATE
+  SETTINGS_UPDATE
+  MEDIA_UPLOAD
+  MEDIA_DELETE
+}
+
+model User {
+  id              String            @id @default(cuid())
+  fullName        String?
+  email           String            @unique
+  phone           String?
+  passwordHash    String?
+  resetTokenHash  String?
+  resetTokenExp   DateTime?
+  role            UserRole          @default(USER)
+  isVerified      Boolean           @default(false)
+  avatarUrl       String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  bookings        Booking[]
+  otpVerifications OtpVerification[]
+  reviews         Review[]
+  savedBikes      SavedBike[]
+  notifications   Notification[]
+  adminProfile    Admin?
+  siteSettingsUpdated SiteSetting[] @relation("SiteSettingUpdater")
+  mediaAssetsUploaded MediaAsset[] @relation("MediaAssetUploader")
+
+  @@index([email, role])
+}
+
+model Admin {
+  id              String    @id @default(cuid())
+  email           String    @unique
+  passwordHash    String?
+  fullName        String?
+  title           String?
+  isActive        Boolean   @default(true)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  userId          String?   @unique
+  user            User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  contactNotes    ContactNote[] @relation("ContactNoteAdmin")
+  activityLogs    ActivityLog[] @relation("ActivityLogAdmin")
+
+  @@index([email])
+}
+
+model City {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  bikes     Bike[]
+  bookings  Booking[]
+}
+
+model BikeBrand {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  bikes     Bike[]
+}
+
+model BikeCategory {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  bikes     Bike[]
+}
+
+model Bike {
+  id                   String           @id @default(cuid())
+  name                 String
+  slug                 String           @unique
+  brandId              String?
+  brandRef             BikeBrand?       @relation(fields: [brandId], references: [id], onDelete: SetNull)
+  brand                String
+  categoryId           String?
+  categoryRef          BikeCategory?    @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  category             String?
+  shortDescription     String?
+  description          String?          @db.Text
+  cc                   Int
+  mileage              Int
+  modelYear            Int?
+  seatingPerson        Int?
+  topSpeed             Int?
+  power                String?
+  torque               String?
+  fuelTank             String?
+  weight               String?
+  seatHeight           String?
+    engineType           String?
+    bikeNo               String?
+    color                String?
+    fuelType             FuelType
+  transmission         TransmissionType
+  hourlyCharge         Decimal?         @db.Decimal(10, 2)
+  pricePerDay          Decimal          @db.Decimal(10, 2)
+  securityDeposit      Decimal          @db.Decimal(10, 2)
+  includedKmPerDay     Int?
+  extraKmCharge        Decimal?         @db.Decimal(10, 2)
+  minimumBookingHours  Int?
+  maximumBookingDays   Int?
+  lateReturnCharge     Decimal?         @db.Decimal(10, 2)
+  features             Json?
+  seo                  Json?
+  documents            Json?
+  cityId               String
+  city                 City             @relation(fields: [cityId], references: [id], onDelete: Restrict)
+  imageUrl             String
+  gallery              String[]
+  isAvailable          Boolean          @default(true)
+  createdAt            DateTime         @default(now())
+  updatedAt            DateTime         @updatedAt
+  bookings             Booking[]
+  reviews              Review[]
+  savedBy              SavedBike[]
+  content              BikeContent?
+  images               BikeImage[]
+
+  @@index([brand, cityId, isAvailable])
+  @@index([brandId, categoryId])
+}
+
+model BikeImage {
+  id        String   @id @default(cuid())
+  bikeId    String
+  imageUrl  String
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  bike      Bike     @relation(fields: [bikeId], references: [id], onDelete: Cascade)
+
+  @@index([bikeId, sortOrder])
+}
+
+model BikeContent {
+  id            String   @id @default(cuid())
+  bikeId        String   @unique
+  about         Json?
+  rideComfort   Json?
+  suitableFor   Json?
+  rentalTerms   Json?
+  bikeFaq       Json?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  bike          Bike     @relation(fields: [bikeId], references: [id], onDelete: Cascade)
+}
+
+model GuestCheckout {
+  id               String   @id @default(cuid())
+  bikeId           String
+  bikeSlug         String
+  bikeName         String
+  bikeNumber       String?
+  bikeColor        String?
+  customerName     String
+  customerEmail    String
+  customerPhone    String
+  pickupDate       String
+  pickupTime       String
+  returnDate       String
+  returnTime       String
+  rentalDays       Int
+  rentalHours      Int      @default(0)
+  rentalAmount     Decimal  @db.Decimal(10, 2)
+  securityDeposit  Decimal  @db.Decimal(10, 2)
+  totalAmount      Decimal  @db.Decimal(10, 2)
+  razorpayOrderId  String?  @unique
+  expiresAt        DateTime
+  createdAt        DateTime @default(now())
+
+  @@index([customerEmail])
+  @@map("guest_checkouts")
+}
+
+model Booking {
+  id              String                   @id @default(cuid())
+  trackingId      String?                  @unique
+  bookingRef      String                   @unique
+  userId          String?
+  bikeId          String
+  cityId          String
+  bikeName        String?
+  bikeNumber      String?
+  bikeColor       String?
+  customerName    String?
+  customerEmail   String?
+  customerPhone   String?
+  pickupDate      DateTime
+  pickupTime      String?
+  dropDate        DateTime
+  returnTime      String?
+  totalDays       Int
+  rentalHours     Int                      @default(0)
+  amount          Decimal                  @db.Decimal(10, 2)
+  advanceAmount   Decimal                  @default(0) @db.Decimal(10, 2)
+  securityDeposit Decimal                  @db.Decimal(10, 2)
+  couponId        String?
+  paymentStatus   GuestPaymentStatus       @default(PENDING)
+  documentStatus  DocumentVerificationStatus @default(NOT_UPLOADED)
+  status          BookingStatus            @default(AWAITING_DOCUMENTS)
+  createdAt       DateTime                 @default(now())
+  updatedAt       DateTime                 @updatedAt
+  user            User?                    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  bike            Bike                     @relation(fields: [bikeId], references: [id], onDelete: Restrict)
+  city            City                     @relation(fields: [cityId], references: [id], onDelete: Restrict)
+  coupon          Coupon?                  @relation(fields: [couponId], references: [id], onDelete: SetNull)
+  payment         Payment?
+  documents       BookingDocument?
+
+  @@index([userId, status])
+  @@index([bikeId, pickupDate, dropDate])
+  @@index([trackingId])
+  @@index([customerEmail])
+  @@index([paymentStatus, documentStatus, status])
+}
+
+model BookingDocument {
+  id                 String                   @id @default(cuid())
+  bookingId          String                   @unique
+  dlNumber           String?
+  dlFrontUrl         String?
+  dlBackUrl          String?
+  aadhaarNumber      String?
+  aadhaarFrontUrl    String?
+  aadhaarBackUrl     String?
+  verificationStatus DocumentVerificationStatus @default(UPLOADED)
+  verifiedAt         DateTime?
+  createdAt          DateTime                 @default(now())
+  updatedAt          DateTime                 @updatedAt
+  booking            Booking                  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@map("booking_documents")
+}
+
+model Payment {
+  id                String        @id @default(cuid())
+  bookingId         String        @unique
+  razorpayOrderId   String?       @unique
+  razorpayPaymentId String?       @unique
+  razorpaySignature String?
+  status            PaymentStatus @default(PENDING)
+  amount            Decimal       @db.Decimal(10, 2)
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  booking           Booking       @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+}
+
+model OtpVerification {
+  id          String   @id @default(cuid())
+  email       String
+  userId      String?
+  fullName    String?
+  phone       String?
+  passwordHash String?
+  purpose     String   @default("LOGIN")
+  otpHash     String
+  expiresAt   DateTime
+  consumedAt  DateTime?
+  createdAt   DateTime @default(now())
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([email, expiresAt])
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  userId    String
+  bikeId    String
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bike      Bike     @relation(fields: [bikeId], references: [id], onDelete: Cascade)
+
+  @@index([bikeId, rating])
+}
+
+model Coupon {
+  id          String    @id @default(cuid())
+  code        String    @unique
+  discountPct Int
+  maxDiscount Decimal   @db.Decimal(10, 2)
+  minAmount   Decimal   @db.Decimal(10, 2)
+  expiresAt   DateTime
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  bookings    Booking[]
+}
+
+model SavedBike {
+  id        String   @id @default(cuid())
+  userId    String
+  bikeId    String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bike      Bike     @relation(fields: [bikeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, bikeId])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRead])
+}
+
+model Contact {
+  id               String         @id @default(cuid())
+  fullName         String
+  email            String
+  phone            String?
+  subject          String
+  message          String
+  status           LeadStatus     @default(NEW)
+  source           String         @default("contact_form")
+  statusUpdatedAt  DateTime       @default(now())
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  notes            ContactNote[]
+
+  @@index([status, createdAt])
+  @@index([email])
+  @@map("contact")
+}
+
+model ContactNote {
+  id         String   @id @default(cuid())
+  contactId  String
+  adminId    String?
+  note       String
+  createdAt  DateTime @default(now())
+  contact    Contact  @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  admin      Admin?   @relation("ContactNoteAdmin", fields: [adminId], references: [id], onDelete: SetNull)
+
+  @@index([contactId, createdAt])
+  @@map("contactNote")
+}
+
+model SiteSetting {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  category    String
+  value       Json
+  updatedById String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  updatedBy   User?    @relation("SiteSettingUpdater", fields: [updatedById], references: [id], onDelete: SetNull)
+
+  @@index([category, key])
+}
+
+model MediaAsset {
+  id          String    @id @default(cuid())
+  bucket      String
+  path        String    @unique
+  fileName    String
+  mimeType    String
+  size        Int
+  type        MediaType @default(IMAGE)
+  altText     String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  uploadedById String?
+  uploadedBy  User?     @relation("MediaAssetUploader", fields: [uploadedById], references: [id], onDelete: SetNull)
+
+  @@index([bucket, type])
+}
+
+model ActivityLog {
+  id          String       @id @default(cuid())
+  adminId     String?
+  action      ActivityType
+  entityType  String
+  entityId    String?
+  meta        Json?
+  ipAddress   String?
+  createdAt   DateTime     @default(now())
+  admin       Admin?       @relation("ActivityLogAdmin", fields: [adminId], references: [id], onDelete: SetNull)
+
+  @@index([action, createdAt])
+  @@index([entityType, entityId])
+}
