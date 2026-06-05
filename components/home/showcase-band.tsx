@@ -11,7 +11,7 @@ import { SectionReveal } from "@/components/ui/section-reveal";
 export function ShowcaseBand() {
   const showcase = useCatalogBikes(4);
   return (
-    <section className="relative overflow-hidden py-16 md:py-24">
+    <section className="relative overflow-hidden py-16 md:py-10">
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-50/80 via-white to-violet-50/50" />
       <div className="pointer-events-none absolute -left-20 top-1/2 h-64 w-64 -translate-y-1/2 rounded-full bg-cyan-400/20 blur-3xl" />
       <div className="pointer-events-none absolute -right-20 top-1/3 h-80 w-80 rounded-full bg-violet-400/15 blur-3xl" />

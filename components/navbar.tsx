@@ -114,12 +114,12 @@ export function Navbar() {
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         className={cn(
-          "fixed inset-x-0 top-0 z-50 transition-all duration-300",
+          "fixed z-50 transition-all duration-300",
           scrolled
-            ? "border-b border-zinc-200/80 bg-white/95 shadow-sm backdrop-blur-xl"
+            ? "top-0 left-0 right-0 border-b border-zinc-200/80 bg-white/95 shadow-sm backdrop-blur-xl"
             : isTransparent
-              ? "border-b border-transparent bg-transparent"
-              : "border-b border-zinc-200/60 bg-white/80 backdrop-blur-md",
+              ? "top-3 sm:top-5 md:top-6 lg:top-7 left-2.5 sm:left-4 md:left-5 lg:left-6 right-2.5 sm:right-4 md:right-5 lg:right-6 border-b border-transparent bg-transparent"
+              : "top-0 left-0 right-0 border-b border-zinc-200/60 bg-white/80 backdrop-blur-md",
         )}
       >
         <div className="page-wrap flex items-center justify-between gap-4 py-3 md:py-4">
@@ -201,16 +201,25 @@ export function Navbar() {
             >
               <MapPin className="h-3 w-3" /> Ranchi
             </span>
-            <Link href="/track-booking">
+            {/* <Link href="/track-booking">
               <Button
                 size="sm"
                 variant={isTransparent ? "glass" : "outline"}
-                className={cn("gap-1.5", isTransparent && "border-white/30 text-white hover:bg-white/20")}
+                className={cn("gap-1.5", isTransparent && "border-white/30 text-white hover:bg-[/20")}
               >
                 <Search className="h-3.5 w-3.5" />
                 Track Booking
-              </Button>
-            </Link>
+              </Button> 
+            </Link> */}
+            <Link href="/track-booking">
+  <Button
+    size="sm"
+    className="gap-1.5 bg-[#FF6B1A] text-white hover:bg-[#e85f12]"
+  >
+    <Search className="h-3.5 w-3.5" />
+    Track Booking
+  </Button>
+</Link>
           </div>
 
           <button

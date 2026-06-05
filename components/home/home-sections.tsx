@@ -19,6 +19,7 @@ import { coveredCities } from "@/lib/constants";
 import { BikeCard } from "@/components/bikes/bike-card";
 import { SectionReveal } from "@/components/ui/section-reveal";
 import { Button } from "@/components/ui/button";
+import { siteConfig } from "@/lib/content/site";
 
 function AnimatedCounter({ value, suffix = "" }: { value: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -71,7 +72,7 @@ export function TrendingBikes({
 }) {
   const bikes = useCatalogBikes(6);
   return (
-    <section className="bg-zinc-50/80 py-20 md:py-28">
+    <section className="bg-zinc-50/80 py-20 md:py-10">
       <div className="page-wrap">
         <SectionReveal>
           <p className="text-sm font-semibold uppercase tracking-widest text-violet-600">Trending now</p>
@@ -253,9 +254,9 @@ export function ContactSection() {
             <Mail className="h-5 w-5 text-blue-600" />
             <span className="text-sm font-medium text-zinc-700">ranchi@nextgenbike.in</span>
           </a>
-          <a href="tel:+919876543210" className="glass flex items-center gap-3 rounded-2xl p-5 transition hover:shadow-lg">
+          <a href={`tel:${siteConfig.phone}`} className="glass flex items-center gap-3 rounded-2xl p-5 transition hover:shadow-lg">
             <Phone className="h-5 w-5 text-violet-600" />
-            <span className="text-sm font-medium text-zinc-700">+91 98765 43210</span>
+            <span className="text-sm font-medium text-zinc-700">{siteConfig.phone}</span>
           </a>
         </div>
       </div>

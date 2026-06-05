@@ -44,7 +44,7 @@ export const siteAssets = {
     legal: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1600&q=80",
   },
   whyChoose: {
-    center: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1400&q=85",
+    center: supabasePublicAsset("why-choose/why.jpg"),
   },
   benefits: {
     verifiedBikes: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=400&q=80",
@@ -57,16 +57,16 @@ export const siteAssets = {
     instantConfirmation: "https://images.unsplash.com/photo-1623070592232-8b6be9f64f52?w=400&q=80",
   },
   impact: {
-    cleaning: "https://images.unsplash.com/photo-1616422285623-13ff0162193c?auto=format&fit=crop&w=400&q=80",
-    helmet: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=400&q=80",
-    sunset: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=400&q=80",
-    scooter1: "https://images.unsplash.com/photo-1558981285-6f0c94958bb6?auto=format&fit=crop&w=400&q=80",
-    bikerider: "https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?auto=format&fit=crop&w=400&q=80",
-    twins: "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=400&q=80",
-    highway: "https://images.unsplash.com/photo-1609630875171-b1321377ee65?auto=format&fit=crop&w=400&q=80",
-    parked: "https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?auto=format&fit=crop&w=400&q=80",
-    front: "https://images.unsplash.com/photo-1558980664-10ea7d3fb147?auto=format&fit=crop&w=400&q=80",
-    scooter2: "https://images.unsplash.com/photo-1622186477895-f2af6a0f5a97?auto=format&fit=crop&w=400&q=80",
+    cleaning: supabasePublicAsset("bike-category/cmpzb5iei0001l8041ktuhfmi/Activa-removebg-preview.png"), 
+    helmet: supabasePublicAsset("bike-category/cmpz5s1eu000ac6h87x1d1xol/R15-removebg-preview.png"), 
+    sunset: supabasePublicAsset("impact/pic5.jpeg"),
+    scooter1: supabasePublicAsset("impact/pic3.avif"),
+    bikerider: supabasePublicAsset("impact/pic4.avif"),
+    twins: supabasePublicAsset("impact/pic2.avif"),
+    highway: supabasePublicAsset("impact/pic1.avif"),
+    parked: supabasePublicAsset("bike-category/cmpzb69xc0002l804cl14lb5f/bullet-removebg-preview.png"),
+    front: supabasePublicAsset("bike-category/cmpzb6htv0003js04vvyszflg/Himaliyan-removebg-preview.png"),
+    scooter2: supabasePublicAsset("bike-category/cmpzb5d6d0000l80488k1wvm0/splendor-removebg-preview.png"),
   },
   bikes: {
     pulsar150: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1200&q=80",
@@ -105,5 +105,9 @@ export const siteAssets = {
   service: {
     bullet: supabasePublicAsset("service/blue_motorcycle.png"),
     scooter: supabasePublicAsset("service/blue_scooter.png"),
+  },
+  faqHome: {
+    faq:supabasePublicAsset("faq/faq1.jpg"),
   }
+  // siteAssets.pageHeroes.faq
 } as const;

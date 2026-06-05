@@ -45,6 +45,36 @@ export async function POST(req: Request) {
   }
 }
 
+export async function PATCH(req: Request) {
+  const session = await assertAdmin();
+  if (!session) return NextResponse.json({ message: "Forbidden" }, { status: 403 });
+
+  const id = new URL(req.url).searchParams.get("id");
+  if (!id) return NextResponse.json({ message: "Brand id is required." }, { status: 400 });
+
+  const existingBrand = await db.bikeBrand.findUnique({ where: { id } });
+  if (!existingBrand) return NextResponse.json({ message: "Brand not found." }, { status: 404 });
+
+  const body = (await req.json().catch(() => null)) as { name?: string } | null;
+  const name = body?.name?.trim() ?? "";
+  if (!name) {
+    return NextResponse.json({ message: "Brand name cannot be empty." }, { status: 400 });
+  }
+
+  const slug = slugifyText(name) || `brand-${Date.now()}`;
+
+  try {
+    const updatedBrand = await db.bikeBrand.update({
+      where: { id },
+      data: { name, slug },
+    });
+    return NextResponse.json({ success: true, brand: updatedBrand });
+  } catch (error) {
+    console.error("PATCH Brand Error:", error);
+    return NextResponse.json({ message: "Failed to update brand." }, { status: 500 });
+  }
+}
+
 export async function DELETE(req: Request) {
   const session = await assertAdmin();
   if (!session) return NextResponse.json({ message: "Forbidden" }, { status: 403 });

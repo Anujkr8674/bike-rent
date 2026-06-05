@@ -1,13 +1,13 @@
 "use client";
 
-import Link from "next/link";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
-import { ArrowRight, MapPin, Sparkles } from "lucide-react";
+import { MapPin, Sparkles, X, Calendar, Phone, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BookingSearchBar } from "@/components/home/booking-search-bar";
 import { heroVideo } from "@/lib/content/hero-video";
 import { siteAssets } from "@/lib/site-assets";
+import { siteConfig } from "@/lib/content/site";
 
 const heroSlides = [
   {
@@ -36,6 +36,23 @@ export function Hero() {
   const [slideDirection, setSlideDirection] = useState(1);
   const [transitioningSlide, setTransitioningSlide] = useState<number | null>(null);
   const [videoReady, setVideoReady] = useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 30) {
+        setHasScrolled(true);
+      } else {
+        setHasScrolled(false);
+      }
+    };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const showForm = isFormOpen;
   const activeSlide = heroSlides[currentSlide];
   const overlaySlide = transitioningSlide !== null ? heroSlides[transitioningSlide] : null;
   const startSlideTransition = useCallback(() => {
@@ -103,8 +120,12 @@ export function Hero() {
   }, [activeSlide.type, currentSlide, transitioningSlide, startSlideTransition]);
 
   return (
-    <section ref={ref} className="hero-fullbleed relative h-[100dvh] min-h-[640px] w-full overflow-hidden">
-      <div className="absolute inset-0 z-0">
+    <div className="w-full h-[100dvh] min-h-[640px] bg-[#F8F9FA] py-3 px-1.5 sm:py-5 sm:px-3 md:py-6 md:px-4 lg:py-7 lg:px-5 flex flex-col justify-stretch overflow-hidden">
+      <section
+        ref={ref}
+        className="hero-fullbleed relative flex-1 w-full overflow-hidden rounded-[24px] sm:rounded-[36px] border border-zinc-200 shadow-2xl bg-zinc-900"
+      >
+        <div className="absolute inset-0 z-0">
         <div className="absolute inset-0">{renderSlide(activeSlide, videoRef, videoReady)}</div>
 
         {overlaySlide && (
@@ -173,7 +194,7 @@ export function Hero() {
               transition={{ delay: 0.48 }}
               className="mt-4 hidden flex-wrap items-center justify-center gap-3 sm:flex"
             >
-              <Link href="/bikes">
+              {/* <Link href="/bikes">
                 <Button size="lg">
                   Explore Fleet <ArrowRight className="h-4 w-4" />
                 </Button>
@@ -182,21 +203,124 @@ export function Hero() {
                 <Button variant="glass" size="lg" className="border-white/30 text-white hover:bg-white/20">
                   Book Instantly
                 </Button>
-              </Link>
+              </Link> */}
             </motion.div>
           </motion.div>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.52, duration: 0.65 }}
-          className="relative z-10 mx-auto w-full max-w-4xl shrink-0"
-        >
-          <BookingSearchBar variant="hero" />
-        </motion.div>
       </motion.div>
+
+      {/* Click outside backdrop */}
+      <AnimatePresence>
+        {showForm && (
+          <div
+            className="fixed inset-0 z-25 bg-transparent"
+            onClick={() => setIsFormOpen(false)}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Booking Form Overlay (Confined inside the Hero section) */}
+      <AnimatePresence>
+        {showForm && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96, y: 40 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.96, y: 40 }}
+            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute bottom-0 inset-x-0 z-30 bg-transparent p-6 sm:p-8 flex flex-col items-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="w-full max-w-4xl relative pt-6">
+              <div className="relative">
+                {/* Close button */}
+                <button
+                  onClick={() => setIsFormOpen(false)}
+                  className="absolute -top-3 -right-3 text-zinc-600 hover:text-zinc-900 bg-white hover:bg-zinc-50 border border-zinc-200/80 shadow-md p-2 rounded-full transition-all duration-300 z-40 cursor-pointer hover:scale-105 active:scale-95 flex items-center justify-center"
+                  aria-label="Close booking form"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+
+                <BookingSearchBar variant="hero" />
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Bottom links and action buttons (Confined inside the Hero section) */}
+      <AnimatePresence>
+        {!showForm && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ duration: 0.4 }}
+            className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-wrap items-center justify-center gap-3 w-full px-4"
+          >
+            <Button
+              onClick={() => setIsFormOpen(true)}
+              size="sm"
+              className="shadow-md"
+            >
+              <Calendar className="h-4 w-4" />
+              Book Instantly
+            </Button>
+
+            <a
+              href={`https://wa.me/${siteConfig.whatsapp}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button
+                variant="outline"
+                size="sm"
+                className="border-white/20 bg-white/10 hover:bg-white/20 text-white hover:text-white hover:border-white/40 shadow-md"
+              >
+                <MessageCircle className="h-4 w-4 text-emerald-400" />
+                WhatsApp
+              </Button>
+            </a>
+
+            <a
+              href={`tel:${siteConfig.phone}`}>
+              <Button
+                variant="outline"
+                size="sm"
+                className="border-white/20 bg-white/10 hover:bg-white/20 text-white hover:text-white hover:border-white/40 shadow-md"
+              >
+                <Phone className="h-4 w-4 text-blue-400" />
+                Call
+              </Button>
+            </a>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Floating mouse scroll indicator (Confined inside the Hero section) */}
+      <AnimatePresence>
+        {!hasScrolled && !showForm && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+            className="absolute bottom-8 right-6 sm:right-12 flex flex-col items-center gap-2 text-white/70 pointer-events-none z-20"
+          >
+            <span className="text-[10px] uppercase tracking-widest font-bold">Scroll to Explore</span>
+            <motion.div
+              animate={{ y: [0, 6, 0] }}
+              transition={{ repeat: Infinity, duration: 1.6, ease: "easeInOut" }}
+              className="w-5 h-8 border border-white/40 rounded-full flex justify-center p-1"
+            >
+              <div className="w-1.5 h-2 bg-[#FF653F] rounded-full" />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
+  </div>
   );
 }
 

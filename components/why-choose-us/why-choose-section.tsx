@@ -13,7 +13,7 @@ export function WhyChooseSection({ showLink = true }: WhyChooseSectionProps) {
   return (
     <section
       aria-labelledby="why-choose-heading"
-      className="relative overflow-x-hidden bg-white py-20 md:py-28"
+      className="relative overflow-x-hidden bg-white py-20 md:py-10"
     >
       <div
         className="pointer-events-none absolute -left-40 top-0 h-[28rem] w-[28rem] rounded-full bg-[#FF653F]/8 blur-3xl"

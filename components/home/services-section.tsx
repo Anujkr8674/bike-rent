@@ -22,7 +22,7 @@ export function ServicesSection() {
   return (
     <section
       aria-labelledby="services-heading"
-      className="relative overflow-hidden bg-white py-20 md:py-28"
+      className="relative overflow-hidden bg-white py-20 md:py-10"
     >
       {/* Subtle Background Glows */}
       <div
@@ -34,7 +34,7 @@ export function ServicesSection() {
         aria-hidden
       />
 
-      <div className="page-wrap relative z-10 max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="page-wrap relative z-10 max-w-7xl mx-auto px-6 sm:px-12 lg:px-8 text-center sm:text-left">
 
         {/* Title Section (Services we Offer) */}
         <div className="text-center mb-16 md:mb-20">
@@ -65,7 +65,7 @@ export function ServicesSection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="order-2 lg:order-1 flex flex-col space-y-8 text-left"
+            className="order-2 lg:order-1 flex flex-col space-y-8 text-center lg:text-left items-center lg:items-start"
           >
             <div>
               {/* <h3 className="font-display text-3xl font-extrabold tracking-tight text-zinc-950 sm:text-4xl">
@@ -75,9 +75,9 @@ export function ServicesSection() {
               </h3>
             </div>
 
-            <div className="space-y-6">
-              {dailyFeatures.map((feature, idx) => (
-                <div key={feature.title} className="flex flex-col">
+            <div className="space-y-6 flex flex-col items-center lg:items-start">
+              {dailyFeatures.map((feature) => (
+                <div key={feature.title} className="flex flex-col items-center lg:items-start">
                   <h4 className="text-sm font-bold tracking-wider text-zinc-950">
                     {feature.title}
                   </h4>
@@ -88,7 +88,7 @@ export function ServicesSection() {
               ))}
             </div>
 
-            <div className="pt-4 flex justify-start">
+            <div className="pt-4 flex justify-center lg:justify-start">
               <Link href="/bikes">
                 <button className="bg-[#FF653F] text-white hover:bg-[#E04F2A] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 font-extrabold rounded-lg px-10 py-4 text-xs sm:text-sm tracking-wider shadow-lg shadow-[#FF653F]/15 uppercase">
                   RENT NOW
@@ -104,46 +104,46 @@ export function ServicesSection() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, type: "spring", bounce: 0.2 }}
-              className="relative w-full max-w-[360px] sm:max-w-[420px] h-[360px] sm:h-[440px] flex items-center justify-center overflow-visible"
+              className="relative w-full max-w-[300px] sm:max-w-[420px] h-[300px] sm:h-[440px] flex items-center justify-center overflow-visible"
             >
 
               {/* Large connecting circle in the background */}
-              <div className="absolute w-[300px] sm:w-[380px] h-[300px] sm:h-[380px] rounded-full bg-[#FF653F]/3 border border-[#FF653F]/8 z-0 pointer-events-none" />
+              <div className="absolute w-[240px] sm:w-[380px] h-[240px] sm:h-[380px] rounded-full bg-[#FF653F]/3 border border-[#FF653F]/8 z-0 pointer-events-none" />
 
               {/* Left Side (Motorcycle + Solid Orange Semi-Circle) - Shifted UP */}
-              <div className="absolute left-[5%] sm:left-[10%] w-[120px] sm:w-[150px] h-full flex items-center justify-center overflow-visible">
+              <div className="absolute left-[16%] sm:left-[10%] w-[90px] sm:w-[150px] h-full flex items-center justify-center overflow-visible">
                 <motion.div
                   whileHover={{ scale: 1.04, transition: { duration: 0.2 } }}
-                  className="relative w-full h-[200px] sm:h-[260px] flex items-center justify-end cursor-pointer group overflow-visible"
+                  className="relative w-full h-[150px] sm:h-[260px] flex items-center justify-end cursor-pointer group overflow-visible"
                 >
                   {/* Solid Left Semi-Circle (Solid Orange) */}
-                  <div className="absolute right-0 w-[70px] sm:w-[90px] h-[140px] sm:h-[180px] rounded-l-full bg-[#FF653F] shadow-2xl shadow-[#FF653F]/20 group-hover:shadow-[#FF653F]/35 transition-all duration-300 z-10 transform -translate-y-6" />
+                  <div className="absolute right-0 w-[55px] sm:w-[90px] h-[110px] sm:h-[180px] rounded-l-full bg-[#FF653F] shadow-2xl shadow-[#FF653F]/20 group-hover:shadow-[#FF653F]/35 transition-all duration-300 z-10 transform -translate-y-3 sm:-translate-y-6" />
 
                   {/* Motorcycle Image (Massive and Popping Out + Infinite Floating Animation) */}
                   <motion.img
                     src={siteAssets.service.scooter}
                     alt="Monthly Subscription Scooter"
                     animate={{
-                      y: [-24, -32, -24],
+                      y: [-20, -28, -20],
                     }}
                     transition={{
                       duration: 4,
                       repeat: Infinity,
                       ease: "easeInOut",
                     }}
-                    className="absolute right-[-45px] sm:right-[-60px] w-[240px] sm:w-[320px] max-w-none h-auto object-contain select-none filter drop-shadow-[0_12px_24px_rgba(0,0,0,0.18)] z-20 group-hover:translate-x-[-6px] transition-all duration-300"
+                    className="absolute right-[-25px] sm:right-[-60px] w-[180px] sm:w-[320px] max-w-none h-auto object-contain select-none filter drop-shadow-[0_12px_24px_rgba(0,0,0,0.18)] z-20 group-hover:translate-x-[-6px] transition-all duration-300"
                   />
                 </motion.div>
               </div>
 
               {/* Right Side (Scooter + Solid Orange Semi-Circle) - Shifted DOWN */}
-              <div className="absolute right-[5%] sm:right-[10%] w-[120px] sm:w-[150px] h-full flex items-center justify-center overflow-visible">
+              <div className="absolute right-[16%] sm:right-[10%] w-[90px] sm:w-[150px] h-full flex items-center justify-center overflow-visible">
                 <motion.div
                   whileHover={{ scale: 1.04, transition: { duration: 0.2 } }}
-                  className="relative w-full h-[200px] sm:h-[260px] flex items-center justify-start cursor-pointer group overflow-visible"
+                  className="relative w-full h-[150px] sm:h-[260px] flex items-center justify-start cursor-pointer group overflow-visible"
                 >
                   {/* Solid Right Semi-Circle (Solid Orange) */}
-                  <div className="absolute left-0 w-[70px] sm:w-[90px] h-[140px] sm:h-[180px] rounded-r-full bg-[#FF653F] shadow-2xl shadow-[#FF653F]/20 group-hover:shadow-[#FF653F]/35 transition-all duration-300 z-10 transform translate-y-6" />
+                  <div className="absolute left-0 w-[55px] sm:w-[90px] h-[110px] sm:h-[180px] rounded-r-full bg-[#FF653F] shadow-2xl shadow-[#FF653F]/20 group-hover:shadow-[#FF653F]/35 transition-all duration-300 z-10 transform translate-y-3 sm:translate-y-6" />
 
                   {/* Scooter Image (Massive and Popping Out + Infinite Floating Animation) */}
                   <motion.img
@@ -151,7 +151,7 @@ export function ServicesSection() {
                     alt="Daily Rental Motorcycle"
 
                     animate={{
-                      y: [24, 32, 24],
+                      y: [20, 28, 20],
                     }}
                     transition={{
                       duration: 4,
@@ -159,7 +159,7 @@ export function ServicesSection() {
                       ease: "easeInOut",
                       delay: 0.5,
                     }}
-                    className="absolute left-[-45px] sm:left-[-60px] w-[240px] sm:w-[320px] max-w-none h-auto object-contain select-none filter drop-shadow-[0_12px_24px_rgba(0,0,0,0.18)] z-20 group-hover:translate-x-[6px] transition-all duration-300"
+                    className="absolute left-[-25px] sm:left-[-60px] w-[180px] sm:w-[320px] max-w-none h-auto object-contain select-none filter drop-shadow-[0_12px_24px_rgba(0,0,0,0.18)] z-20 group-hover:translate-x-[6px] transition-all duration-300"
                   />
                 </motion.div>
               </div>
@@ -173,7 +173,7 @@ export function ServicesSection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="order-3 lg:order-3 flex flex-col space-y-8 text-left lg:text-right lg:items-end"
+            className="order-3 lg:order-3 flex flex-col space-y-8 text-center lg:text-right items-center lg:items-end"
           >
             <div>
               {/* <h3 className="font-display text-3xl font-extrabold tracking-tight text-zinc-950 sm:text-4xl"> */}
@@ -182,9 +182,9 @@ export function ServicesSection() {
               </h3>
             </div>
 
-            <div className="space-y-6 flex flex-col lg:items-end">
-              {subscriptionFeatures.map((feature, idx) => (
-                <div key={feature.title} className="flex flex-col lg:items-end">
+            <div className="space-y-6 flex flex-col items-center lg:items-end">
+              {subscriptionFeatures.map((feature) => (
+                <div key={feature.title} className="flex flex-col items-center lg:items-end">
                   <h4 className="text-sm font-bold tracking-wider text-zinc-950">
                     {feature.title}
                   </h4>
@@ -195,7 +195,7 @@ export function ServicesSection() {
               ))}
             </div>
 
-            <div className="pt-4 flex justify-start lg:justify-end">
+            <div className="pt-4 flex justify-center lg:justify-end">
               <Link href="/book">
                 <button className="bg-[#FF653F] text-white hover:bg-[#E04F2A] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 font-extrabold rounded-lg px-10 py-4 text-xs sm:text-sm tracking-wider shadow-lg shadow-[#FF653F]/15 uppercase">
                   SUBSCRIBE NOW

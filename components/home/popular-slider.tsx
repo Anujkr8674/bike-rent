@@ -24,7 +24,7 @@ export function PopularSlider({
   };
 
   return (
-    <section className="py-20 md:py-28">
+    <section className="py-20 md:py-10">
       <div className="page-wrap">
         <SectionReveal className="mb-10 flex flex-wrap items-end justify-between gap-4">
           <div>

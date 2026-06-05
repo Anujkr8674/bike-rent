@@ -18,7 +18,7 @@ const allItems = faqCategories.flatMap((cat, ci) =>
 
 export function FaqPageContent() {
   return (
-    <div className="page-wrap py-16 md:py-24">
+    <div className="page-wrap py-16 md:py-10">
       <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-14">
         <SectionReveal className="lg:sticky lg:top-28">
           <div className="relative aspect-[4/5] max-h-[520px] overflow-hidden rounded-3xl border border-zinc-200 shadow-2xl shadow-blue-500/10">

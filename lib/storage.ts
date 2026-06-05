@@ -56,6 +56,10 @@ export function resolveBikeMediaUrl(url: string) {
     return storagePublicUrl(trimmed);
   }
 
+  if (trimmed.startsWith("bike-category/")) {
+    return storagePublicUrl(trimmed);
+  }
+
   return trimmed;
 }
 
@@ -73,7 +77,25 @@ export function bookingDocumentPath(bookingId: string, fileName: string) {
 
 export async function uploadBookingDocument(bookingId: string, file: File | Blob, fileName: string) {
   const path = bookingDocumentPath(bookingId, fileName);
-  const { error } = await supabaseAdmin.storage.from(ADMIN_BIKE_BUCKET).upload(path, file, {
+  const arrayBuffer = await file.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+  const { error } = await supabaseAdmin.storage.from(ADMIN_BIKE_BUCKET).upload(path, buffer, {
+    upsert: true,
+    contentType: "type" in file ? file.type || undefined : undefined,
+  });
+  if (error) throw new Error(error.message);
+  return { path, url: storagePublicUrl(path) };
+}
+
+export function bikeCategoryStoragePath(categoryId: string, fileName: string) {
+  return `bike-category/${categoryId}/${fileName.replace(/^\/+/, "")}`;
+}
+
+export async function uploadBikeCategoryFile(categoryId: string, file: File | Blob, fileName: string) {
+  const path = bikeCategoryStoragePath(categoryId, fileName);
+  const arrayBuffer = await file.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+  const { error } = await supabaseAdmin.storage.from(ADMIN_BIKE_BUCKET).upload(path, buffer, {
     upsert: true,
     contentType: "type" in file ? file.type || undefined : undefined,
   });
@@ -83,7 +105,9 @@ export async function uploadBookingDocument(bookingId: string, file: File | Blob
 
 export async function uploadBikeFile(bikeId: string, file: File | Blob, fileName: string) {
   const path = bikeStoragePath(bikeId, fileName);
-  const { error } = await supabaseAdmin.storage.from(ADMIN_BIKE_BUCKET).upload(path, file, {
+  const arrayBuffer = await file.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+  const { error } = await supabaseAdmin.storage.from(ADMIN_BIKE_BUCKET).upload(path, buffer, {
     upsert: true,
     contentType: "type" in file ? file.type || undefined : undefined,
   });

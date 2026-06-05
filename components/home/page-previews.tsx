@@ -1,14 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Star, BadgeCheck } from "lucide-react";
 import { SectionReveal } from "@/components/ui/section-reveal";
 import { Button } from "@/components/ui/button";
 import { testimonials } from "@/lib/content/testimonials";
 import { allFaqs } from "@/lib/content/faqs";
 import { whyChooseItems } from "@/lib/content/why-choose";
 import Image from "next/image";
-import { Star } from "lucide-react";
 import { siteAssets } from "@/lib/site-assets";
 
 function ViewAll({ href, label }: { href: string; label: string }) {
@@ -139,28 +138,73 @@ export function AboutPreview() {
 export function TestimonialsPreview() {
   const items = testimonials.slice(0, 3);
   return (
-    <section className="py-16 md:py-20">
+    <section className="py-16 md:py-20 bg-zinc-50/20">
       <div className="page-wrap">
         <SectionReveal className="flex flex-wrap items-end justify-between gap-4">
-          <h2 className="section-title">Loved by riders</h2>
+          <div>
+            <p className="text-sm font-extrabold uppercase tracking-widest text-[#FF653F]">Testimonials</p>
+            <h2 className="section-title mt-2">Loved by riders</h2>
+          </div>
           <ViewAll href="/testimonials" label="All reviews" />
         </SectionReveal>
         <div className="mt-10 grid gap-6 md:grid-cols-3">
           {items.map((t, i) => (
             <SectionReveal key={t.id} delay={i * 0.08}>
-              <div className="glass h-full rounded-2xl p-5">
-                <div className="flex items-center gap-3">
-                  <Image src={t.avatar} alt="" width={40} height={40} className="rounded-full" />
+              <div className="group relative flex h-full flex-col justify-between overflow-hidden rounded-3xl border border-zinc-200/60 bg-white/70 p-6 shadow-[0_8px_30px_rgba(0,0,0,0.02)] transition-all duration-300 hover:border-[#FF653F] hover:shadow-[0_20px_45px_rgba(255,101,63,0.1)] hover:-translate-y-1.5 cursor-pointer">
+                {/* Large Background Quote Symbol */}
+                <span className="absolute right-6 top-2 select-none font-serif text-8xl font-black text-zinc-100 transition-colors duration-300 group-hover:text-orange-500/10 pointer-events-none">
+                  &ldquo;
+                </span>
+
+                <div className="flex flex-col h-full justify-between">
                   <div>
-                    <p className="font-semibold text-zinc-900">{t.name}</p>
-                    <div className="flex gap-0.5">
+                    {/* User Profile Info */}
+                    <div className="flex items-center gap-3">
+                      <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full ring-2 ring-zinc-100 group-hover:ring-[#FF653F]/40 transition-all duration-300">
+                        <Image
+                          src={t.avatar}
+                          alt={t.name}
+                          fill
+                          className="object-cover"
+                          sizes="48px"
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between gap-1">
+                          <h4 className="font-display font-extrabold text-zinc-950 truncate group-hover:text-[#FF653F] transition-colors duration-200">
+                            {t.name}
+                          </h4>
+                          {t.verified && (
+                            <BadgeCheck className="h-5 w-5 text-blue-600 shrink-0 animate-reveal" aria-label="Verified customer" />
+                          )}
+                        </div>
+                        <p className="text-xs text-zinc-400 truncate mt-0.5">{t.location}</p>
+                      </div>
+                    </div>
+
+                    {/* Rating Stars */}
+                    <div className="mt-3 flex gap-0.5">
                       {Array.from({ length: t.rating }).map((_, j) => (
-                        <Star key={j} className="h-3 w-3 fill-amber-400 text-amber-400" />
+                        <Star key={j} className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
                       ))}
                     </div>
+
+                    {/* Review Text */}
+                    <p className="relative z-10 mt-4 line-clamp-4 text-[0.88rem] leading-relaxed text-zinc-500 italic">
+                      &ldquo;{t.text}&rdquo;
+                    </p>
                   </div>
+
+                  {/* Bike Ridden Info Footer */}
+                  {t.bike && (
+                    <div className="mt-5 border-t border-zinc-100/80 pt-4 flex items-center justify-between text-xs">
+                      <span className="font-medium text-zinc-400">Rode:</span>
+                      <span className="font-semibold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full group-hover:bg-[#FF653F]/10 group-hover:text-[#FF653F] transition-colors duration-300">
+                        {t.bike}
+                      </span>
+                    </div>
+                  )}
                 </div>
-                <p className="mt-4 line-clamp-3 text-sm text-zinc-600">&ldquo;{t.text}&rdquo;</p>
               </div>
             </SectionReveal>
           ))}

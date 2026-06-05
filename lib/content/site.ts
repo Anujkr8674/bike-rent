@@ -2,8 +2,8 @@ export const siteConfig = {
   name: "Nextgen Bike Rent Service",
   tagline: "Premium bike rentals in Ranchi, Jharkhand",
   email: "ranchi@nextgenbike.in",
-  phone: "+91 98765 43210",
-  whatsapp: "919876543210",
+  phone: "+91 93865 65768",
+  whatsapp: "919386565768",
   address: "Main Road, Near City Centre, Ranchi, Jharkhand 834001",
   hours: {
     weekdays: "6:00 AM – 10:00 PM",

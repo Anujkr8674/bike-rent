@@ -3,6 +3,8 @@
 import { useSearchParams } from "next/navigation";
 import { Suspense, useMemo } from "react";
 import { Hero } from "@/components/home/hero";
+import { BookingSearchBar } from "@/components/home/booking-search-bar";
+import { CategorySection } from "@/components/home/category-section";
 import { PopularSlider } from "@/components/home/popular-slider";
 import { TrendingBikes, AppCta } from "@/components/home/home-sections";
 import { WhyChooseSection } from "@/components/why-choose-us";
@@ -33,12 +35,19 @@ function HomeContent() {
   return (
     <>
       <Hero />
+      <div className="bg-[#F8F9FA] py-8 sm:py-10 border-b border-zinc-100">
+        <div className="page-wrap">
+          <BookingSearchBar variant="default" />
+        </div>
+      </div>
       <TrustStrip />
+
       <PopularSlider days={days} pickup={pickup} drop={drop} />
+      <CategorySection />
       <ServicesSection />
       <TrendingBikes days={days} pickup={pickup} drop={drop} />
-      <ShowcaseBand />
-      
+      {/* <ShowcaseBand /> */}
+
       <WhyChooseSection />
       {/* <AboutPreview /> */}
       <ImpactSection />

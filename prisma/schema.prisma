@@ -146,6 +146,7 @@ model BikeCategory {
   id        String   @id @default(cuid())
   name      String   @unique
   slug      String   @unique
+  imageUrl  String?
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
