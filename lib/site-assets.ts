@@ -18,16 +18,14 @@ export function supabasePublicAsset(path: string, fallback = "") {
 
 export const siteAssets = {
   hero: {
-    video: supabasePublicAsset("hero/bike.mp4"),
-    poster: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=2000&q=85",
-    videoFallbacks: [
-      "https://videos.pexels.com/video-files/4975406/4975406-hd_1920_1080_30fps.mp4",
-      "https://videos.pexels.com/video-files/2146396/2146396-hd_1920_1080_30fps.mp4",
-      "https://videos.pexels.com/video-files/16567444/16567444-hd_1920_1080_30fps.mp4",
-      "https://assets.mixkit.co/videos/46084/46084-720.mp4",
-    ],
+    video: "/videos/bike.mp4",
+    video2: "/videos/hero-3.mp4",
+    poster: "/images/hero-rider-bg.png",
     carouselImages: {
-      cityRide: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1600&q=80",
+      cityRide: "https://images.unsplash.com/photo-1558980664-10ea7d3fb147?auto=format&fit=crop&w=1920&q=90",
+      ktmOrange: "https://images.unsplash.com/photo-1449426468159-d96dbf08f19f?auto=format&fit=crop&w=1920&q=90",
+      sportBike: "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=1920&q=90",
+      windingRoad: "/images/winding-road.png",
     },
   },
   pageHeroes: {

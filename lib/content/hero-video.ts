@@ -5,7 +5,7 @@ export const heroVideo = {
   src: siteAssets.hero.video,
   cdnSrc: siteAssets.hero.video,
   localSrc: "/videos/bike.mp4",
-  fallbacks: siteAssets.hero.videoFallbacks,
+  fallbacks: [siteAssets.hero.video2],
   poster: siteAssets.hero.poster,
 };
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { BikeCard } from "@/components/bikes/bike-card";
@@ -22,6 +22,27 @@ export function PopularSlider({
   const scroll = (dir: number) => {
     scrollRef.current?.scrollBy({ left: dir * 320, behavior: "smooth" });
   };
+
+  // Prevent vertical scroll lock inside horizontal container by manually forwarding vertical wheel events
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        e.preventDefault();
+        window.scrollBy({
+          top: e.deltaY,
+          behavior: "auto",
+        });
+      }
+    };
+
+    el.addEventListener("wheel", handleWheel, { passive: false });
+    return () => {
+      el.removeEventListener("wheel", handleWheel);
+    };
+  }, []);
 
   return (
     <section className="py-20 md:py-10">
