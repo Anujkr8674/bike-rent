@@ -88,16 +88,44 @@ export async function PATCH(req: Request, { params }: Params) {
         "VERIFICATION_PENDING",
         "CONFIRMED",
         "ACTIVE",
+        "RETURNED",
         "COMPLETED",
         "CANCELLED",
       ] as const;
       if (!body.bookingStatus || !allowed.includes(body.bookingStatus as (typeof allowed)[number])) {
         return NextResponse.json({ message: "Invalid booking status." }, { status: 400 });
       }
+      
+      const updateData: any = { status: body.bookingStatus as (typeof allowed)[number] };
+      if (body.bookingStatus === "RETURNED" && body.note) {
+        updateData.returnNote = body.note;
+      }
+      
       await db.booking.update({
         where: { id },
-        data: { status: body.bookingStatus as (typeof allowed)[number] },
+        data: updateData,
       });
+
+      // Send email notification to user
+      if (booking.customerEmail) {
+        let emailHtml = `<p>Hi ${booking.customerName || "Customer"},</p>
+          <p>The status of your bike booking (<strong>${booking.bikeName || "Bike"}</strong>) has been updated to: <strong>${body.bookingStatus}</strong>.</p>`;
+        
+        if (body.bookingStatus === "RETURNED" && body.note) {
+          emailHtml += `<p><strong>Return Note from Admin:</strong><br/>${body.note}</p>`;
+        }
+        
+        emailHtml += `<p>Tracking ID: <strong>${booking.trackingId || "N/A"}</strong></p>
+          <p>Thank you for choosing Nextgen Bike Rent!</p>`;
+          
+        await sendMail({
+          to: booking.customerEmail,
+          subject: `Booking Status Update: ${body.bookingStatus} - ${booking.trackingId || ""}`,
+          html: emailHtml,
+        }).catch((err) => {
+          console.error("Failed to send status update email:", err);
+        });
+      }
       break;
     }
     case "send_email":

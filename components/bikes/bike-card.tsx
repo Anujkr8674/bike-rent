@@ -38,12 +38,12 @@ export function BikeCard({ bike, days = 1, pickup = "", drop = "", queryString =
       transition={{ delay: index * 0.06, duration: 0.5 }}
       className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border-2 border-zinc-100 bg-white pt-4 pb-5 px-5 shadow-[0_8px_30px_rgba(0,0,0,0.02)] transition-all duration-300 hover:border-[#FF653F] hover:shadow-[0_15px_35px_rgba(255,101,63,0.1)] cursor-pointer"
     >
-      <Link href={detailHref} className="relative block aspect-[4/3] overflow-hidden rounded-2xl">
+      <Link href={detailHref} className="relative flex h-[160px] md:h-[185px] w-full items-center justify-center overflow-visible mt-2">
         <BikeMediaImage
           src={bike.image}
           alt={bike.name}
           fill
-          className="object-cover transition duration-700 group-hover:scale-105"
+          className="object-contain scale-[1.15] md:scale-[1.20] transition-transform duration-700 group-hover:scale-[1.25] md:group-hover:scale-[1.30]"
         />
         <button
           type="button"
@@ -70,8 +70,14 @@ export function BikeCard({ bike, days = 1, pickup = "", drop = "", queryString =
         {/* Row 1: Title & Selector Badge */}
         <div className="flex items-start justify-between gap-2">
           <div>
-            <h3 className="font-display text-xl font-bold tracking-tight text-zinc-950 capitalize group-hover:text-[#FF653F] transition-colors duration-200">
-              {bike.name}
+            <h3 className="text-xl font-bold tracking-tight text-zinc-950 capitalize group-hover:text-[#FF653F] transition-colors duration-200">
+              {bike.name.split(/(\d+)/).map((part, i) =>
+                /\d+/.test(part) ? (
+                  <span key={i} className="font-sans">{part}</span>
+                ) : (
+                  <span key={i} className="font-display">{part}</span>
+                )
+              )}
             </h3>
             <p className="text-xs text-zinc-500 font-medium mt-0.5">{bike.brand}</p>
           </div>

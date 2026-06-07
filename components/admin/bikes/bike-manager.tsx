@@ -45,6 +45,12 @@ type BikeListResponse = {
     brands: number;
     categories: number;
   };
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
 };
 
 type Filters = {
@@ -103,6 +109,8 @@ export function BikeManager({ view = "full", bikeId }: BikeManagerProps) {
     brands: 0,
     categories: 0,
   });
+  const [page, setPage] = useState(1);
+  const [pagination, setPagination] = useState({ page: 1, limit: 10, total: 0, totalPages: 1 });
   const [brands, setBrands] = useState<CatalogItem[]>([]);
   const [categories, setCategories] = useState<CatalogItem[]>([]);
   const [brandModalOpen, setBrandModalOpen] = useState(false);
@@ -138,6 +146,8 @@ export function BikeManager({ view = "full", bikeId }: BikeManagerProps) {
     if (filters.availability !== "all") searchParams.set("availability", filters.availability);
     if (filters.fuelType !== "all") searchParams.set("fuelType", filters.fuelType);
     if (filters.transmission !== "all") searchParams.set("transmission", filters.transmission);
+    searchParams.set("page", String(page));
+    searchParams.set("limit", "10");
 
     try {
       const response = await fetch(`/api/admin/bikes?${searchParams.toString()}`, {
@@ -152,6 +162,7 @@ export function BikeManager({ view = "full", bikeId }: BikeManagerProps) {
       setStats(
         data.stats || { total: 0, available: 0, unavailable: 0, brands: 0, categories: 0 },
       );
+      setPagination(data.pagination || { page: 1, limit: 10, total: 0, totalPages: 1 });
     } catch (loadError) {
       setError(loadError instanceof Error ? loadError.message : "Failed to load bikes.");
     } finally {
@@ -164,7 +175,7 @@ export function BikeManager({ view = "full", bikeId }: BikeManagerProps) {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     void fetchBikes();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filters.availability, filters.fuelType, filters.q, filters.transmission, showList]);
+  }, [filters.availability, filters.fuelType, filters.q, filters.transmission, page, showList]);
 
   useEffect(() => {
     if (!showForm && !showList) return;
@@ -387,19 +398,20 @@ export function BikeManager({ view = "full", bikeId }: BikeManagerProps) {
                 <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
                 <input
                   value={filters.q}
-                  onChange={(event) => setFilters((current) => ({ ...current, q: event.target.value }))}
+                  onChange={(event) => { setPage(1); setFilters((current) => ({ ...current, q: event.target.value })); }}
                   placeholder="Search bikes by name, brand, city or slug..."
                   className="w-full rounded-xl border border-zinc-200 bg-white py-3 pl-10 pr-4 text-sm outline-none transition focus:border-[#FF653F]/50"
                 />
               </div>
               <select
                 value={filters.availability}
-                onChange={(event) =>
+                onChange={(event) => {
+                  setPage(1);
                   setFilters((current) => ({
                     ...current,
                     availability: event.target.value as Filters["availability"],
-                  }))
-                }
+                  }));
+                }}
                 className="rounded-xl border border-zinc-200 bg-white px-3 py-3 text-sm outline-none"
               >
                 <option value="all">All Status</option>
@@ -408,12 +420,13 @@ export function BikeManager({ view = "full", bikeId }: BikeManagerProps) {
               </select>
               <select
                 value={filters.fuelType}
-                onChange={(event) =>
+                onChange={(event) => {
+                  setPage(1);
                   setFilters((current) => ({
                     ...current,
                     fuelType: event.target.value as Filters["fuelType"],
-                  }))
-                }
+                  }));
+                }}
                 className="rounded-xl border border-zinc-200 bg-white px-3 py-3 text-sm outline-none"
               >
                 <option value="all">All Fuel</option>
@@ -425,12 +438,13 @@ export function BikeManager({ view = "full", bikeId }: BikeManagerProps) {
               </select>
               <select
                 value={filters.transmission}
-                onChange={(event) =>
+                onChange={(event) => {
+                  setPage(1);
                   setFilters((current) => ({
                     ...current,
                     transmission: event.target.value as Filters["transmission"],
-                  }))
-                }
+                  }));
+                }}
                 className="rounded-xl border border-zinc-200 bg-white px-3 py-3 text-sm outline-none"
               >
                 <option value="all">All Transmission</option>
@@ -650,6 +664,32 @@ export function BikeManager({ view = "full", bikeId }: BikeManagerProps) {
                 );
               })
             )}
+          </div>
+
+          <div className="flex flex-wrap items-center justify-between gap-3 border-t border-zinc-100 px-4 py-4 mt-6">
+            <p className="text-sm text-zinc-500">
+              Page {pagination.page} of {pagination.totalPages} ({pagination.total} total)
+            </p>
+            <div className="flex gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                disabled={pagination.page <= 1 || loading}
+                onClick={() => setPage((p) => p - 1)}
+              >
+                Previous
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                disabled={pagination.totalPages <= pagination.page || loading}
+                onClick={() => setPage((p) => p + 1)}
+              >
+                Next
+              </Button>
+            </div>
           </div>
         </div>
         ) : null}

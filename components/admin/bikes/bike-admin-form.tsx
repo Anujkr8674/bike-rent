@@ -9,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { z } from "zod";
 import { ArrowLeft, ArrowRight, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { PleaseWaitOverlay } from "@/components/admin/bikes/please-wait-overlay";
+import { ActionModal, type ActionModalState } from "@/components/admin/action-modal";
 import { SearchableSelect } from "@/components/admin/bikes/searchable-select";
 import { ImagePreviewGrid, ImageUploadField } from "@/components/admin/bikes/image-upload-field";
 import { TiptapEditor } from "@/components/admin/bikes/tiptap-editor";
@@ -58,9 +58,13 @@ export function BikeAdminForm({ bikeId, onSaved }: BikeAdminFormProps) {
   const [categories, setCategories] = useState<CatalogItem[]>([]);
   const [selectedBike, setSelectedBike] = useState<AdminBikeRecord | null>(null);
   const [loadingBike, setLoadingBike] = useState(Boolean(bikeId));
-  const [saving, setSaving] = useState(false);
   const [saveProgress, setSaveProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  
+  const [modalState, setModalState] = useState<ActionModalState>("hidden");
+  const [modalMessage, setModalMessage] = useState("");
+  const [pendingValues, setPendingValues] = useState<BikeAdminFormValues | null>(null);
+
   const [primaryImage, setPrimaryImage] = useState<File | null>(null);
   const [galleryImages, setGalleryImages] = useState<File[]>([]);
   const [removeGalleryUrls, setRemoveGalleryUrls] = useState<string[]>([]);
@@ -144,8 +148,15 @@ export function BikeAdminForm({ bikeId, onSaved }: BikeAdminFormProps) {
 
   const inputClass = "w-full rounded-xl border border-zinc-200 px-4 py-3 text-sm outline-none focus:border-[#FF653F]/50";
 
-  const onSubmit = async (values: BikeAdminFormValues) => {
-    setSaving(true);
+  const onSubmit = (values: BikeAdminFormValues) => {
+    setPendingValues(values);
+    setModalMessage(isEditing ? "Are you sure you want to update this bike?" : "Are you sure you want to create this bike?");
+    setModalState("confirm");
+  };
+
+  const handleConfirmAction = async () => {
+    if (!pendingValues) return;
+    setModalState("loading");
     setSaveProgress(0);
     setError(null);
     try {
@@ -154,27 +165,48 @@ export function BikeAdminForm({ bikeId, onSaved }: BikeAdminFormProps) {
       }
       const url = selectedBike ? `/api/admin/bikes/${selectedBike.id}` : "/api/admin/bikes";
       const method = selectedBike ? "PATCH" : "POST";
-      const formData = makeBikeFormData(values, primaryImage, galleryImages, removeGalleryUrls, removePrimaryImage);
+      const formData = makeBikeFormData(pendingValues, primaryImage, galleryImages, removeGalleryUrls, removePrimaryImage);
       const result = await submitBikeMutation(method, url, formData, setSaveProgress);
       if (!result.ok) {
         const payload = (result.data as { message?: string } | null) || null;
         throw new Error(payload?.message || "Failed to save bike.");
       }
+      setModalState("success");
+      setModalMessage(isEditing ? "Bike updated successfully." : "Bike created successfully.");
       onSaved?.();
-      if (!bikeId) router.push("/admin/bikes");
     } catch (saveError) {
-      setError(saveError instanceof Error ? saveError.message : "Failed to save bike.");
+      setModalState("error");
+      setModalMessage(saveError instanceof Error ? saveError.message : "Failed to save bike.");
     } finally {
-      setSaving(false);
       setSaveProgress(0);
     }
+  };
+
+  const handleCloseModal = () => {
+    const wasSuccess = modalState === "success";
+    setModalState("hidden");
+    if (wasSuccess && !bikeId) {
+      router.push("/admin/bikes");
+    }
+  };
+
+  const handleCancelAction = () => {
+    setModalState("cancelled");
+    setModalMessage("Action cancelled by user.");
   };
 
   const formErrorMessage = Object.values(errors)[0]?.message;
 
   return (
     <div className="space-y-5 rounded-[2rem] border border-zinc-200 bg-white p-5 shadow-sm">
-      <PleaseWaitOverlay open={saving} />
+      <ActionModal
+        state={modalState}
+        title={isEditing ? "Update Bike" : "Create Bike"}
+        message={modalMessage}
+        onConfirm={handleConfirmAction}
+        onCancel={handleCancelAction}
+        onClose={handleCloseModal}
+      />
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.35em] text-zinc-400">{isEditing ? "Edit bike" : "Create bike"}</p>
@@ -370,8 +402,8 @@ export function BikeAdminForm({ bikeId, onSaved }: BikeAdminFormProps) {
           ) : null}
         </FormSection>
 
-        <Button type="submit" disabled={saving} className="gap-2">
-          {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <ArrowRight className="h-4 w-4" />}
+        <Button type="submit" disabled={modalState === "loading"} className="gap-2">
+          {modalState === "loading" ? <Loader2 className="h-4 w-4 animate-spin" /> : <ArrowRight className="h-4 w-4" />}
           {isEditing ? "Update bike" : "Create bike"}
         </Button>
       </form>

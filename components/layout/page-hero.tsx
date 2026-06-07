@@ -27,7 +27,7 @@ export function PageHero({
       <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/45 to-black/65" />
       <div className="absolute inset-0 bg-[#FF653F]/10 mix-blend-overlay" />
 
-      <div className="page-wrap relative z-10 flex min-h-[300px] flex-col items-center justify-center px-4 py-12 text-center md:min-h-[340px] md:py-14">
+      <div className="page-wrap relative z-10 flex min-h-[300px] flex-col items-center justify-center px-4 pt-24 pb-12 text-center md:min-h-[340px] md:pt-28 md:pb-14">
         {badge && (
           <motion.span
             initial={{ opacity: 0, y: 8 }}

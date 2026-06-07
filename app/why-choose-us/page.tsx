@@ -22,7 +22,7 @@ export default function WhyChooseUsPage() {
         backgroundImage={heroImages.whyChoose}
       />
       <WhyChooseSection showLink={false} />
-      <div className="page-wrap pb-20">
+      {/* <div className="page-wrap pb-20">
         <SectionReveal className="rounded-3xl bg-gradient-to-r from-blue-600 to-violet-600 p-10 text-center text-white md:p-14">
           <h2 className="font-display text-3xl font-bold">Ready to experience the difference?</h2>
           <p className="mx-auto mt-3 max-w-lg text-blue-100">
@@ -34,7 +34,7 @@ export default function WhyChooseUsPage() {
             </Button>
           </Link>
         </SectionReveal>
-      </div>
+      </div> */}
     </>
   );
 }

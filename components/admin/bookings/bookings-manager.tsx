@@ -15,6 +15,7 @@ import {
   Clock,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ActionModal, type ActionModalState } from "@/components/admin/action-modal";
 import { cn, formatCurrency } from "@/lib/utils";
 import { formatDateTimeIndian } from "@/lib/rental-datetime";
 
@@ -24,6 +25,7 @@ const bookingStatusOptions = [
   "VERIFICATION_PENDING",
   "CONFIRMED",
   "ACTIVE",
+  "RETURNED",
   "COMPLETED",
   "CANCELLED",
 ] as const;
@@ -37,6 +39,7 @@ const bookingStatusLabels: Record<BookingStatusFilter, string> = {
   VERIFICATION_PENDING: "Verification pending",
   CONFIRMED: "Confirmed",
   ACTIVE: "Active",
+  RETURNED: "Returned",
   COMPLETED: "Completed",
   CANCELLED: "Cancelled",
 };
@@ -58,6 +61,7 @@ type BookingRow = {
   paymentStatus: string;
   documentStatus: string;
   status: string;
+  returnNote?: string | null;
   amount: unknown;
   securityDeposit: unknown;
   createdAt: string;
@@ -98,6 +102,8 @@ function getBookingStatusTone(status: string) {
     case "ACTIVE":
     case "COMPLETED":
       return { wrapper: "bg-emerald-50 text-emerald-700", label: bookingStatusLabels[status as BookingStatus] ?? status };
+    case "RETURNED":
+      return { wrapper: "bg-blue-50 text-blue-700", label: "Returned" };
     case "VERIFICATION_PENDING":
       return { wrapper: "bg-violet-50 text-violet-700", label: "Verification pending" };
     case "AWAITING_DOCUMENTS":
@@ -175,6 +181,11 @@ export function BookingsManager() {
   const [detail, setDetail] = useState<BookingRow | null>(null);
   const [previewModal, setPreviewModal] = useState<{ url: string; label: string } | null>(null);
 
+  const [modalState, setModalState] = useState<ActionModalState>("hidden");
+  const [modalMessage, setModalMessage] = useState("");
+  const [pendingAction, setPendingAction] = useState<{ id: string; action: string; extra?: Record<string, string> } | null>(null);
+  const [returnNoteInput, setReturnNoteInput] = useState("");
+
   const load = (pageNumber = page) => {
     setLoading(true);
     setError(null);
@@ -211,29 +222,56 @@ export function BookingsManager() {
     [data?.stats],
   );
 
-  const runAction = async (id: string, action: string, extra?: Record<string, string>) => {
+  const requestAction = (id: string, action: string, extra?: Record<string, string>) => {
+    setPendingAction({ id, action, extra });
+    setReturnNoteInput("");
+    setModalMessage(`Are you sure you want to perform this action?`);
+    setModalState("confirm");
+  };
+
+  const executeAction = async () => {
+    if (!pendingAction) return;
     setBusy(true);
-    setError(null);
-    setSuccess(null);
+    setModalState("loading");
+    
+    const isReturnAction = pendingAction.action === "set_booking_status" && pendingAction.extra?.bookingStatus === "RETURNED";
+    const payload = {
+      action: pendingAction.action,
+      ...pendingAction.extra,
+      ...(isReturnAction && returnNoteInput ? { note: returnNoteInput } : {})
+    };
+
     try {
-      const res = await fetch(`/api/admin/bookings/${id}`, {
+      const res = await fetch(`/api/admin/bookings/${pendingAction.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action, ...extra }),
+        body: JSON.stringify(payload),
       });
       const json = (await res.json()) as { message?: string };
       if (!res.ok) throw new Error(json.message || "Action failed");
-      setSuccess("Booking updated.");
+      
+      setModalState("success");
+      setModalMessage("Booking updated successfully.");
       load(page);
-      if (detailId === id) {
-        const detailRes = await fetch(`/api/admin/bookings/${id}`).then((r) => r.json());
+      if (detailId === pendingAction.id) {
+        const detailRes = await fetch(`/api/admin/bookings/${pendingAction.id}`).then((r) => r.json());
         setDetail(detailRes.booking);
       }
     } catch (actionError) {
-      setError(actionError instanceof Error ? actionError.message : "Action failed");
+      setModalState("error");
+      setModalMessage(actionError instanceof Error ? actionError.message : "Action failed");
     } finally {
       setBusy(false);
     }
+  };
+
+  const handleCancelAction = () => {
+    setModalState("cancelled");
+    setModalMessage("Action cancelled by user.");
+  };
+
+  const handleCloseModal = () => {
+    setModalState("hidden");
   };
 
   const openDetails = async (row: BookingRow) => {
@@ -251,6 +289,29 @@ export function BookingsManager() {
 
   return (
     <div className="space-y-5 px-4 py-5 sm:px-6 lg:px-8">
+      <ActionModal
+        state={modalState}
+        title="Confirm Action"
+        message={modalMessage}
+        onConfirm={executeAction}
+        onCancel={handleCancelAction}
+        onClose={handleCloseModal}
+      >
+        {pendingAction?.action === "set_booking_status" && pendingAction.extra?.bookingStatus === "RETURNED" && (
+          <div className="mt-2 w-full">
+            <label className="mb-1 block text-sm font-medium text-zinc-700">
+              Return Note (Optional)
+            </label>
+            <input
+              type="text"
+              value={returnNoteInput}
+              onChange={(e) => setReturnNoteInput(e.target.value)}
+              placeholder="e.g. Scratched mirror, late by 2 hours..."
+              className="w-full rounded-lg border border-zinc-200 px-3 py-2 text-sm outline-none focus:border-[#FF653F]/50"
+            />
+          </div>
+        )}
+      </ActionModal>
       <section className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="text-xs font-semibold uppercase tracking-wider text-[#FF653F]">Admin</p>
@@ -397,7 +458,7 @@ export function BookingsManager() {
                               value={row.status}
                               disabled={busy}
                               onChange={(e) =>
-                                void runAction(row.id, "set_booking_status", {
+                                requestAction(row.id, "set_booking_status", {
                                   bookingStatus: e.target.value,
                                 })
                               }
@@ -514,17 +575,24 @@ export function BookingsManager() {
               <Info label="Total paid" value={formatCurrency(Number(detail.payment?.amount ?? 0))} />
             </div>
 
+            {detail.returnNote ? (
+              <div className="mt-4 rounded-xl bg-blue-50 p-4 border border-blue-100">
+                <p className="text-[11px] font-bold text-blue-600 uppercase tracking-wider">Return Note</p>
+                <p className="mt-1 text-sm text-zinc-800 whitespace-pre-wrap leading-relaxed">{detail.returnNote}</p>
+              </div>
+            ) : null}
+
             <div className="mt-5 flex flex-wrap gap-2">
-              <Button size="sm" disabled={busy} onClick={() => void runAction(detail.id, "approve_documents")}>
+              <Button size="sm" disabled={busy} onClick={() => requestAction(detail.id, "approve_documents")}>
                 Approve documents
               </Button>
-              <Button size="sm" variant="outline" disabled={busy} onClick={() => void runAction(detail.id, "reject_documents")}>
+              <Button size="sm" variant="outline" disabled={busy} onClick={() => requestAction(detail.id, "reject_documents")}>
                 Reject documents
               </Button>
-              <Button size="sm" variant="outline" disabled={busy} onClick={() => void runAction(detail.id, "confirm_booking")}>
+              <Button size="sm" variant="outline" disabled={busy} onClick={() => requestAction(detail.id, "confirm_booking")}>
                 Confirm booking
               </Button>
-              <Button size="sm" variant="outline" disabled={busy} onClick={() => void runAction(detail.id, "cancel_booking")}>
+              <Button size="sm" variant="outline" disabled={busy} onClick={() => requestAction(detail.id, "cancel_booking")}>
                 Cancel booking
               </Button>
             </div>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Bike, Mail, MapPin, Phone, MessageCircle } from "lucide-react";
+import { siteAssets } from "@/lib/site-assets";
 import { siteConfig } from "@/lib/content/site";
 
 const footerLinks = {
@@ -57,12 +58,9 @@ export function Footer() {
       <div className="page-wrap py-14 md:py-16">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-6">
           <div className="lg:col-span-2">
-            <div className="flex items-center gap-2">
-              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#FF653F] via-[#FF4F2E] to-[#FF653F] text-white">
-                <Bike className="h-5 w-5" />
-              </span>
-              <span className="font-display text-lg font-bold text-zinc-900">{siteConfig.name}</span>
-            </div>
+            <Link href="/" className="inline-flex items-center">
+              <img src={siteAssets.logo} alt="Logo" className="h-16 md:h-20 w-auto object-contain" />
+            </Link>
             <p className="mt-4 text-sm leading-relaxed text-zinc-500">{siteConfig.tagline}. Trusted local rentals with premium digital booking.</p>
             <div className="mt-4 space-y-2 text-sm text-zinc-600">
               <p className="flex items-center gap-2">

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -30,6 +31,16 @@ export function Hero() {
   const [hasScrolled, setHasScrolled] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
+
+  const popularBikes = useMemo(() => [
+    { name: "Mountain Bike", price: "799", img: siteAssets.impact.front, slug: "adventure", highlight: false },
+    { name: "Sports Bike", price: "499", img: siteAssets.impact.helmet, slug: "sports", highlight: true },
+    { name: "Scooter", price: "199", img: siteAssets.impact.cleaning, slug: "scooter", highlight: false },
+    { name: "Cruiser Bike", price: "899", img: siteAssets.impact.parked, slug: "cruiser", highlight: false }
+  ], []);
+  const [bikeIndex, setBikeIndex] = useState(0);
+  const handlePrev = () => setBikeIndex((prev) => Math.max(0, prev - 1));
+  const handleNext = () => setBikeIndex((prev) => Math.min(popularBikes.length - 2, prev + 1));
 
   /* ─── Scroll detection ─── */
   useEffect(() => {
@@ -121,274 +132,161 @@ export function Hero() {
         {/* ═══ LAYER 2: Main content ═══ */}
         <motion.div
           style={{ opacity, y: contentY }}
-          className="page-wrap relative z-10 flex h-full min-h-0 flex-col pt-20 pb-4 sm:pt-24 sm:pb-6"
+          className="page-wrap relative z-10 flex h-full w-full flex-col justify-start sm:justify-center pt-32 sm:pt-40 lg:pt-44 pb-28 sm:pb-12 overflow-y-auto sm:overflow-visible hide-scrollbar"
         >
-          {/* Top content grid (split left/right) */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center flex-1 min-h-0">
-            {/* Left Column: Text & CTAs & Stats */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="lg:col-span-7 flex flex-col items-start text-left z-10"
-            >
-              {/* Ranchi Badge */}
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-xs font-semibold text-white/95 backdrop-blur-2xl shadow-sm shadow-[#FF653F]/10">
-                <Star className="h-3.5 w-3.5 fill-[#FF653F] text-[#FF653F]" />
-                <span>Ranchi&apos;s #1 <span className="text-[#FF653F]">Premium</span> Bike Rental</span>
+          {/* Main Left Content */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="flex flex-col items-start text-left max-w-2xl z-20 mt-10 sm:mt-16"
+          >
+            {/* Ranchi Badge */}
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-xs font-semibold text-white/95 backdrop-blur-2xl shadow-sm shadow-[#FF653F]/10">
+              <Star className="h-3.5 w-3.5 fill-[#FF653F] text-[#FF653F]" />
+              <span>Ranchi&apos;s #1 <span className="text-[#FF653F]">Premium</span> Bike Rental</span>
+            </div>
+
+            {/* Headline */}
+            <h1 className="mt-6 text-4xl sm:text-5xl lg:text-[4rem] font-black leading-[1.02] tracking-tight text-white max-w-2xl">
+              Ride the City.
+              <br />
+              Live the <span className="bg-gradient-to-r from-[#FF653F] to-[#FFA382] bg-clip-text text-transparent">Freedom.</span>
+            </h1>
+
+            {/* Subtitle */}
+            <p className="mt-4 text-sm sm:text-base text-zinc-300 leading-relaxed max-w-md">
+              Premium bikes. Easy rentals. Unmatched journeys.
+              <br />
+              For students, tourists & everyday explorers.
+            </p>
+
+            {/* Stat pills row in dark container */}
+            <div className="mt-8 flex flex-nowrap w-full sm:w-auto overflow-x-auto sm:overflow-visible items-center gap-3 sm:gap-6 rounded-2xl bg-black/40 backdrop-blur-md border border-white/10 px-4 py-3 sm:px-6 sm:py-4 pb-3" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              <style dangerouslySetInnerHTML={{ __html: `::-webkit-scrollbar { display: none; }` }} />
+              <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+                <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-[#FF653F]/20 text-[#FF653F]">
+                  <Zap className="h-3 w-3 sm:h-4 sm:w-4 fill-[#FF653F]" />
+                </div>
+                <div>
+                  <p className="text-xs sm:text-sm font-bold text-white leading-none">10 Min</p>
+                  <p className="text-[9px] sm:text-[10px] font-medium text-zinc-400 mt-1">Avg. Pickup</p>
+                </div>
               </div>
+              <div className="h-6 sm:h-8 w-px bg-white/10 shrink-0" />
+              <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+                <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-[#FF653F]/20 text-[#FF653F]">
+                  <Users className="h-3 w-3 sm:h-4 sm:w-4 fill-[#FF653F]" />
+                </div>
+                <div>
+                  <p className="text-xs sm:text-sm font-bold text-white leading-none">20K+</p>
+                  <p className="text-[9px] sm:text-[10px] font-medium text-zinc-400 mt-1">Happy Riders</p>
+                </div>
+              </div>
+              <div className="h-6 sm:h-8 w-px bg-white/10 shrink-0" />
+              <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+                <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-[#FF653F]/20 text-[#FF653F]">
+                  <Shield className="h-3 w-3 sm:h-4 sm:w-4 fill-[#FF653F]" />
+                </div>
+                <div>
+                  <p className="text-xs sm:text-sm font-bold text-white leading-none">4.9★</p>
+                  <p className="text-[9px] sm:text-[10px] font-medium text-zinc-400 mt-1">Rider Rating</p>
+                </div>
+              </div>
+            </div>
 
-              {/* Headline */}
-              <h1 className="font-display mt-6 text-4xl sm:text-3xl lg:text-[3.2rem] font-black leading-[1.02] tracking-tight text-white max-w-2xl">
-                Explore India.
-                <br />
-                The <span className="bg-gradient-to-r from-[#FF653F] to-[#FFA382] bg-clip-text text-transparent">Nextgen</span> Way.
-              </h1>
-
-              {/* Subtitle */}
-              <p className="mt-4 text-base sm:text-lg text-zinc-300 leading-relaxed max-w-xl">
-                Premium bikes. Easy rentals. Unmatched journeys.
-                <br />
-                For students, tourists & everyday explorers.
-              </p>
-
-              {/* Buttons */}
-              <div className="mt-10 flex flex-wrap items-center gap-4 w-full">
+            {/* Buttons */}
+            <div className="mt-8 hidden sm:flex flex-wrap items-center gap-4">
+              <Button
+                onClick={() => setIsFormOpen(true)}
+                className="bg-gradient-to-r from-[#FF502B] to-[#FF7F39] hover:from-[#e04523] hover:to-[#e87030] text-white shadow-xl shadow-[#FF653F]/25 border-0 rounded-full px-8 py-6 font-semibold text-sm transition-all duration-300 hover:scale-[1.02] active:scale-95 flex items-center gap-2 h-12"
+              >
+                Book Instantly
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+              <a href={`https://wa.me/${siteConfig.whatsapp}`} target="_blank" rel="noopener noreferrer">
                 <Button
-                  onClick={() => setIsFormOpen(true)}
-                  size="lg"
-                  className="bg-gradient-to-r from-[#FF502B] to-[#FF7F39] hover:from-[#e04523] hover:to-[#e87030] text-white shadow-xl shadow-[#FF653F]/25 border-0 rounded-full px-10 py-5 font-semibold text-sm transition-all duration-300 hover:scale-[1.02] active:scale-95 flex items-center gap-2"
+                  variant="outline"
+                  className="border-white/10 bg-black/40 hover:bg-black/60 text-white rounded-full px-8 py-6 font-semibold text-sm transition-all duration-300 hover:scale-[1.02] active:scale-95 backdrop-blur-md flex items-center gap-2 h-12"
                 >
-                  Book Instantly
-                  <ArrowRight className="h-4.5 w-4.5" />
+                  <MessageCircle className="h-5 w-5 text-emerald-400" />
+                  WhatsApp Us
                 </Button>
+              </a>
+            </div>
 
-                <a
-                  href={`https://wa.me/${siteConfig.whatsapp}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="border-white/10 bg-black/25 hover:bg-black/40 text-white rounded-full px-10 py-5 font-semibold text-sm transition-all duration-300 hover:scale-[1.02] active:scale-95 backdrop-blur-md flex items-center gap-3"
-                  >
-                    <MessageCircle className="h-5 w-5 text-emerald-400 fill-emerald-400/10" />
-                    Chat on WhatsApp
-                  </Button>
-                </a>
+            {/* Avatars & Trust Text */}
+            <div className="mt-10 flex items-center gap-4">
+              <div className="flex -space-x-3">
+                <img src={siteAssets.impact.scooter1} alt="User" className="w-10 h-10 rounded-full border-2 border-[#0A0A0B] object-cover" />
+                <img src={siteAssets.impact.bikerider} alt="User" className="w-10 h-10 rounded-full border-2 border-[#0A0A0B] object-cover" />
+                <img src={siteAssets.impact.sunset} alt="User" className="w-10 h-10 rounded-full border-2 border-[#0A0A0B] object-cover" />
               </div>
+              <p className="text-[11px] leading-tight text-zinc-400 font-medium">
+                Join thousands of happy riders<br/>
+                who trust <span className="text-[#FF653F]">Nextgen</span> every day.
+              </p>
+            </div>
+          </motion.div>
 
-              {/* Stat pills row */}
-              <div className="mt-10 flex flex-wrap items-center gap-6">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#FF653F]/10 border border-[#FF653F]/20 text-[#FF653F]">
-                    <Zap className="h-5 w-5 fill-[#FF653F]/10" />
-                  </div>
-                  <div>
-                    <p className="text-base font-bold text-white leading-none">10 Min</p>
-                    <p className="text-xs font-medium text-zinc-400 mt-1">Avg. Pickup</p>
-                  </div>
-                </div>
-
-                <div className="h-8 w-px bg-white/10 hidden sm:block" />
-
-                <div className="flex items-center gap-3">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#FF653F]/10 border border-[#FF653F]/20 text-[#FF653F]">
-                    <Users className="h-5 w-5 fill-[#FF653F]/10" />
-                  </div>
-                  <div>
-                    <p className="text-base font-bold text-white leading-none">20K+</p>
-                    <p className="text-xs font-medium text-zinc-400 mt-1">Happy Riders</p>
-                  </div>
-                </div>
-
-                <div className="h-8 w-px bg-white/10 hidden sm:block" />
-
-                <div className="flex items-center gap-3">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#FF653F]/10 border border-[#FF653F]/20 text-[#FF653F]">
-                    <Star className="h-5 w-5 fill-[#FF653F]/10" />
-                  </div>
-                  <div>
-                    <p className="text-base font-bold text-white leading-none">4.9★</p>
-                    <p className="text-xs font-medium text-zinc-400 mt-1">Rider Rating</p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Right Column / Hero Image Preview */}
-            <div className="lg:col-span-5 relative hidden items-center justify-end">
-              <div className="relative w-full max-w-[520px] h-[540px]">
-                <div className="absolute inset-0 rounded-[36px] overflow-hidden border border-white/15 shadow-[0_50px_140px_rgba(0,0,0,0.45)] bg-zinc-950/80">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={siteAssets.hero.poster}
-                    alt="Rider on road"
-                    className="h-full w-full object-cover object-center"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/45" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-                </div>
-
-                <div className="absolute inset-0 pointer-events-none z-10">
-                  <div className="absolute -right-12 top-8 h-44 w-44 rounded-full bg-[#FF653F]/10 blur-3xl" />
-                  <div className="absolute left-8 top-16 h-24 w-24 rounded-full bg-white/5 shadow-[0_0_80px_rgba(255,255,255,0.08)]" />
-                  <svg className="w-full h-full overflow-visible" fill="none" viewBox="0 0 520 540">
-                    <path
-                      d="M 35 435 C 130 330 250 295 368 170"
-                      stroke="#FF653F"
-                      strokeWidth="3"
-                      strokeDasharray="8 8"
-                      strokeLinecap="round"
-                      className="opacity-80"
-                    />
-                    <circle cx="368" cy="170" r="7" fill="#FF653F" />
-                  </svg>
-                </div>
-
-                <div className="absolute right-6 top-6 z-20">
-                  <div className="flex items-center gap-2 rounded-3xl border border-white/10 bg-black/60 px-4 py-3 shadow-xl backdrop-blur-xl">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#FF653F]/15 border border-[#FF653F]/25 text-[#FF653F]">
-                      <MapPin className="h-4.5 w-4.5 fill-[#FF653F]/10" />
-                    </div>
-                    <div className="text-left">
-                      <p className="text-[10px] uppercase font-semibold tracking-[0.22em] text-zinc-400 leading-none">From Ranchi</p>
-                      <p className="text-sm font-bold text-white leading-none">To Anywhere</p>
-                    </div>
-                  </div>
-                </div>
-
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95, y: 14 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  transition={{ delay: 0.6, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                  className="absolute left-6 bottom-10 z-20"
-                >
-                  <div className="flex items-center gap-3 rounded-[30px] border border-white/10 bg-black/55 backdrop-blur-xl px-5 py-3 shadow-2xl">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#FF653F]/15 border border-[#FF653F]/25 text-[#FF653F]">
-                      <MapPin className="h-5 w-5 fill-[#FF653F]/10" />
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-zinc-400 leading-none">From Ranchi</p>
-                      <p className="text-sm font-bold text-white mt-1">To Anywhere</p>
-                    </div>
-                  </div>
-                </motion.div>
-              </div>
+          {/* Dotted Line & Pin - Floating over the background */}
+          <div className="absolute left-[35%] top-[45%] pointer-events-none z-10 w-[350px] hidden lg:block">
+            <svg className="w-full h-[150px] overflow-visible" fill="none" viewBox="0 0 350 150">
+              <path
+                d="M 0 0 C 150 150 250 -50 350 100"
+                stroke="#FF653F"
+                strokeWidth="2.5"
+                strokeDasharray="6 6"
+                className="opacity-70"
+              />
+            </svg>
+            <div className="absolute right-0 bottom-[15px] -translate-x-1 flex h-8 w-8 items-center justify-center">
+              <MapPin className="h-7 w-7 fill-[#FF653F] text-white drop-shadow-[0_0_15px_rgba(255,101,63,0.8)]" />
             </div>
           </div>
 
-          {/* Bottom Footer Widgets Row */}
+          {/* Choose Your Ride Widget (Bottom Right on Desktop, Normal Flow on Mobile) */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="hidden"
+            transition={{ delay: 0.6, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-10 sm:mt-0 relative sm:absolute sm:bottom-20 lg:bottom-6 sm:right-4 lg:right-6 z-20 w-full sm:w-[320px] bg-black/40 backdrop-blur-xl border border-white/10 rounded-[2rem] p-5 shadow-2xl"
           >
-            {/* Widget 1: Popular in Ranchi */}
-            <div className="lg:col-span-7 bg-[#0B0B0C]/85 backdrop-blur-xl border border-white/10 rounded-[24px] p-5 flex flex-col justify-between">
-              <div>
-                <h4 className="font-display font-bold text-white text-base leading-none">Popular in Ranchi</h4>
-                <p className="text-xs text-zinc-400 mt-1">Top picks for every kind of rider.</p>
-              </div>
-
-              <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-3">
-                {/* Mini RE Himalayan */}
-                <div className="group/card bg-white/[0.03] border border-white/5 hover:border-[#FF653F]/40 hover:bg-white/[0.05] rounded-xl p-3 flex flex-col items-center justify-between transition-all duration-300 h-28 cursor-pointer">
-                  <div className="relative h-12 w-full flex items-center justify-center">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={siteAssets.impact.front}
-                      alt="RE Himalayan"
-                      className="h-full object-contain scale-[1.3] transition-transform duration-300 group-hover/card:scale-[1.4]"
-                    />
-                  </div>
-                  <div className="text-center mt-2 w-full">
-                    <p className="text-[10px] font-bold text-white truncate">RE Himalayan</p>
-                    <p className="text-[9px] font-semibold text-zinc-400 mt-0.5">From ₹799/day</p>
-                  </div>
-                </div>
-
-                {/* Mini Apache R15 */}
-                <div className="group/card bg-white/[0.03] border border-white/5 hover:border-[#FF653F]/40 hover:bg-white/[0.05] rounded-xl p-3 flex flex-col items-center justify-between transition-all duration-300 h-28 cursor-pointer">
-                  <div className="relative h-12 w-full flex items-center justify-center">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={siteAssets.impact.helmet}
-                      alt="Apache"
-                      className="h-full object-contain scale-[1.3] transition-transform duration-300 group-hover/card:scale-[1.4]"
-                    />
-                  </div>
-                  <div className="text-center mt-2 w-full">
-                    <p className="text-[10px] font-bold text-white truncate">Apache RTR 160</p>
-                    <p className="text-[9px] font-semibold text-zinc-400 mt-0.5">From ₹599/day</p>
-                  </div>
-                </div>
-
-                {/* Mini Pulsar */}
-                <div className="group/card bg-white/[0.03] border border-white/5 hover:border-[#FF653F]/40 hover:bg-white/[0.05] rounded-xl p-3 flex flex-col items-center justify-between transition-all duration-300 h-28 cursor-pointer">
-                  <div className="relative h-12 w-full flex items-center justify-center">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={siteAssets.impact.scooter2}
-                      alt="Pulsar"
-                      className="h-full object-contain scale-[1.3] transition-transform duration-300 group-hover/card:scale-[1.4]"
-                    />
-                  </div>
-                  <div className="text-center mt-2 w-full">
-                    <p className="text-[10px] font-bold text-white truncate">Pulsar NS200</p>
-                    <p className="text-[9px] font-semibold text-zinc-400 mt-0.5">From ₹499/day</p>
-                  </div>
-                </div>
-
-                {/* Mini RE Bullet */}
-                <div className="group/card bg-white/[0.03] border border-white/5 hover:border-[#FF653F]/40 hover:bg-white/[0.05] rounded-xl p-3 flex flex-col items-center justify-between transition-all duration-300 h-28 cursor-pointer">
-                  <div className="relative h-12 w-full flex items-center justify-center">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={siteAssets.impact.parked}
-                      alt="RE Classic"
-                      className="h-full object-contain scale-[1.3] transition-transform duration-300 group-hover/card:scale-[1.4]"
-                    />
-                  </div>
-                  <div className="text-center mt-2 w-full">
-                    <p className="text-[10px] font-bold text-white truncate">KTM Duke 250</p>
-                    <p className="text-[9px] font-semibold text-zinc-400 mt-0.5">From ₹899/day</p>
-                  </div>
-                </div>
+            <div className="flex justify-between items-center mb-5 border-l-2 border-[#FF653F] pl-3">
+              <h4 className="font-display font-semibold text-white">Choose Your Ride</h4>
+              <div className="flex gap-2">
+                <button 
+                  onClick={handlePrev}
+                  disabled={bikeIndex === 0}
+                  className="h-7 w-7 rounded-full border border-white/20 flex justify-center items-center text-white/50 hover:text-white hover:bg-white/10 transition disabled:opacity-30 disabled:cursor-not-allowed"
+                >
+                  <ArrowRight className="h-3 w-3 rotate-180" />
+                </button>
+                <button 
+                  onClick={handleNext}
+                  disabled={bikeIndex >= popularBikes.length - 2}
+                  className="h-7 w-7 rounded-full border border-white/20 flex justify-center items-center text-white/50 hover:text-white hover:bg-white/10 transition disabled:opacity-30 disabled:cursor-not-allowed"
+                >
+                  <ArrowRight className="h-3 w-3" />
+                </button>
               </div>
             </div>
 
-            {/* Widget 2: Weekend Getaway */}
-            <div className="lg:col-span-5 bg-[#0B0B0C]/85 backdrop-blur-xl border border-white/10 rounded-[24px] p-5 flex items-center justify-between gap-4">
-              <div className="flex flex-col justify-between h-full">
-                <div>
-                  <h4 className="font-display font-bold text-white text-base leading-none">Weekend Getaway?</h4>
-                  <p className="text-xs text-zinc-400 mt-1">We&apos;ve got the ride for you.</p>
-                </div>
-
-                <div className="flex items-center gap-2.5 mt-3.5 bg-[#FF653F]/10 border border-[#FF653F]/15 rounded-xl p-3">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#FF653F] text-white">
-                    <Gift className="h-4.5 w-4.5" />
+            <div className="grid grid-cols-2 gap-3">
+              {popularBikes.slice(bikeIndex, bikeIndex + 2).map((bike) => (
+                <Link key={bike.slug} href={`/bikes?category=${bike.slug}`} className="block h-full">
+                  <div className={`group ${bike.highlight ? 'bg-gradient-to-b from-[#FF653F]/10 to-transparent border border-[#FF653F]/50 shadow-[0_0_20px_rgba(255,101,63,0.15)] relative overflow-hidden' : 'bg-white/5 hover:bg-white/10 border border-white/10'} rounded-2xl p-4 flex flex-col items-center transition-all cursor-pointer h-full`}>
+                    {bike.highlight && <div className="absolute inset-0 bg-[#FF653F]/5 opacity-0 group-hover:opacity-100 transition-opacity" />}
+                    <div className="h-16 w-full flex items-center justify-center">
+                      <img src={bike.img} className={`h-full object-contain ${bike.highlight ? 'scale-110 group-hover:scale-125' : 'group-hover:scale-110'} transition-transform`} alt={bike.name} />
+                    </div>
+                    <div className="text-center mt-3 relative z-10">
+                      <p className="text-[11px] font-bold text-white">{bike.name}</p>
+                      <p className={`text-[9px] font-medium mt-0.5 ${bike.highlight ? 'text-[#FF653F] font-bold' : 'text-zinc-400'}`}>From ₹{bike.price} / day</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-xs font-bold text-white leading-none">10% OFF on 2+ days</p>
-                    <p className="text-[10px] font-semibold text-zinc-400 mt-1">
-                      Use code: <span className="text-[#FF653F] font-bold">NEXTGEN10</span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="relative h-28 w-28 sm:h-28 sm:w-32 shrink-0 overflow-hidden rounded-2xl border border-white/15">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={siteAssets.hero.carouselImages.windingRoad}
-                  alt="Winding road landscape"
-                  className="h-full w-full object-cover"
-                />
-              </div>
+                </Link>
+              ))}
             </div>
           </motion.div>
         </motion.div>
@@ -438,37 +336,39 @@ export function Hero() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
               transition={{ duration: 0.4 }}
-              className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-20 flex sm:hidden flex-wrap items-center justify-center gap-2.5 w-full px-4"
+              className="absolute bottom-4 left-0 right-0 z-20 flex sm:hidden flex-nowrap overflow-x-auto w-full px-4 gap-2.5 pb-2"
+              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
               <Button
                 onClick={() => setIsFormOpen(true)}
                 size="sm"
-                className="bg-[#FF653F] hover:bg-[#e05432] text-white shadow-lg shadow-[#FF653F]/30 border-0"
+                className="bg-[#FF653F] hover:bg-[#e05432] text-white shadow-lg shadow-[#FF653F]/30 border-0 shrink-0"
               >
-                <Calendar className="h-4 w-4" />
+                <Calendar className="h-4 w-4 mr-1" />
                 Book Instantly
               </Button>
               <a
                 href={`https://wa.me/${siteConfig.whatsapp}`}
                 target="_blank"
                 rel="noopener noreferrer"
+                className="shrink-0"
               >
                 <Button
                   variant="outline"
                   size="sm"
-                  className="border-white/15 bg-white/[0.06] hover:bg-white/[0.12] text-white hover:text-white hover:border-white/30 backdrop-blur-md shadow-md"
+                  className="border-white/15 bg-white/[0.06] hover:bg-white/[0.12] text-white hover:text-white hover:border-white/30 backdrop-blur-md shadow-md w-full"
                 >
-                  <MessageCircle className="h-4 w-4 text-emerald-400" />
+                  <MessageCircle className="h-4 w-4 text-emerald-400 mr-1" />
                   WhatsApp
                 </Button>
               </a>
-              <a href={`tel:${siteConfig.phone}`}>
+              <a href={`tel:${siteConfig.phone}`} className="shrink-0">
                 <Button
                   variant="outline"
                   size="sm"
-                  className="border-white/15 bg-white/[0.06] hover:bg-white/[0.12] text-white hover:text-white hover:border-white/30 backdrop-blur-md shadow-md"
+                  className="border-white/15 bg-white/[0.06] hover:bg-white/[0.12] text-white hover:text-white hover:border-white/30 backdrop-blur-md shadow-md w-full"
                 >
-                  <Phone className="h-4 w-4 text-blue-400" />
+                  <Phone className="h-4 w-4 text-blue-400 mr-1" />
                   Call
                 </Button>
               </a>

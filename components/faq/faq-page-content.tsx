@@ -23,10 +23,11 @@ export function FaqPageContent() {
         <SectionReveal className="lg:sticky lg:top-28">
           <div className="relative aspect-[4/5] max-h-[520px] overflow-hidden rounded-3xl border border-zinc-200 shadow-2xl shadow-blue-500/10">
             <Image
-              src={siteAssets.pageHeroes.faq}
+              src={siteAssets.faqPage.faq}
               alt="Premium bike rental support in Ranchi"
               fill
               className="object-cover"
+              unoptimized
               sizes="(max-width: 1024px) 100vw, 50vw"
               priority
             />
@@ -52,7 +53,7 @@ export function FaqPageContent() {
         </SectionReveal>
       </div>
 
-      <SectionReveal className="mt-16 overflow-hidden rounded-3xl bg-gradient-to-r from-blue-600 to-violet-600 p-8 text-center text-white md:p-12">
+      {/* <SectionReveal className="mt-16 overflow-hidden rounded-3xl bg-gradient-to-r from-blue-600 to-violet-600 p-8 text-center text-white md:p-12">
         <p className="font-display text-2xl font-bold">Still have questions?</p>
         <p className="mx-auto mt-2 max-w-md text-blue-100">Our Ranchi support team typically responds within 2 hours.</p>
         <Link href="/contact" className="mt-6 inline-block">
@@ -60,7 +61,7 @@ export function FaqPageContent() {
             Contact support
           </Button>
         </Link>
-      </SectionReveal>
+      </SectionReveal> */}
     </div>
   );
 }

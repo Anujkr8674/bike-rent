@@ -34,6 +34,9 @@ export async function GET(req: Request) {
   const availability = url.searchParams.get("availability") || "all";
   const fuelType = url.searchParams.get("fuelType") || "all";
   const transmission = url.searchParams.get("transmission") || "all";
+  const page = Math.max(1, parseInt(url.searchParams.get("page") || "1", 10));
+  const limit = Math.max(1, parseInt(url.searchParams.get("limit") || "10", 10));
+  const skip = (page - 1) * limit;
 
   const where: Prisma.BikeWhereInput = {};
   if (availability === "available") where.isAvailable = true;
@@ -53,8 +56,15 @@ export async function GET(req: Request) {
     ];
   }
 
-  const [bikes, total, available, unavailable, brands, categories] = await Promise.all([
-    db.bike.findMany({ where, include: bikeAdminInclude, orderBy: { updatedAt: "desc" } }),
+  const [bikes, totalFiltered, total, available, unavailable, brands, categories] = await Promise.all([
+    db.bike.findMany({ 
+      where, 
+      include: bikeAdminInclude, 
+      orderBy: { updatedAt: "desc" },
+      skip,
+      take: limit,
+    }),
+    db.bike.count({ where }),
     db.bike.count(),
     db.bike.count({ where: { isAvailable: true } }),
     db.bike.count({ where: { isAvailable: false } }),
@@ -70,9 +80,12 @@ export async function GET(req: Request) {
     }),
   );
 
+  const totalPages = Math.ceil(totalFiltered / limit);
+
   return NextResponse.json({
     bikes: serializedBikes,
     stats: { total, available, unavailable, brands, categories },
+    pagination: { page, limit, total: totalFiltered, totalPages }
   });
 }
 

@@ -34,6 +34,7 @@ export function CenterCard({ className }: CenterCardProps) {
             alt={imageAlt}
             fill
             priority
+            unoptimized
             sizes="272px"
             className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-108"
           />

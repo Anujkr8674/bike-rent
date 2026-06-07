@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/lib/content/site";
+import { siteAssets } from "@/lib/site-assets";
 import { cn } from "@/lib/utils";
 
 const mainLinks = [
@@ -122,19 +123,9 @@ export function Navbar() {
               : "top-0 left-0 right-0 border-b border-zinc-200/60 bg-white/80 backdrop-blur-md",
         )}
       >
-        <div className="page-wrap flex items-center justify-between gap-4 py-3 md:py-4">
-          <Link href="/" className="flex items-center gap-2.5">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#FF653F] via-[#FF4F2E] to-[#FF653F] text-white shadow-lg shadow-[#FF653F]/25">
-              <Bike className="h-5 w-5" />
-            </span>
-            <span
-              className={cn(
-                "font-display hidden font-bold tracking-tight sm:block",
-                isTransparent ? "text-white" : "text-zinc-900",
-              )}
-            >
-              Nextgen
-            </span>
+        <div className="page-wrap flex items-center justify-between gap-4 py-1 md:py-1">
+          <Link href="/" className="flex items-center">
+            <img src={siteAssets.logo} alt="Logo" className="h-16 md:h-16 w-auto object-contain" />
           </Link>
 
           <nav className="hidden items-center gap-1 lg:flex">
@@ -212,14 +203,14 @@ export function Navbar() {
               </Button> 
             </Link> */}
             <Link href="/track-booking">
-  <Button
-    size="sm"
-    className="gap-1.5 bg-[#FF6B1A] text-white hover:bg-[#e85f12]"
-  >
-    <Search className="h-3.5 w-3.5" />
-    Track Booking
-  </Button>
-</Link>
+              <Button
+                size="sm"
+                className="gap-1.5 bg-[#FF6B1A] text-white hover:bg-[#e85f12]"
+              >
+                <Search className="h-3.5 w-3.5" />
+                Track Booking
+              </Button>
+            </Link>
           </div>
 
           <button

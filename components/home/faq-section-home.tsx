@@ -33,6 +33,7 @@ export function FaqSectionHome() {
                 src={siteAssets.faqHome.faq}
                 alt="Support for Ranchi bike rental"
                 fill
+                unoptimized
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 40vw"
               />

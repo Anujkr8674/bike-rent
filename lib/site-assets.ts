@@ -17,10 +17,12 @@ export function supabasePublicAsset(path: string, fallback = "") {
 }
 
 export const siteAssets = {
+  logo: supabasePublicAsset("logo/logo3.png"),
   hero: {
     video: "/videos/bike.mp4",
     video2: "/videos/hero-3.mp4",
-    poster: "/images/hero-rider-bg.png",
+    poster: supabasePublicAsset("hero/hero1.png"),
+
     carouselImages: {
       cityRide: "https://images.unsplash.com/photo-1558980664-10ea7d3fb147?auto=format&fit=crop&w=1920&q=90",
       ktmOrange: "https://images.unsplash.com/photo-1449426468159-d96dbf08f19f?auto=format&fit=crop&w=1920&q=90",
@@ -55,8 +57,8 @@ export const siteAssets = {
     instantConfirmation: "https://images.unsplash.com/photo-1623070592232-8b6be9f64f52?w=400&q=80",
   },
   impact: {
-    cleaning: supabasePublicAsset("bike-category/cmpzb5iei0001l8041ktuhfmi/Activa-removebg-preview.png"), 
-    helmet: supabasePublicAsset("bike-category/cmpz5s1eu000ac6h87x1d1xol/R15-removebg-preview.png"), 
+    cleaning: supabasePublicAsset("bike-category/cmpzb5iei0001l8041ktuhfmi/Activa-removebg-preview.png"),
+    helmet: supabasePublicAsset("bike-category/cmpz5s1eu000ac6h87x1d1xol/R15-removebg-preview.png"),
     sunset: supabasePublicAsset("impact/pic5.jpeg"),
     scooter1: supabasePublicAsset("impact/pic3.avif"),
     bikerider: supabasePublicAsset("impact/pic4.avif"),
@@ -105,7 +107,10 @@ export const siteAssets = {
     scooter: supabasePublicAsset("service/blue_scooter.png"),
   },
   faqHome: {
-    faq:supabasePublicAsset("faq/faq1.jpg"),
+    faq: supabasePublicAsset("faq/faq1.jpg"),
+  },
+  faqPage: {
+    faq: supabasePublicAsset("faq/faq1.jpg"),
   }
   // siteAssets.pageHeroes.faq
 } as const;
