@@ -63,7 +63,7 @@ export function Navbar() {
       return;
     }
     const rect = heroEl.getBoundingClientRect();
-    setOverHero(rect.bottom > 72);
+    setOverHero(rect.bottom > 100);
   }, []);
 
   useEffect(() => {
@@ -96,6 +96,8 @@ export function Navbar() {
     setMobileMoreOpen(false);
     setDesktopMoreOpen(false);
   }, [pathname]);
+
+  if (pathname.startsWith("/admin")) return null;
 
   const navLinkClass = (href: string, active?: boolean) =>
     cn(

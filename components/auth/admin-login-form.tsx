@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { siteAssets } from "@/lib/site-assets";
 
 export function AdminLoginForm() {
   const router = useRouter();
@@ -34,13 +34,11 @@ export function AdminLoginForm() {
 
   return (
     <div className="glass gradient-border mx-auto max-w-md space-y-5 rounded-2xl p-8">
-      <div className="flex items-center gap-3">
-        <div className="rounded-xl bg-blue-100 p-3">
-          <Shield className="h-6 w-6 text-blue-600" />
-        </div>
+      <div className="flex flex-col items-center gap-3 text-center">
+        <img src={siteAssets.logo} alt="Nextgen Logo" className="h-16 w-auto object-contain drop-shadow-md" />
         <div>
-          <h1 className="text-xl font-bold text-slate-900">Admin Login</h1>
-          <p className="text-sm text-slate-600">Nextgen Ranchi control panel</p>
+          <h1 className="text-2xl font-bold text-slate-900">Admin Login</h1>
+          <p className="text-sm text-slate-600">Nextgen control panel</p>
         </div>
       </div>
 
