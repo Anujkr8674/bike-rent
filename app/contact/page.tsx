@@ -27,19 +27,19 @@ export default function ContactPage() {
         <div className="grid gap-12 lg:grid-cols-5">
           <div className="space-y-6 lg:col-span-2">
             <SectionReveal>
-              <div className="glass rounded-2xl p-6">
-                <Phone className="h-6 w-6 text-blue-600" />
-                <p className="mt-3 font-semibold text-zinc-900">Phone</p>
-                <a href={`tel:${siteConfig.phone}`} className="text-blue-600 hover:underline">
+              <div className="rounded-2xl p-6 bg-[#0A0A0A] border border-white/10 transition-all duration-300 hover:border-[#FF6B1A] hover:shadow-[0_0_30px_rgba(255,107,26,0.3)] hover:-translate-y-1">
+                <Phone className="h-6 w-6 text-[#FF6B1A]" />
+                <p className="mt-3 font-semibold text-white">Phone</p>
+                <a href={`tel:${siteConfig.phone}`} className="text-[#FF6B1A] hover:underline">
                   {siteConfig.phone}
                 </a>
               </div>
             </SectionReveal>
             <SectionReveal delay={0.05}>
-              <div className="glass rounded-2xl p-6">
-                <Mail className="h-6 w-6 text-violet-600" />
-                <p className="mt-3 font-semibold text-zinc-900">Email</p>
-                <a href={`mailto:${siteConfig.email}`} className="text-blue-600 hover:underline">
+              <div className="rounded-2xl p-6 bg-[#0A0A0A] border border-white/10 transition-all duration-300 hover:border-[#FF6B1A] hover:shadow-[0_0_30px_rgba(255,107,26,0.3)] hover:-translate-y-1">
+                <Mail className="h-6 w-6 text-[#FF6B1A]" />
+                <p className="mt-3 font-semibold text-white">Email</p>
+                <a href={`mailto:${siteConfig.email}`} className="text-[#FF6B1A] hover:underline">
                   {siteConfig.email}
                 </a>
               </div>
@@ -49,7 +49,7 @@ export default function ContactPage() {
                 href={`https://wa.me/${siteConfig.whatsapp}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 rounded-2xl bg-emerald-600 p-6 text-white hover:bg-emerald-700"
+                className="flex items-center gap-3 rounded-2xl bg-[#00A884] p-6 text-white hover:bg-[#008f6f] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(0,168,132,0.4)]"
               >
                 <MessageCircle className="h-6 w-6" />
                 <div>
@@ -59,11 +59,11 @@ export default function ContactPage() {
               </a>
             </SectionReveal>
             <SectionReveal delay={0.15}>
-              <div className="glass rounded-2xl p-6">
-                <Clock className="h-6 w-6 text-indigo-600" />
-                <p className="mt-3 font-semibold text-zinc-900">Business hours</p>
-                <p className="text-sm text-zinc-600">Mon–Sat: {siteConfig.hours.weekdays}</p>
-                <p className="text-sm text-zinc-600">Sun: {siteConfig.hours.weekend}</p>
+              <div className="rounded-2xl p-6 bg-[#0A0A0A] border border-white/10 transition-all duration-300 hover:border-[#FF6B1A] hover:shadow-[0_0_30px_rgba(255,107,26,0.3)] hover:-translate-y-1">
+                <Clock className="h-6 w-6 text-[#FF6B1A]" />
+                <p className="mt-3 font-semibold text-white">Business hours</p>
+                <p className="text-sm text-zinc-400">Mon–Sat: {siteConfig.hours.weekdays}</p>
+                <p className="text-sm text-zinc-400">Sun: {siteConfig.hours.weekend}</p>
                 <p className="mt-2 flex items-start gap-2 text-xs text-zinc-500">
                   <AlertCircle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
                   {siteConfig.hours.emergency}
@@ -71,9 +71,9 @@ export default function ContactPage() {
               </div>
             </SectionReveal>
             <SectionReveal delay={0.2}>
-              <p className="text-sm text-zinc-500">
-                Quick help: <Link href="/faq" className="text-blue-600 hover:underline">FAQ</Link> ·{" "}
-                <Link href="/support" className="text-blue-600 hover:underline">Support</Link>
+              <p className="text-sm text-zinc-400">
+                Quick help: <Link href="/faq" className="text-[#FF6B1A] hover:underline">FAQ</Link> ·{" "}
+                <Link href="/support" className="text-[#FF6B1A] hover:underline">Support</Link>
               </p>
             </SectionReveal>
           </div>
@@ -86,10 +86,10 @@ export default function ContactPage() {
 
         <SectionReveal className="mt-16">
           <h2 className="section-title flex items-center gap-2">
-            <MapPin className="h-7 w-7 text-blue-600" />
+            <MapPin className="h-7 w-7 text-[#FF6B1A]" />
             Visit us in Ranchi
           </h2>
-          <div className="mt-6 overflow-hidden rounded-2xl border border-zinc-200 shadow-lg">
+          <div className="mt-6 overflow-hidden rounded-2xl border border-white/10 shadow-[0_0_30px_rgba(255,107,26,0.05)]">
             <iframe
               title="Nextgen Bike Rent Ranchi"
               src={siteConfig.mapEmbed}
@@ -98,7 +98,7 @@ export default function ContactPage() {
               referrerPolicy="no-referrer-when-downgrade"
             />
           </div>
-          <p className="mt-4 text-sm text-zinc-600">{siteConfig.address}</p>
+          <p className="mt-4 text-sm text-zinc-400">{siteConfig.address}</p>
         </SectionReveal>
       </div>
     </>

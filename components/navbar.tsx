@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -47,6 +47,7 @@ function isLinkActive(href: string, pathname: string) {
 
 export function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
   const [desktopMoreOpen, setDesktopMoreOpen] = useState(false);
@@ -184,6 +185,27 @@ export function Navbar() {
           </nav>
 
           <div className="hidden items-center gap-2 md:flex">
+            <form 
+              onSubmit={(e) => {
+                e.preventDefault();
+                const q = new FormData(e.currentTarget).get("q");
+                if (q) router.push(`/bikes?q=${encodeURIComponent(q.toString())}`);
+              }}
+              className="relative hidden items-center lg:flex"
+            >
+              <Search className={cn("absolute left-2.5 h-3.5 w-3.5", isTransparent ? "text-white/60" : "text-zinc-400")} />
+              <input
+                type="text"
+                name="q"
+                placeholder="Search bikes..."
+                className={cn(
+                  "h-8 w-44 rounded-full border bg-transparent pl-8 pr-4 text-xs outline-none transition-all focus:w-56 focus:border-[#FF6B1A]",
+                  isTransparent
+                    ? "border-white/25 text-white placeholder:text-white/60 focus:bg-white/10"
+                    : "border-zinc-200 text-zinc-900 placeholder:text-zinc-400 focus:bg-white focus:shadow-sm",
+                )}
+              />
+            </form>
             <span
               className={cn(
                 "hidden items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium lg:flex",

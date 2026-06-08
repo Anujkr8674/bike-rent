@@ -13,14 +13,14 @@ export function WhyChooseSection({ showLink = true }: WhyChooseSectionProps) {
   return (
     <section
       aria-labelledby="why-choose-heading"
-      className="relative overflow-x-hidden bg-white py-20 md:py-10"
+      className="relative overflow-x-hidden bg-[#050505] py-20 md:py-10"
     >
       <div
-        className="pointer-events-none absolute -left-40 top-0 h-[28rem] w-[28rem] rounded-full bg-[#FF653F]/8 blur-3xl"
+        className="pointer-events-none absolute -left-40 top-0 h-[28rem] w-[28rem] rounded-full bg-[#FF6B1A]/10 blur-3xl"
         aria-hidden
       />
       <div
-        className="pointer-events-none absolute -right-40 bottom-0 h-[28rem] w-[28rem] rounded-full bg-[#FF653F]/8 blur-3xl"
+        className="pointer-events-none absolute -right-40 bottom-0 h-[28rem] w-[28rem] rounded-full bg-[#FF6B1A]/10 blur-3xl"
         aria-hidden
       />
 
@@ -32,13 +32,13 @@ export function WhyChooseSection({ showLink = true }: WhyChooseSectionProps) {
         className="page-wrap relative z-10"
       >
         <div className="text-center">
-          <p className="text-sm font-semibold uppercase tracking-widest text-blue-600">
+          <p className="text-sm font-semibold uppercase tracking-widest text-[#FF6B1A]">
             Why Nextgen
           </p>
-          <h2 id="why-choose-heading" className="section-title mt-2 text-balance">
+          <h2 id="why-choose-heading" className="section-title mt-2 text-balance text-white">
             Why riders choose us
           </h2>
-          <p className="section-subtitle mx-auto mt-3 text-pretty">
+          <p className="section-subtitle mx-auto mt-3 text-pretty text-zinc-400">
             Premium Ranchi rentals with verified bikes, transparent pricing, and support that
             feels like a top-tier mobility platform.
           </p>

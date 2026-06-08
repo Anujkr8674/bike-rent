@@ -57,7 +57,7 @@ export default async function BlogDetailPage({ params }: Props) {
         <div className="relative mb-10 aspect-[21/9] overflow-hidden rounded-2xl">
           <Image src={post.image} alt={post.title} fill className="object-cover" priority sizes="100vw" />
         </div>
-        <div className="flex flex-wrap gap-4 text-sm text-zinc-500">
+        <div className="flex flex-wrap gap-4 text-sm text-zinc-400">
           <span className="flex items-center gap-1">
             <Calendar className="h-4 w-4" />
             {new Date(post.date).toLocaleDateString("en-IN", { dateStyle: "long" })}
@@ -68,19 +68,19 @@ export default async function BlogDetailPage({ params }: Props) {
           </span>
           <span>By {post.author}</span>
         </div>
-        <div className="prose prose-zinc mt-10 max-w-3xl">
+        <div className="prose prose-invert mt-10 max-w-3xl">
           {post.content.map((para, i) => (
-            <p key={i} className="mb-6 text-lg leading-relaxed text-zinc-700">
+            <p key={i} className="mb-6 text-lg leading-relaxed text-zinc-300">
               {para}
             </p>
           ))}
         </div>
-        <Link href="/blog" className="mt-12 inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:underline">
+        <Link href="/blog" className="mt-12 inline-flex items-center gap-2 text-sm font-medium text-[#FF6B1A] hover:underline">
           <ArrowLeft className="h-4 w-4" />
           Back to blog
         </Link>
         {related.length > 0 && (
-          <section className="mt-16 border-t border-zinc-200 pt-16">
+          <section className="mt-16 border-t border-white/10 pt-16">
             <h2 className="section-title">Related articles</h2>
             <div className="mt-8 grid gap-6 sm:grid-cols-3">
               {related.map((p) => (

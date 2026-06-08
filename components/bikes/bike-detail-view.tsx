@@ -12,6 +12,7 @@ import { BikeMediaImage, getBikeGallery } from "@/components/bikes/bike-media-im
 import { PremiumAccordion } from "@/components/faq/premium-accordion";
 import { RichHtmlContent } from "@/components/ui/rich-html-content";
 import { SectionReveal } from "@/components/ui/section-reveal";
+import { cn } from "@/lib/utils";
 import { Star, Fuel, Gauge, Zap, Shield, CheckCircle2, Users } from "lucide-react";
 import { bikeFeatureOptions } from "@/lib/bike-json";
 
@@ -79,8 +80,41 @@ export function BikeDetailView({ bike, days }: Props) {
       <div className="grid gap-10 lg:grid-cols-[1fr_380px] lg:gap-12">
         <div className="min-w-0 space-y-10">
           <SectionReveal>
-            <div className="relative aspect-[16/10] overflow-hidden rounded-3xl border border-zinc-200 shadow-xl">
-              <BikeMediaImage src={gallery[activeImage] ?? bike.image} alt={bike.name} fill priority />
+            <div className={cn(
+              "group relative flex flex-col justify-center items-center aspect-[16/10] overflow-hidden transition-all duration-500",
+              "rounded-[28px] border border-white/10",
+              "shadow-[0_0_30px_rgba(255,107,26,0.15),0_0_60px_rgba(255,107,26,0.08)]",
+              "hover:shadow-[0_0_40px_rgba(255,107,26,0.25),0_0_80px_rgba(255,107,26,0.12)]",
+              "hover:border-[#FF6B1A]/30"
+            )}
+            style={{
+              background: 'radial-gradient(circle at center, rgba(35,15,5,1) 0%, rgba(5,5,5,1) 70%)'
+            }}>
+              {/* Spotlight */}
+              <div 
+                className="absolute inset-0 pointer-events-none rounded-full opacity-100 transition-opacity duration-500 scale-[1.5] md:scale-[1.8]"
+                style={{
+                  background: 'radial-gradient(circle, rgba(255,107,26,0.15) 0%, transparent 60%)',
+                  transform: 'translateY(0%) scaleY(0.9)'
+                }}
+              />
+
+              {/* Ambient Floor Glow */}
+              <div className="absolute -bottom-10 w-[120%] h-32 bg-[#FF6B1A]/10 blur-3xl opacity-100 rounded-[50%] transition-opacity duration-500" />
+              
+              {/* Hard Road Shadow */}
+              <div className="absolute bottom-[12%] w-[45%] h-3 bg-white/40 rounded-[50%] blur-[4px] opacity-80 transition-transform duration-500 scale-[1.20] md:scale-[1.25] z-0" />
+
+              {/* Bike Image Area */}
+              <div className="relative z-10 w-[85%] h-[85%] transition-transform duration-500 group-hover:scale-105 group-hover:-translate-y-2">
+                <BikeMediaImage 
+                  src={gallery[activeImage] ?? bike.image} 
+                  alt={bike.name} 
+                  fill 
+                  priority
+                  className="object-contain drop-shadow-[0_20px_20px_rgba(0,0,0,0.8)]" 
+                />
+              </div>
             </div>
             {gallery.length > 1 ? (
               <div className="mt-4 flex gap-3 overflow-x-auto pb-1">
@@ -89,11 +123,14 @@ export function BikeDetailView({ bike, days }: Props) {
                     key={`${img}-${i}`}
                     type="button"
                     onClick={() => setActiveImage(i)}
-                    className={`relative h-20 w-28 shrink-0 overflow-hidden rounded-xl border-2 transition ${
-                      activeImage === i ? "border-[#FF5722]" : "border-zinc-200"
-                    }`}
+                    className={cn(
+                      "relative h-20 w-28 shrink-0 overflow-hidden rounded-xl border-2 transition",
+                      activeImage === i 
+                        ? "border-[#FF6B1A] shadow-[0_0_15px_rgba(255,107,26,0.3)] bg-[#111111]" 
+                        : "border-white/10 opacity-60 hover:opacity-100 bg-[#0A0A0A]"
+                    )}
                   >
-                    <BikeMediaImage src={img} alt="" fill className="object-cover" />
+                    <BikeMediaImage src={img} alt="" fill className="object-contain p-2" />
                   </button>
                 ))}
               </div>
@@ -101,12 +138,12 @@ export function BikeDetailView({ bike, days }: Props) {
           </SectionReveal>
 
           <SectionReveal>
-            <h2 className="font-display text-2xl font-bold text-zinc-900">Bike details</h2>
+            <h2 className="font-display text-2xl font-bold text-white">Bike details</h2>
             <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {detailSpecs.map((s) => (
-                <div key={s.label} className="glass rounded-xl p-4">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400">{s.label}</p>
-                  <p className="mt-1 font-semibold text-zinc-900">{s.value}</p>
+                <div key={s.label} className="rounded-xl border border-white/10 bg-[#0A0A0A]/80 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">{s.label}</p>
+                  <p className="mt-1 font-semibold text-white">{s.value}</p>
                 </div>
               ))}
             </div>
@@ -114,16 +151,16 @@ export function BikeDetailView({ bike, days }: Props) {
 
           {bike.shortDescription ? (
             <SectionReveal>
-              <p className="text-lg text-zinc-600">{bike.shortDescription}</p>
+              <p className="text-lg text-zinc-400">{bike.shortDescription}</p>
             </SectionReveal>
           ) : null}
 
           <SectionReveal>
-            <h2 className="font-display text-2xl font-bold text-zinc-900">Description</h2>
+            <h2 className="font-display text-2xl font-bold text-white">Description</h2>
             {bike.descriptionHtml ? (
-              <RichHtmlContent html={bike.descriptionHtml} className="mt-4" />
+              <RichHtmlContent html={bike.descriptionHtml} className="mt-4 text-zinc-400" />
             ) : (
-              <p className="mt-4 leading-relaxed text-zinc-600">
+              <p className="mt-4 leading-relaxed text-zinc-400">
                 Rent the {bike.name} in Ranchi — {bike.brand} {bike.cc}cc.
               </p>
             )}
@@ -131,12 +168,12 @@ export function BikeDetailView({ bike, days }: Props) {
 
           {activeFeatures.length > 0 ? (
             <SectionReveal>
-              <h2 className="font-display text-2xl font-bold text-zinc-900">Features</h2>
+              <h2 className="font-display text-2xl font-bold text-white">Features</h2>
               <div className="mt-4 flex flex-wrap gap-2">
                 {activeFeatures.map((feature) => (
                   <span
                     key={feature.key}
-                    className="rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm font-medium text-emerald-800"
+                    className="rounded-full border border-[#FF6B1A]/30 bg-[#FF6B1A]/10 px-4 py-2 text-sm font-medium text-white"
                   >
                     {feature.label}
                   </span>
@@ -146,9 +183,9 @@ export function BikeDetailView({ bike, days }: Props) {
           ) : null}
 
           <SectionReveal>
-            <h2 className="font-display text-2xl font-bold text-zinc-900">Rental terms</h2>
+            <h2 className="font-display text-2xl font-bold text-white">Rental terms</h2>
             {bike.rentalTermsHtml ? (
-              <RichHtmlContent html={bike.rentalTermsHtml} className="mt-4" />
+              <RichHtmlContent html={bike.rentalTermsHtml} className="mt-4 text-zinc-400" />
             ) : (
               <ul className="mt-4 space-y-3">
                 {[
@@ -158,8 +195,8 @@ export function BikeDetailView({ bike, days }: Props) {
                   `Security deposit ${formatCurrency(bike.securityDepositAmount)} refundable after inspection`,
                   bike.includedKmPerDay ? `${bike.includedKmPerDay} km included per day` : "Standard mileage limits apply",
                 ].map((t) => (
-                  <li key={t} className="flex gap-3 text-sm text-zinc-600">
-                    <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-500" />
+                  <li key={t} className="flex gap-3 text-sm text-zinc-400">
+                    <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[#FF6B1A]" />
                     <span>{t}</span>
                   </li>
                 ))}
@@ -168,39 +205,37 @@ export function BikeDetailView({ bike, days }: Props) {
           </SectionReveal>
 
           <SectionReveal>
-            <h2 className="font-display text-2xl font-bold text-zinc-900">FAQ</h2>
+            <h2 className="font-display text-2xl font-bold text-white">FAQ</h2>
             <div className="mt-6">
               <PremiumAccordion items={bikeFaqs} />
             </div>
           </SectionReveal>
-        </div>
-
-        <div className="lg:sticky lg:top-24 lg:self-start">
+        </div>        <div className="lg:sticky lg:top-24 lg:self-start">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="glass-strong gradient-border overflow-hidden rounded-3xl shadow-2xl shadow-blue-500/10"
+            className="rounded-[24px] border border-white/10 bg-[#0A0A0A]/80 shadow-[0_8px_30px_rgba(0,0,0,0.4)] backdrop-blur-md overflow-hidden"
           >
-            <div className="border-b border-zinc-100 p-6">
+            <div className="border-b border-white/10 p-6">
               <div className="flex items-center gap-2">
-                <Star className="h-5 w-5 fill-amber-400 text-amber-400" />
-                <span className="font-bold text-zinc-900">{bike.rating}</span>
-                <span className="text-zinc-400">·</span>
-                <span className="text-sm text-zinc-500">{bike.brand}</span>
+                <Star className="h-5 w-5 fill-[#FF6B1A] text-[#FF6B1A]" />
+                <span className="font-bold text-white">{bike.rating}</span>
+                <span className="text-zinc-500">·</span>
+                <span className="text-sm text-zinc-400">{bike.brand}</span>
               </div>
-              <h1 className="font-display mt-2 break-words text-2xl font-bold text-zinc-900">{bike.name}</h1>
+              <h1 className="font-display mt-2 break-words text-2xl font-bold text-white">{bike.name}</h1>
               {bike.bikeNo ? <p className="mt-1 text-sm text-zinc-500">#{bike.bikeNo}</p> : null}
               <div className="mt-3 flex flex-wrap gap-2">
-                <span className="flex items-center gap-1 rounded-lg bg-zinc-100 px-2 py-1 text-xs">
-                  <Gauge className="h-3.5 w-3.5 text-blue-600" />
+                <span className="flex items-center gap-1 rounded-lg bg-[#111111] border border-white/10 px-2 py-1 text-xs text-zinc-300">
+                  <Gauge className="h-3.5 w-3.5 text-[#FF6B1A]" />
                   {bike.cc}cc
                 </span>
-                <span className="flex items-center gap-1 rounded-lg bg-zinc-100 px-2 py-1 text-xs">
-                  <Fuel className="h-3.5 w-3.5 text-violet-600" />
+                <span className="flex items-center gap-1 rounded-lg bg-[#111111] border border-white/10 px-2 py-1 text-xs text-zinc-300">
+                  <Fuel className="h-3.5 w-3.5 text-[#FF6B1A]" />
                   {bike.fuelType}
                 </span>
-                <span className="flex items-center gap-1 rounded-lg bg-zinc-100 px-2 py-1 text-xs">
-                  <Zap className="h-3.5 w-3.5 text-cyan-500" />
+                <span className="flex items-center gap-1 rounded-lg bg-[#111111] border border-white/10 px-2 py-1 text-xs text-zinc-300">
+                  <Zap className="h-3.5 w-3.5 text-[#FF6B1A]" />
                   {bike.mileage} kmpl
                 </span>
               </div>
@@ -208,35 +243,35 @@ export function BikeDetailView({ bike, days }: Props) {
 
             <div className="space-y-4 p-6">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400">Pricing</p>
-                <p className="text-3xl font-bold text-zinc-900">{formatCurrency(bike.pricePerDay)}/day</p>
-                <p className="text-sm text-[#FF653F]">{formatCurrency(bike.pricePerHour)}/hour</p>
+                <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">Pricing</p>
+                <p className="text-3xl font-bold text-white">{formatCurrency(bike.pricePerDay)}/day</p>
+                <p className="text-sm text-[#FF6B1A]">{formatCurrency(bike.pricePerHour)}/hour</p>
                 {pickup && drop ? (
-                  <p className="mt-2 text-sm font-semibold text-emerald-700">
+                  <p className="mt-2 text-sm font-semibold text-[#FF6B1A]">
                     {quote.label} · {formatCurrency(quote.total)} estimated total
                   </p>
                 ) : null}
               </div>
 
-              <ul className="space-y-2 text-sm text-zinc-600">
+              <ul className="space-y-2 text-sm text-zinc-400">
                 <li className="flex items-center gap-2">
-                  <Shield className="h-4 w-4 text-blue-500" />
+                  <Shield className="h-4 w-4 text-[#FF6B1A]" />
                   Deposit {formatCurrency(bike.securityDepositAmount)}
                 </li>
                 {bike.features.helmet_included ? (
                   <li className="flex items-center gap-2">
-                    <Users className="h-4 w-4 text-violet-500" />
+                    <Users className="h-4 w-4 text-[#FF6B1A]" />
                     Helmet included
                   </li>
                 ) : null}
                 <li className="flex items-center gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                  <CheckCircle2 className="h-4 w-4 text-[#FF6B1A]" />
                   Pay first · documents after
                 </li>
               </ul>
 
               <Link href={`/book?${bookQs.toString()}`} className="block">
-                <Button className="w-full" size="lg">
+                <Button className="w-full bg-gradient-to-br from-[#FF6B1A] to-[#FF8A3D] text-white hover:scale-[1.02] shadow-[0_0_20px_rgba(255,107,26,0.3)] transition-all border-0" size="lg">
                   Rent now
                 </Button>
               </Link>

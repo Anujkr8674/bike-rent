@@ -59,14 +59,14 @@ export function FeatureCard({
           variant === "orbit" && "h-[92px] w-[92px] md:h-[72px] md:w-[72px]",
           variant === "mobile" && "h-14 w-14 sm:h-16 sm:w-16",
           isActive
-            ? "bg-[#FF653F] text-white shadow-[0_10px_30px_rgba(255,101,63,0.35)] ring-2 ring-[#FF653F] scale-110"
-            : "bg-gradient-to-br from-[#FF653F]/15 via-[#FF653F]/5 to-white text-[#FF653F] shadow-[0_8px_28px_rgba(255,101,63,0.14)] ring-1 ring-[#FF653F]/20 group-hover:shadow-[0_14px_40px_rgba(255,101,63,0.22)] group-hover:ring-[#FF653F]/40 group-hover:scale-105",
+            ? "bg-[#FF6B1A] text-white shadow-[0_10px_30px_rgba(255,107,26,0.35)] ring-2 ring-[#FF6B1A] scale-110"
+            : "bg-gradient-to-br from-[#FF6B1A]/15 via-[#FF6B1A]/5 to-black text-[#FF6B1A] shadow-[0_8px_28px_rgba(255,107,26,0.14)] ring-1 ring-[#FF6B1A]/20 group-hover:shadow-[0_14px_40px_rgba(255,107,26,0.22)] group-hover:ring-[#FF6B1A]/40 group-hover:scale-105",
         )}
       >
         <Icon
           className={cn(
             "stroke-[1.8] transition-colors duration-300",
-            isActive ? "text-white" : "text-[#FF653F]",
+            isActive ? "text-white" : "text-[#FF6B1A]",
             variant === "orbit" && "h-10 w-10 md:h-8 md:w-8",
             variant === "mobile" && "h-6 w-6 sm:h-7 sm:w-7",
           )}
@@ -75,24 +75,24 @@ export function FeatureCard({
         
         {/* Pulsing ring behind active icon */}
         {isActive && (
-          <span className="absolute inset-0 rounded-full ring-4 ring-[#FF653F]/35 animate-ping opacity-75" />
+          <span className="absolute inset-0 rounded-full ring-4 ring-[#FF6B1A]/35 animate-ping opacity-75" />
         )}
       </div>
 
       <h3
         className={cn(
-          "mt-2 font-bold leading-snug text-slate-900 transition-colors duration-200",
+          "mt-2 font-bold leading-snug text-white transition-colors duration-200",
           // Use scaled larger text for mobile orbit layout to preserve legibility when scaled down
-          variant === "orbit" && "mt-3 text-[22px] md:text-sm group-hover:text-[#FF653F]",
+          variant === "orbit" && "mt-3 text-[22px] md:text-sm group-hover:text-[#FF6B1A]",
           variant === "mobile" && "text-xs sm:text-sm",
-          isActive && "text-[#FF653F] md:text-[#FF653F]",
+          isActive && "text-[#FF6B1A] md:text-[#FF6B1A]",
         )}
       >
         {title}
       </h3>
       <p
         className={cn(
-          "mt-1 leading-relaxed text-zinc-500",
+          "mt-1 leading-relaxed text-zinc-400",
           // Use scaled larger text for mobile orbit layout to preserve legibility when scaled down
           variant === "orbit" && "mt-1.5 text-[17px] md:text-xs",
           variant === "mobile" && "text-[0.7rem] sm:text-xs",

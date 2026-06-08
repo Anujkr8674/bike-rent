@@ -10,6 +10,7 @@ import {
   formatTimeIndian,
   splitDateTime,
   todayDateString,
+  defaultPickupTime,
 } from "@/lib/rental-datetime";
 
 type DateTimePickerFieldProps = {
@@ -53,6 +54,7 @@ export function DateTimePickerField({
   }, [open, time]);
 
   const effectiveMinDate = minDate || todayDateString();
+  const effectiveMinDateTime = minDateTime || combineDateAndTime(todayDateString(), defaultPickupTime());
 
   const pickDate = (nextDate: string) => {
     if (!nextDate) return;
@@ -66,8 +68,8 @@ export function DateTimePickerField({
   };
 
   const isTimeDisabled = (slot: string) => {
-    if (!minDateTime || !date) return false;
-    const { date: minD, time: minT } = splitDateTime(minDateTime);
+    if (!date) return false;
+    const { date: minD, time: minT } = splitDateTime(effectiveMinDateTime);
     if (date > minD) return false;
     if (date < minD) return true;
     return slot < minT;
@@ -75,36 +77,36 @@ export function DateTimePickerField({
 
   return (
     <div ref={rootRef} className={cn("relative", className)}>
-      <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-wider text-zinc-500">{label}</p>
+      <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-wider text-zinc-400">{label}</p>
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
         className={cn(
-          "flex w-full items-center gap-3 rounded-xl border border-zinc-200/90 bg-white text-left shadow-sm transition",
-          "focus-visible:border-[#FF653F]/70 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#FF653F]/12",
+          "flex w-full items-center gap-3 rounded-xl border border-[#FF6B1A]/50 bg-transparent text-left shadow-[0_0_15px_rgba(255,107,26,0.05)] transition",
+          "focus-visible:border-[#FF6B1A] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#FF6B1A]/12",
           compact ? "min-h-[48px] px-3 py-2" : "min-h-[52px] px-4 py-2.5",
-          open && "border-[#FF653F]/70 ring-4 ring-[#FF653F]/12",
+          open && "border-[#FF6B1A] ring-4 ring-[#FF6B1A]/12",
         )}
         aria-expanded={open}
         aria-haspopup="listbox"
       >
-        <Calendar className="h-[18px] w-[18px] shrink-0 text-[#FF653F]" aria-hidden />
-        <span className={cn("min-w-0 flex-1 truncate text-sm", value ? "font-medium text-zinc-900" : "text-zinc-400")}>
+        <Calendar className="h-[18px] w-[18px] shrink-0 text-[#FF6B1A]" aria-hidden />
+        <span suppressHydrationWarning className={cn("min-w-0 flex-1 truncate text-sm", value ? "font-medium text-white" : "text-zinc-500")}>
           {display}
         </span>
-        <ChevronDown className={cn("h-4 w-4 shrink-0 text-zinc-400 transition", open && "rotate-180")} />
+        <ChevronDown className={cn("h-4 w-4 shrink-0 text-zinc-500 transition", open && "rotate-180")} />
       </button>
 
       {open ? (
         <div
-          className="absolute left-0 right-0 z-50 mt-2 overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-xl"
+          className="absolute left-0 right-0 z-50 mt-2 overflow-hidden rounded-xl border border-white/10 bg-[#111111] shadow-[0_8px_30px_rgba(0,0,0,0.6)]"
           role="dialog"
           aria-label={`${label} date and time`}
         >
-          <div className="border-b border-zinc-100 p-3">
+          <div className="border-b border-white/10 p-3 bg-[#0A0A0A]">
             <input
               type="date"
-              className="w-full rounded-lg border border-zinc-200 px-3 py-2 text-sm outline-none focus:border-[#FF653F]/50 focus:ring-2 focus:ring-[#FF653F]/10"
+              className="w-full rounded-lg border border-white/10 bg-[#111111] text-white px-3 py-2 text-sm outline-none focus:border-[#FF6B1A]/50 focus:ring-2 focus:ring-[#FF6B1A]/10"
               value={date}
               min={effectiveMinDate}
               onChange={(e) => pickDate(e.target.value)}
@@ -133,10 +135,10 @@ export function DateTimePickerField({
                     setOpen(false);
                   }}
                   className={cn(
-                    "flex w-full border-b border-zinc-100 px-4 py-2.5 text-left text-sm transition last:border-b-0",
-                    selected && "bg-amber-100 font-semibold text-zinc-900",
-                    !selected && !disabled && "hover:bg-zinc-50",
-                    disabled && "cursor-not-allowed text-zinc-300",
+                    "flex w-full border-b border-white/5 px-4 py-2.5 text-left text-sm transition last:border-b-0",
+                    selected && "bg-[#FF6B1A]/20 font-semibold text-[#FF6B1A]",
+                    !selected && !disabled && "hover:bg-white/5 text-zinc-300",
+                    disabled && "cursor-not-allowed text-zinc-600",
                   )}
                 >
                   {formatTimeIndian(slot)}

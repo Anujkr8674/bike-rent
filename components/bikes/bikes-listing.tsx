@@ -90,8 +90,16 @@ function BikesContent({ embedded = false }: { embedded?: boolean }) {
     };
   }, []);
 
+  const searchQuery = params.get("q") || "";
+
   const filtered = useMemo(() => {
     return catalog.filter((b) => {
+      if (searchQuery) {
+        const lowerQ = searchQuery.toLowerCase();
+        if (!b.name.toLowerCase().includes(lowerQ) && !b.brand.toLowerCase().includes(lowerQ)) {
+          return false;
+        }
+      }
       if (filters.category !== "all" && b.category.toLowerCase() !== filters.category.toLowerCase()) return false;
       if (filters.fuelType !== "all" && b.fuelType !== filters.fuelType) return false;
       if (filters.transmission !== "all" && b.transmission !== filters.transmission) return false;
@@ -99,7 +107,7 @@ function BikesContent({ embedded = false }: { embedded?: boolean }) {
       if (b.cc < filters.minCc) return false;
       return true;
     });
-  }, [catalog, filters]);
+  }, [catalog, filters, searchQuery]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const paginated = useMemo(() => {

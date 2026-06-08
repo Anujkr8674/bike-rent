@@ -42,21 +42,21 @@ export function ContactForm() {
 
   if (sent) {
     return (
-      <div className="glass-strong rounded-2xl p-8 text-center">
-        <p className="font-display text-xl font-bold text-zinc-900">Message received</p>
-        <p className="mt-2 text-zinc-600">Our Ranchi team will respond within 2 hours during business hours.</p>
+      <div className="glass-strong rounded-2xl p-8 text-center bg-[#0A0A0A]">
+        <p className="font-display text-xl font-bold text-white">Message received</p>
+        <p className="mt-2 text-zinc-400">Our Ranchi team will respond within 2 hours during business hours.</p>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="glass-strong gradient-border space-y-4 rounded-2xl p-6 md:p-8">
+    <form onSubmit={handleSubmit} className="glass-strong gradient-border space-y-4 rounded-2xl p-6 md:p-8 bg-[#0A0A0A]">
       <div className="grid gap-4 md:grid-cols-2">
-        <input className="input-field" name="fullName" placeholder="Full name" required />
-        <input className="input-field" name="email" type="email" placeholder="Email" required />
+        <input className="input-field bg-[#111111] text-white border-white/10 focus:border-[#FF6B1A]" name="fullName" placeholder="Full name" required />
+        <input className="input-field bg-[#111111] text-white border-white/10 focus:border-[#FF6B1A]" name="email" type="email" placeholder="Email" required />
       </div>
-      <input className="input-field" name="phone" placeholder="Phone" required />
-      <select className="input-field" name="subject" required defaultValue="">
+      <input className="input-field bg-[#111111] text-white border-white/10 focus:border-[#FF6B1A]" name="phone" placeholder="Phone" required />
+      <select className="input-field bg-[#111111] text-white border-white/10 focus:border-[#FF6B1A]" name="subject" required defaultValue="">
         <option value="" disabled>
           Subject
         </option>
@@ -65,9 +65,9 @@ export function ContactForm() {
         <option>Partnership</option>
         <option>Other</option>
       </select>
-      <textarea className="input-field min-h-[120px] resize-y" name="message" placeholder="Your message" required />
+      <textarea className="input-field min-h-[120px] resize-y bg-[#111111] text-white border-white/10 focus:border-[#FF6B1A]" name="message" placeholder="Your message" required />
       {error && <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">{error}</p>}
-      <Button type="submit" className="w-full gap-2" disabled={loading}>
+      <Button type="submit" className="w-full gap-2 bg-gradient-to-br from-[#FF6B1A] to-[#FF8A3D] text-white border-0 shadow-[0_0_20px_rgba(255,107,26,0.3)] transition-all hover:scale-[1.02]" disabled={loading}>
         <Send className="h-4 w-4" />
         {loading ? "Sending..." : "Send Message"}
       </Button>

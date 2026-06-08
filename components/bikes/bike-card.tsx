@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useMemo } from "react";
 import { BikeMediaImage } from "@/components/bikes/bike-media-image";
 import { motion } from "framer-motion";
-import { Fuel, Gauge, Heart, Star, Zap, Check, ArrowRight } from "lucide-react";
+import { Fuel, Gauge, Heart, Star, Zap, Check, Mountain } from "lucide-react";
 import type { BikeItem } from "@/lib/bikes";
 import { quoteForBike } from "@/hooks/use-rental-window";
 import { formatCurrency } from "@/lib/utils";
@@ -33,21 +33,44 @@ export function BikeCard({ bike, days = 1, pickup = "", drop = "", queryString =
     <motion.article
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -6 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.06, duration: 0.5 }}
-      className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border-2 border-zinc-100 bg-white pt-4 pb-5 px-5 shadow-[0_8px_30px_rgba(0,0,0,0.02)] transition-all duration-300 hover:border-[#FF653F] hover:shadow-[0_15px_35px_rgba(255,101,63,0.1)] cursor-pointer"
+      className="group relative flex flex-col justify-between overflow-hidden rounded-[28px] border border-[#FF6B1A]/25 bg-[#050505] pt-4 pb-5 px-5 shadow-[0_0_30px_rgba(255,107,26,0.15),0_0_60px_rgba(255,107,26,0.08)] transition-all duration-500 hover:border-[#FF6B1A] hover:shadow-[0_0_40px_rgba(255,107,26,0.25),0_0_80px_rgba(255,107,26,0.15)] hover:-translate-y-[10px] cursor-pointer"
     >
-      <Link href={detailHref} className="relative flex h-[160px] md:h-[185px] w-full items-center justify-center overflow-visible mt-2">
+      <Link href={detailHref} className="relative flex h-[160px] md:h-[185px] w-full items-center justify-center overflow-visible mt-2 mb-2">
+        {/* Spotlight */}
+        <div
+          className="absolute inset-0 pointer-events-none rounded-full opacity-90 group-hover:opacity-100 transition-opacity duration-500 scale-[1.3] md:scale-[1.5]"
+          style={{
+            background: 'radial-gradient(circle, rgba(255,107,26,0.5) 0%, rgba(255,107,26,0.15) 40%, transparent 70%)'
+          }}
+        />
+
+        {/* Floor reflection / glow */}
+        <div className="absolute -bottom-4 w-3/4 h-12 rounded-[100%] opacity-80 group-hover:opacity-100 transition-opacity duration-500 blur-[15px]"
+          style={{
+            background: 'radial-gradient(ellipse at center, rgba(255,107,26,0.6) 0%, rgba(255,107,26,0.2) 50%, transparent 80%)'
+          }}
+        />
+
+        {/* Hard Road Shadow */}
+        <div className="absolute -bottom-1 w-[70%] h-3 bg-white/60 rounded-[50%] blur-[2.5px] opacity-90 transition-transform duration-500 scale-[1.20] md:scale-[1.25] group-hover:scale-[1.25] md:group-hover:scale-[1.30] z-0" />
+
         <BikeMediaImage
           src={bike.image}
           alt={bike.name}
           fill
-          className="object-contain scale-[1.15] md:scale-[1.20] transition-transform duration-700 group-hover:scale-[1.25] md:group-hover:scale-[1.30]"
+          className="object-contain scale-[1.20] md:scale-[1.25] transition-transform duration-500 group-hover:scale-[1.25] md:group-hover:scale-[1.30] z-10 drop-shadow-[0_15px_15px_rgba(0,0,0,0.6)]"
         />
+
+        <span className="absolute left-1 top-1 rounded-full bg-[#050505]/90 border border-[#FF6B1A] px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur-md z-20 shadow-[0_0_15px_rgba(255,107,26,0.2)] flex items-center gap-1">
+          <Mountain className="w-3.5 h-3.5 text-[#FF6B1A]" />
+          {bike.category}
+        </span>
+        {/* 
         <button
           type="button"
-          className="absolute right-3 top-3 rounded-full glass p-2.5 text-zinc-700 transition hover:scale-110 hover:text-violet-600 z-10"
+          className="absolute right-1 top-1 rounded-full bg-[#050505]/90 border border-[#FF6B1A] backdrop-blur-md p-2 text-[#FF6B1A] transition-all hover:bg-[#FF6B1A] hover:text-white hover:shadow-[0_0_20px_rgba(255,107,26,0.4)] z-20"
           aria-label="Save bike"
           onClick={(e) => {
             e.preventDefault();
@@ -55,96 +78,74 @@ export function BikeCard({ bike, days = 1, pickup = "", drop = "", queryString =
           }}
         >
           <Heart className="h-4 w-4" />
-        </button>
-        <span className="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-zinc-800 backdrop-blur z-10">
-          {bike.category}
-        </span>
-        {bike.color ? (
-          <span className="absolute left-3 top-12 rounded-full bg-zinc-900/80 px-3 py-1 text-[11px] font-semibold text-white backdrop-blur z-10">
-            {bike.color}
-          </span>
-        ) : null}
+        </button> */}
       </Link>
 
-      <div className="mt-4 flex flex-col">
-        {/* Row 1: Title & Selector Badge */}
+      <div className="mt-4 flex flex-col z-10 relative">
         <div className="flex items-start justify-between gap-2">
           <div>
-            <h3 className="text-xl font-bold tracking-tight text-zinc-950 capitalize group-hover:text-[#FF653F] transition-colors duration-200">
-              {bike.name.split(/(\d+)/).map((part, i) =>
-                /\d+/.test(part) ? (
-                  <span key={i} className="font-sans">{part}</span>
-                ) : (
-                  <span key={i} className="font-display">{part}</span>
-                )
-              )}
+            <h3 className="text-[20px] font-bold tracking-tight text-white capitalize drop-shadow-md leading-tight">
+              {bike.name}
             </h3>
-            <p className="text-xs text-zinc-500 font-medium mt-0.5">{bike.brand}</p>
+            <p className="text-[13px] text-zinc-400 font-medium mt-0.5">{bike.brand}</p>
           </div>
 
-          {/* Selector Badge */}
-          <div className="relative h-6 w-6 shrink-0 mt-1">
-            {/* Checkmark badge */}
-            <div className="absolute inset-0 flex items-center justify-center rounded-full bg-[#FF653F]/12 text-[#FF653F] transition-all duration-300 group-hover:opacity-0 group-hover:scale-50">
-              <Check className="h-3.5 w-3.5 stroke-[3.5]" />
-            </div>
-
-            {/* Arrow right */}
-            <div className="absolute inset-0 flex items-center justify-center rounded-full bg-[#FF653F] text-white shadow-sm opacity-0 scale-50 transition-all duration-300 group-hover:opacity-100 group-hover:scale-100">
-              <ArrowRight className="h-3.5 w-3.5 stroke-[3]" />
-            </div>
+          <div className="shrink-0 flex items-center justify-center rounded-full bg-[#111111] border border-[#FF6B1A]/30 w-6 h-6 mt-0.5 shadow-[0_0_10px_rgba(255,107,26,0.2)]">
+            <Check className="h-3.5 w-3.5 text-[#FF6B1A] stroke-[3]" />
           </div>
         </div>
 
-        {/* Row 2: Specifications list including rating */}
-        <div className="flex flex-wrap gap-2 text-xs text-zinc-500 mt-4">
-          <span className="flex items-center gap-1 rounded-lg bg-zinc-50 px-2 py-1">
-            <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+        <div className="flex flex-wrap gap-2 mt-4">
+          <span className="flex items-center gap-1.5 rounded-[10px] bg-[#111111]/80 border border-white/10 px-2.5 py-1 text-[12px] font-medium text-zinc-300 hover:border-[#FF6B1A]/40 hover:bg-[#FF6B1A]/10 transition-colors">
+            <Star className="h-3.5 w-3.5 fill-[#FF6B1A] text-[#FF6B1A]" />
             {bike.rating}
           </span>
-          <span className="flex items-center gap-1 rounded-lg bg-zinc-50 px-2 py-1">
-            <Gauge className="h-3.5 w-3.5 text-blue-500" />
+          {/* <span className="flex items-center gap-1.5 rounded-[10px] bg-[#111111]/80 border border-white/10 px-2.5 py-1 text-[12px] font-medium text-zinc-300 hover:border-[#FF6B1A]/40 hover:bg-[#FF6B1A]/10 transition-colors">
+            <Gauge className="h-3.5 w-3.5 text-[#FF6B1A]" />
             {bike.cc}cc
-          </span>
-          <span className="flex items-center gap-1 rounded-lg bg-zinc-50 px-2 py-1">
-            <Fuel className="h-3.5 w-3.5 text-violet-500" />
+          </span> */}
+          <span className="flex items-center gap-1.5 rounded-[10px] bg-[#111111]/80 border border-white/10 px-2.5 py-1 text-[12px] font-medium text-zinc-300 hover:border-[#FF6B1A]/40 hover:bg-[#FF6B1A]/10 transition-colors">
+            <Fuel className="h-3.5 w-3.5 text-[#FF6B1A]" />
             {bike.fuelType}
           </span>
-          <span className="flex items-center gap-1 rounded-lg bg-zinc-50 px-2 py-1">
-            <Zap className="h-3.5 w-3.5 text-cyan-500" />
+          <span className="flex items-center gap-1.5 rounded-[10px] bg-[#111111]/80 border border-white/10 px-2.5 py-1 text-[12px] font-medium text-zinc-300 hover:border-[#FF6B1A]/40 hover:bg-[#FF6B1A]/10 transition-colors">
+            <Zap className="h-3.5 w-3.5 text-[#FF6B1A]" />
             {bike.mileage} kmpl
           </span>
         </div>
 
-        {/* Row 3: Pricing & Action Buttons */}
-        <div className="flex items-end justify-between border-t border-zinc-100 pt-4 mt-4">
+        <div className="h-px w-full bg-white/[0.08] my-4" />
+
+        <div className="flex items-end justify-between">
           <div>
-            <p className="text-xs font-medium uppercase tracking-wider text-zinc-400">
-              {quote.isHourly ? "Rent / hour" : "Rent / day"}
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500 mb-0.5">
+              {quote.isHourly ? "RENT / HOUR" : "RENT / DAY"}
             </p>
-            <p className="text-2xl font-bold text-zinc-900 transition-colors duration-200 group-hover:text-[#FF653F]">
+            <p className="text-[26px] leading-none font-extrabold text-[#FF6B1A]">
               {formatCurrency(quote.isHourly ? bike.pricePerHour : bike.pricePerDay)}
             </p>
             {hasWindow ? (
-              <p className="mt-0.5 text-xs font-semibold text-[#FF653F]">
+              <p className="mt-1.5 text-xs font-semibold text-[#FF6B1A]/80">
                 {quote.label} · {formatCurrency(quote.total)} total
               </p>
             ) : days > 1 ? (
-              <p className="mt-0.5 text-xs font-semibold text-blue-600">
+              <p className="mt-1.5 text-xs font-semibold text-[#FF8A3D]/80">
                 {days} days · {formatCurrency(bike.pricePerDay * days)} total
               </p>
             ) : null}
           </div>
-          <div className="flex gap-1.5">
+          <div className="flex gap-2">
             <Link href={detailHref}>
-              <Button variant="outline" size="sm" className="h-8 text-xs">
+              <Button variant="outline" className="h-10 rounded-[10px] px-4 text-[13px] font-semibold bg-[#0A0A0A] border-[#FF6B1A]/40 text-white hover:bg-[#111111] hover:border-[#FF6B1A] hover:text-[#FF6B1A] transition-all duration-300">
                 Details
               </Button>
             </Link>
             <Link
               href={`/book?bike=${bike.id}${queryString ? `&${queryString}` : days > 1 ? `&days=${days}` : ""}`}
             >
-              <Button size="sm" className="h-8 text-xs bg-[#FF653F] hover:bg-[#e05432] text-white border-0">Rent</Button>
+              <Button className="h-10 rounded-[10px] px-5 text-[13px] font-semibold bg-gradient-to-br from-[#FF6B1A] to-[#FF8A3D] text-white border-0 shadow-[0_0_20px_rgba(255,107,26,0.4)] group-hover:shadow-[0_0_30px_rgba(255,107,26,0.6)] transition-all duration-300 hover:scale-[1.03]">
+                Rent
+              </Button>
             </Link>
           </div>
         </div>

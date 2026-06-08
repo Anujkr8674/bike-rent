@@ -109,41 +109,41 @@ function TrackBookingContent() {
     <div className="mesh-bg min-h-screen py-10 md:py-16">
       <div className="page-wrap max-w-5xl">
         <div className="text-center md:text-center">
-          <p className="text-xs font-semibold uppercase tracking-wider text-[#FF653F]">Booking tracker</p>
-          <h1 className="mt-1 text-3xl font-bold text-zinc-900 md:text-4xl">Track your booking</h1>
-          <p className="mt-2 text-zinc-600">Enter tracking ID and the email you used when booking.</p>
+          <p className="text-xs font-semibold uppercase tracking-wider text-[#FF6B1A]">Booking tracker</p>
+          <h1 className="mt-1 text-3xl font-bold text-white md:text-4xl">Track your booking</h1>
+          <p className="mt-2 text-zinc-400">Enter tracking ID and the email you used when booking.</p>
         </div>
 
         <form
           onSubmit={onSubmit}
-          className="mt-8 overflow-hidden rounded-2xl border border-[#FF653F]/20 bg-white shadow-lg shadow-[#FF653F]/5"
+          className="mt-8 overflow-hidden rounded-2xl border border-white/10 bg-[#0A0A0A] shadow-[0_0_30px_rgba(255,107,26,0.05)]"
         >
-          <div className="border-b border-zinc-100 bg-gradient-to-r from-[#FF653F]/5 to-transparent px-6 py-4">
-            <p className="text-sm font-semibold text-zinc-800">Find your reservation</p>
+          <div className="border-b border-white/5 bg-gradient-to-r from-[#FF6B1A]/10 to-transparent px-6 py-4">
+            <p className="text-sm font-semibold text-zinc-300">Find your reservation</p>
           </div>
           <div className="grid gap-4 p-6 sm:grid-cols-2">
             <div>
-              <label className="text-sm font-medium text-zinc-800">Tracking ID</label>
+              <label className="text-sm font-medium text-zinc-400">Tracking ID</label>
               <input
                 {...register("trackingId")}
-                className="input-field mt-1.5 w-full border-[#FF653F]/30 focus:border-[#FF653F]"
+                className="input-field mt-1.5 w-full bg-[#111111] text-white border-white/10 focus:border-[#FF6B1A]"
                 placeholder="BR202600001"
               />
-              {errors.trackingId ? <p className="mt-1 text-xs text-rose-600">{errors.trackingId.message}</p> : null}
+              {errors.trackingId ? <p className="mt-1 text-xs text-rose-500">{errors.trackingId.message}</p> : null}
             </div>
             <div>
-              <label className="text-sm font-medium text-zinc-800">Email address</label>
+              <label className="text-sm font-medium text-zinc-400">Email address</label>
               <input
                 type="email"
                 {...register("email")}
-                className="input-field mt-1.5 w-full border-[#FF653F]/30 focus:border-[#FF653F]"
+                className="input-field mt-1.5 w-full bg-[#111111] text-white border-white/10 focus:border-[#FF6B1A]"
               />
-              {errors.email ? <p className="mt-1 text-xs text-rose-600">{errors.email.message}</p> : null}
+              {errors.email ? <p className="mt-1 text-xs text-rose-500">{errors.email.message}</p> : null}
             </div>
           </div>
           {error ? <p className="px-6 pb-2 text-sm text-rose-600">{error}</p> : null}
-          <div className="border-t border-zinc-100 px-6 py-4 flex justify-center">
-            <Button type="submit" disabled={loading} className="w-full gap-2 sm:w-auto">
+          <div className="border-t border-white/5 px-6 py-4 flex justify-center">
+            <Button type="submit" disabled={loading} className="w-full gap-2 sm:w-auto bg-gradient-to-br from-[#FF6B1A] to-[#FF8A3D] text-white hover:scale-[1.02] shadow-[0_0_20px_rgba(255,107,26,0.3)] transition-all border-0">
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Search className="h-4 w-4" />}
               Track booking
             </Button>
@@ -152,11 +152,11 @@ function TrackBookingContent() {
 
         {booking ? (
           <div className="mt-8 space-y-6">
-            <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-lg">
-              <div className="flex flex-col gap-4 border-b border-zinc-100 bg-gradient-to-br from-[#FF653F]/10 via-white to-white p-6 sm:flex-row sm:items-center sm:justify-between">
+            <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#0A0A0A] shadow-lg">
+              <div className="flex flex-col gap-4 border-b border-white/5 bg-gradient-to-br from-[#FF6B1A]/10 to-[#0A0A0A] p-6 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">Tracking ID</p>
-                  <p className="mt-1 text-3xl font-black tracking-tight text-[#FF653F]">{booking.trackingId}</p>
+                  <p className="mt-1 text-3xl font-black tracking-tight text-[#FF6B1A]">{booking.trackingId}</p>
                   <p className="mt-1 text-sm text-zinc-500">Booking #{booking.bookingRef}</p>
                 </div>
                 <span
@@ -217,12 +217,12 @@ function TrackBookingContent() {
             </div>
 
             {hasDocs ? (
-              <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
-                <h2 className="text-lg font-bold text-zinc-900">Uploaded documents</h2>
-                <p className="mt-1 text-sm text-zinc-500">
+              <div className="rounded-2xl border border-white/10 bg-[#0A0A0A] p-6 shadow-sm">
+                <h2 className="text-lg font-bold text-white">Uploaded documents</h2>
+                <p className="mt-1 text-sm text-zinc-400">
                   Verification: {booking.documents?.verificationStatus.replace(/_/g, " ")}
                 </p>
-                <p className="mt-2 text-sm text-zinc-600">
+                <p className="mt-2 text-sm text-zinc-500">
                   DL: {booking.documents?.dlNumber} · Aadhaar: {booking.documents?.aadhaarNumber}
                 </p>
                 <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
@@ -250,9 +250,9 @@ function TrackBookingContent() {
             ) : null}
 
             {showUpload ? (
-              <div className="rounded-2xl border border-[#FF653F]/20 bg-gradient-to-br from-[#FF653F]/5 to-white p-6 shadow-sm">
-                <h2 className="text-lg font-bold text-zinc-900">Upload documents</h2>
-                <p className="mt-1 text-sm text-zinc-500">
+              <div className="rounded-2xl border border-[#FF6B1A]/20 bg-gradient-to-br from-[#FF6B1A]/5 to-[#0A0A0A] p-6 shadow-sm">
+                <h2 className="text-lg font-bold text-white">Upload documents</h2>
+                <p className="mt-1 text-sm text-zinc-400">
                   Driving license and Aadhaar (front & back) — required to confirm your ride.
                 </p>
                 <div className="mt-4">
@@ -283,10 +283,10 @@ function Section({
   return (
     <div className="mb-6 last:mb-0">
       <div className="mb-3 flex items-center gap-2">
-        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#FF653F]/10 text-[#FF653F]">
+        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#FF6B1A]/10 text-[#FF6B1A]">
           <Icon className="h-4 w-4" />
         </span>
-        <h3 className="text-sm font-bold uppercase tracking-wider text-zinc-700">{title}</h3>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-zinc-300">{title}</h3>
       </div>
       {children}
     </div>
@@ -306,11 +306,11 @@ function DetailCard({
     <div
       className={cn(
         "rounded-xl border p-3.5 transition",
-        highlight ? "border-[#FF653F]/25 bg-[#FF653F]/5" : "border-zinc-100 bg-zinc-50/80 hover:bg-zinc-50",
+        highlight ? "border-[#FF6B1A]/25 bg-[#FF6B1A]/5" : "border-white/5 bg-[#111111] hover:bg-white/5",
       )}
     >
-      <p className="text-[10px] font-semibold uppercase tracking-wider text-zinc-400">{label}</p>
-      <p className={cn("mt-1 text-sm font-semibold break-words", highlight ? "text-[#FF653F]" : "text-zinc-900")}>
+      <p className="text-[10px] font-semibold uppercase tracking-wider text-zinc-500">{label}</p>
+      <p className={cn("mt-1 text-sm font-semibold break-words", highlight ? "text-[#FF6B1A]" : "text-white")}>
         {value}
       </p>
     </div>
@@ -323,7 +323,7 @@ function DocPreview({ url, alt }: { url: string; alt: string }) {
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-      className="group relative block aspect-[4/3] overflow-hidden rounded-xl border border-zinc-200 shadow-sm"
+      className="group relative block aspect-[4/3] overflow-hidden rounded-xl border border-white/10 shadow-sm"
     >
       <Image src={url} alt={alt} fill className="object-cover transition group-hover:scale-105" unoptimized />
       <span className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-2 py-2 text-[10px] font-medium text-white">

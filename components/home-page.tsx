@@ -35,7 +35,7 @@ function HomeContent() {
   return (
     <>
       <Hero />
-      <div className="bg-[#F8F9FA] py-8 sm:py-10 border-b border-zinc-100">
+      <div className="relative z-50 border-b border-white/5 bg-black/40 py-8 sm:py-10 backdrop-blur-sm">
         <div className="page-wrap">
           <BookingSearchBar variant="default" />
         </div>

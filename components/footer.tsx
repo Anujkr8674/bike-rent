@@ -32,22 +32,23 @@ const footerLinks = {
 
 export function Footer() {
   return (
-    <footer className="mt-auto border-t border-zinc-200 bg-zinc-50">
-      <div className="border-b border-zinc-200 bg-gradient-to-r from-[#FF653F] via-[#FF4F2E] to-[#FF653F] py-12 text-white">
-        <div className="page-wrap flex flex-col items-center justify-between gap-6 md:flex-row">
+    <footer className="mt-auto border-t border-white/10 bg-[#0A0A0A]">
+      <div className="relative overflow-hidden border-b border-white/10 bg-[#050505] py-12 text-white">
+        <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[20rem] w-[40rem] rounded-full bg-[#FF6B1A]/10 blur-[80px]" aria-hidden />
+        <div className="page-wrap relative z-10 flex flex-col items-center justify-between gap-6 md:flex-row">
           <div>
             <h3 className="font-display text-2xl font-bold">Ride smarter in Ranchi</h3>
-            <p className="mt-2 max-w-md text-white/80">Get updates on offers, new bikes, and riding guides.</p>
+            <p className="mt-2 max-w-md text-zinc-400">Get updates on offers, new bikes, and riding guides.</p>
           </div>
           <form className="flex w-full max-w-md gap-2">
             <input
               type="email"
               placeholder="Your email"
-              className="flex-1 rounded-xl border-0 bg-white/95 px-4 py-3 text-sm text-zinc-900 outline-none"
+              className="flex-1 rounded-xl border border-white/10 bg-black/50 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-[#FF6B1A] transition-colors"
             />
             <button
               type="button"
-              className="rounded-xl bg-white px-6 py-3 text-sm font-semibold text-[#FF653F] hover:bg-white/95"
+              className="rounded-xl bg-[#FF6B1A] px-6 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(255,107,26,0.3)] hover:bg-[#FF8A3D] hover:shadow-[0_0_25px_rgba(255,107,26,0.5)] transition-all"
             >
               Subscribe
             </button>
@@ -61,18 +62,18 @@ export function Footer() {
             <Link href="/" className="inline-flex items-center">
               <img src={siteAssets.logo} alt="Logo" className="h-16 md:h-20 w-auto object-contain" />
             </Link>
-            <p className="mt-4 text-sm leading-relaxed text-zinc-500">{siteConfig.tagline}. Trusted local rentals with premium digital booking.</p>
-            <div className="mt-4 space-y-2 text-sm text-zinc-600">
+            <p className="mt-4 text-sm leading-relaxed text-zinc-400">{siteConfig.tagline}. Trusted local rentals with premium digital booking.</p>
+            <div className="mt-4 space-y-2 text-sm text-zinc-300">
               <p className="flex items-center gap-2">
-                <MapPin className="h-4 w-4 shrink-0 text-[#FF653F]" />
+                <MapPin className="h-4 w-4 shrink-0 text-[#FF6B1A]" />
                 {siteConfig.address}
               </p>
-              <a href={`tel:${siteConfig.phone}`} className="flex items-center gap-2 hover:text-[#FF653F]">
-                <Phone className="h-4 w-4 text-[#FF653F]" />
+              <a href={`tel:${siteConfig.phone}`} className="flex items-center gap-2 hover:text-[#FF6B1A] transition-colors">
+                <Phone className="h-4 w-4 text-[#FF6B1A]" />
                 {siteConfig.phone}
               </a>
-              <a href={`mailto:${siteConfig.email}`} className="flex items-center gap-2 hover:text-[#FF653F]">
-                <Mail className="h-4 w-4 text-[#FF653F]" />
+              <a href={`mailto:${siteConfig.email}`} className="flex items-center gap-2 hover:text-[#FF6B1A] transition-colors">
+                <Mail className="h-4 w-4 text-[#FF6B1A]" />
                 {siteConfig.email}
               </a>
             </div>
@@ -89,11 +90,11 @@ export function Footer() {
 
           {Object.entries(footerLinks).map(([key, links]) => (
             <div key={key}>
-              <p className="text-sm font-semibold capitalize text-zinc-900">{key}</p>
+              <p className="text-sm font-semibold capitalize text-white">{key}</p>
               <ul className="mt-4 space-y-2.5">
                 {links.map((l) => (
                   <li key={l.href}>
-                    <Link href={l.href} className="text-sm text-zinc-500 transition hover:text-[#FF653F]">
+                    <Link href={l.href} className="text-sm text-zinc-400 transition hover:text-[#FF6B1A]">
                       {l.label}
                     </Link>
                   </li>
@@ -103,18 +104,18 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-zinc-200 pt-8 sm:flex-row">
-          <p className="text-xs text-zinc-400">
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 sm:flex-row">
+          <p className="text-xs text-zinc-500">
             © {new Date().getFullYear()} {siteConfig.name}. All rights reserved. Serving Ranchi, Jharkhand.
           </p>
-          <div className="flex flex-wrap justify-center gap-4 text-xs text-zinc-500">
-            <Link href="/privacy-policy" className="hover:text-[#FF653F]">
+          <div className="flex flex-wrap justify-center gap-4 text-xs text-zinc-400">
+            <Link href="/privacy-policy" className="hover:text-[#FF6B1A] transition-colors">
               Privacy
             </Link>
-            <Link href="/terms" className="hover:text-[#FF653F]">
+            <Link href="/terms" className="hover:text-[#FF6B1A] transition-colors">
               Terms
             </Link>
-            <Link href="/admin/login" className="hover:text-[#FF653F]">
+            <Link href="/admin/login" className="hover:text-[#FF6B1A] transition-colors">
               Admin
             </Link>
           </div>

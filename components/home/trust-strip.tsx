@@ -14,13 +14,13 @@ const badges = [
 
 export function TrustStrip() {
   return (
-    <section className="relative overflow-hidden border-y border-zinc-200/80 bg-white py-6">
+    <section className="relative overflow-hidden border-y border-white/5 bg-[#0A0A0A] py-6">
       <div className="animate-marquee flex gap-12 whitespace-nowrap">
         {[...badges, ...badges].map((b, i) => {
           const Icon = b.icon;
           return (
-            <span key={i} className="inline-flex items-center gap-2 text-sm font-semibold text-zinc-600">
-              <Icon className="h-4 w-4 text-[#FF653F]" />
+            <span key={i} className="inline-flex items-center gap-2 text-sm font-semibold text-zinc-300">
+              <Icon className="h-4 w-4 text-[#FF6B1A]" />
               {b.label}
             </span>
           );

@@ -68,8 +68,8 @@ export default function RanchiPage() {
         {seoSections.map((s, i) => (
           <SectionReveal key={s.h2} delay={i * 0.05}>
             <section>
-              <h2 className="font-display text-2xl font-bold text-zinc-900">{s.h2}</h2>
-              <p className="mt-3 max-w-3xl text-zinc-600 leading-relaxed">{s.p}</p>
+              <h2 className="font-display text-2xl font-bold text-white">{s.h2}</h2>
+              <p className="mt-3 max-w-3xl text-zinc-400 leading-relaxed">{s.p}</p>
             </section>
           </SectionReveal>
         ))}
@@ -89,7 +89,7 @@ export default function RanchiPage() {
           <div className="flex flex-wrap items-center justify-between gap-4">
             <h2 className="section-title">Available bikes in Ranchi</h2>
             <Link href="/book">
-              <Button>Book now</Button>
+              <Button className="bg-[#FF6B1A] text-white hover:bg-[#FF8A3D]">Book now</Button>
             </Link>
           </div>
         </SectionReveal>

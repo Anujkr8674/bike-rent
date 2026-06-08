@@ -79,7 +79,7 @@ export function OrbitLayout() {
           <div className="relative h-full w-full">
             {/* Dashed Orbit Ring */}
             <div
-              className="pointer-events-none absolute inset-[21%] rounded-full border border-dashed border-[#FF653F]/25"
+              className="pointer-events-none absolute inset-[21%] rounded-full border border-dashed border-[#FF6B1A]/25"
               aria-hidden
             />
 

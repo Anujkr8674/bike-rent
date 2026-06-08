@@ -66,14 +66,14 @@ export function CategoryFilter({ value, onChange, variant = "chips", className }
   if (variant === "select") {
     return (
       <select
-        className={cn("w-full cursor-pointer border-0 bg-transparent p-0 text-sm outline-none", className)}
+        className={cn("w-full cursor-pointer border-0 bg-transparent p-0 text-sm outline-none text-white", className)}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         aria-label="Bike category"
       >
-        <option value="all">All categories</option>
+        <option value="all" className="bg-[#111111] text-white">All categories</option>
         {names.map((name) => (
-          <option key={name} value={name}>
+          <option key={name} value={name} className="bg-[#111111] text-white">
             {name}
           </option>
         ))}

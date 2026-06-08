@@ -37,8 +37,8 @@ function HeroField({
   return (
     <div
       className={cn(
-        "flex items-center gap-3 rounded-xl border border-zinc-200/90 bg-white shadow-sm transition",
-        "focus-within:border-[#FF653F]/70 focus-within:ring-4 focus-within:ring-[#FF653F]/12",
+        "flex items-center gap-3 rounded-xl border border-[#FF6B1A]/50 bg-[#050505] shadow-[0_0_15px_rgba(255,107,26,0.05)] transition",
+        "focus-within:border-[#FF6B1A] focus-within:ring-4 focus-within:ring-[#FF6B1A]/12",
         compact ? "min-h-[48px] px-3 py-2" : "min-h-[52px] px-4 py-2.5",
         className,
       )}
@@ -103,7 +103,7 @@ export function BookingSearchBar({
 
   const summaryText = duration ? (
     <>
-      <span className="font-bold text-[#FF653F]">{duration.label}</span> rental · prices update on bike cards
+      <span className="font-bold text-[#FF6B1A]">{duration.label}</span> rental · prices update on bike cards
     </>
   ) : (
     "Select pickup & drop-off to see dynamic rent totals"
@@ -113,7 +113,7 @@ export function BookingSearchBar({
     return (
       <div
         className={cn(
-          "rounded-2xl border border-zinc-200 bg-white/95 p-4 sm:p-5 shadow-xl backdrop-blur-md",
+          "rounded-[24px] border-2 border-[#FF6B1A] bg-[#0A0A0A]/80 p-4 sm:p-5 shadow-[0_8px_30px_rgba(255,107,26,0.15)] backdrop-blur-md",
           className,
         )}
       >
@@ -130,24 +130,24 @@ export function BookingSearchBar({
           />
 
           <div>
-            <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Category</p>
+            <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-wider text-zinc-400">Category</p>
             <HeroField icon={Bike} compact={true}>
               <CategoryFilter value={category} onChange={setCategoryValue} variant="select" />
             </HeroField>
           </div>
 
           <div>
-            <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Location</p>
+            <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-wider text-zinc-400">Location</p>
             <HeroField icon={MapPin} compact={true}>
-              <input readOnly value="Ranchi, Jharkhand" className="w-full border-0 bg-transparent p-0 text-sm outline-none font-medium text-zinc-800" aria-label="Location" />
+              <input readOnly value="Ranchi, Jharkhand" className="w-full border-0 bg-transparent p-0 text-sm outline-none font-medium text-white" aria-label="Location" />
             </HeroField>
           </div>
         </div>
         <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xs font-medium text-zinc-500 sm:text-sm">{summaryText}</p>
+          <p className="text-xs font-medium text-zinc-400 sm:text-sm">{summaryText}</p>
           {!syncFromUrl ? (
             <Link href={searchHref} className="w-full sm:w-auto sm:shrink-0">
-              <Button className="w-full sm:w-auto h-10 px-6 bg-[#FF653F] text-white hover:bg-[#E04F2A]">
+              <Button className="w-full sm:w-auto h-10 px-6 bg-gradient-to-br from-[#FF6B1A] to-[#FF8A3D] text-white hover:scale-[1.02] shadow-[0_0_20px_rgba(255,107,26,0.3)] transition-all">
                 <Search className="h-4 w-4" />
                 Search Bikes
               </Button>
@@ -161,7 +161,7 @@ export function BookingSearchBar({
   return (
     <div
       className={cn(
-        "glass-strong gradient-border rounded-2xl shadow-2xl shadow-[#FF653F]/10",
+        "rounded-[24px] border-2 border-[#FF6B1A] bg-[#0A0A0A]/80 shadow-[0_8px_30px_rgba(255,107,26,0.15)] backdrop-blur-md",
         dense ? "p-3 sm:p-4" : "p-4 sm:p-5 md:p-6",
         className,
       )}
@@ -177,20 +177,20 @@ export function BookingSearchBar({
           compact={dense}
         />
         <div className="sm:col-span-2 md:col-span-1">
-          <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Category</p>
+          <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-wider text-zinc-400">Category</p>
           <HeroField icon={Bike} compact={dense}>
             <CategoryFilter value={category} onChange={setCategoryValue} variant="select" />
           </HeroField>
         </div>
         <div className="sm:col-span-2 md:col-span-1">
-          <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Location</p>
+          <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-wider text-zinc-400">Location</p>
           <HeroField icon={MapPin} compact={dense}>
-            <input readOnly value="Ranchi, Jharkhand" className="w-full border-0 bg-transparent p-0 text-sm outline-none font-medium text-zinc-800" aria-label="Location" />
+            <input readOnly value="Ranchi, Jharkhand" className="w-full border-0 bg-transparent p-0 text-sm outline-none font-medium text-white" aria-label="Location" />
           </HeroField>
         </div>
       </div>
       <div className="mt-3 flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-xs font-medium text-zinc-600 sm:text-sm">{summaryText}</p>
+        <p className="text-xs font-medium text-zinc-400 sm:text-sm">{summaryText}</p>
         {!syncFromUrl ? (
           <Link href={searchHref} className="w-full sm:w-auto sm:shrink-0">
             <Button className="w-full sm:w-auto">

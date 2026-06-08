@@ -72,7 +72,7 @@ export function TrendingBikes({
 }) {
   const bikes = useCatalogBikes(6);
   return (
-    <section className="bg-zinc-50/80 py-20 md:py-10">
+    <section className="py-20 md:py-10">
       <div className="page-wrap">
         <SectionReveal>
           <p className="text-sm font-semibold uppercase tracking-widest text-violet-600">Trending now</p>

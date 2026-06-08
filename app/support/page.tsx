@@ -32,22 +32,22 @@ export default function SupportPage() {
         <div className="grid gap-6 sm:grid-cols-2">
           {topics.map((t, i) => (
             <SectionReveal key={t.title} delay={i * 0.05}>
-              <Link href={t.href} className="card-lift glass block rounded-2xl p-6">
-                <t.icon className="h-8 w-8 text-blue-600" />
-                <h3 className="mt-4 font-semibold text-zinc-900">{t.title}</h3>
-                <p className="mt-2 text-sm text-zinc-600">{t.desc}</p>
+              <Link href={t.href} className="card-lift block rounded-2xl p-6 bg-[#0A0A0A] border border-white/10 transition-all duration-300 hover:border-[#FF6B1A] hover:shadow-[0_0_30px_rgba(255,107,26,0.3)] hover:-translate-y-1">
+                <t.icon className="h-8 w-8 text-[#FF6B1A]" />
+                <h3 className="mt-4 font-semibold text-white">{t.title}</h3>
+                <p className="mt-2 text-sm text-zinc-400">{t.desc}</p>
               </Link>
             </SectionReveal>
           ))}
         </div>
         <SectionReveal className="mt-12">
-          <div className="rounded-2xl border border-zinc-200 bg-zinc-50 p-8">
-            <h3 className="font-semibold text-zinc-900">Policy quick links</h3>
+          <div className="rounded-2xl border border-white/10 bg-[#0A0A0A] p-8 shadow-[0_0_30px_rgba(255,107,26,0.05)]">
+            <h3 className="font-semibold text-white">Policy quick links</h3>
             <div className="mt-4 flex flex-wrap gap-3 text-sm">
-              <Link href="/rental-policy" className="text-blue-600 hover:underline">Rental Policy</Link>
-              <Link href="/cancellation-policy" className="text-blue-600 hover:underline">Cancellation</Link>
-              <Link href="/refund-policy" className="text-blue-600 hover:underline">Refunds</Link>
-              <Link href="/terms" className="text-blue-600 hover:underline">Terms</Link>
+              <Link href="/rental-policy" className="text-[#FF6B1A] hover:underline">Rental Policy</Link>
+              <Link href="/cancellation-policy" className="text-[#FF6B1A] hover:underline">Cancellation</Link>
+              <Link href="/refund-policy" className="text-[#FF6B1A] hover:underline">Refunds</Link>
+              <Link href="/terms" className="text-[#FF6B1A] hover:underline">Terms</Link>
             </div>
           </div>
         </SectionReveal>

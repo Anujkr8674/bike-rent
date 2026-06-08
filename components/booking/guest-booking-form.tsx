@@ -239,19 +239,19 @@ export function GuestBookingForm({ bike, initialPickup, initialDrop }: Props) {
     <form onSubmit={onSubmit} className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label className="text-sm font-medium text-zinc-800">Full name *</label>
-          <input {...register("fullName")} className="input-field mt-1 w-full" placeholder="Your name" />
-          {errors.fullName ? <p className="mt-1 text-xs text-rose-600">{errors.fullName.message}</p> : null}
+          <label className="text-sm font-medium text-zinc-400">Full name *</label>
+          <input {...register("fullName")} className="input-field mt-1 w-full bg-[#111111] text-white border-white/10" placeholder="Your name" />
+          {errors.fullName ? <p className="mt-1 text-xs text-rose-500">{errors.fullName.message}</p> : null}
         </div>
         <div>
-          <label className="text-sm font-medium text-zinc-800">Email *</label>
-          <input type="email" {...register("email")} className="input-field mt-1 w-full" />
-          {errors.email ? <p className="mt-1 text-xs text-rose-600">{errors.email.message}</p> : null}
+          <label className="text-sm font-medium text-zinc-400">Email *</label>
+          <input type="email" {...register("email")} className="input-field mt-1 w-full bg-[#111111] text-white border-white/10" />
+          {errors.email ? <p className="mt-1 text-xs text-rose-500">{errors.email.message}</p> : null}
         </div>
         <div className="sm:col-span-2">
-          <label className="text-sm font-medium text-zinc-800">Mobile number *</label>
-          <input {...register("phone")} className="input-field mt-1 w-full" placeholder="10-digit mobile" />
-          {errors.phone ? <p className="mt-1 text-xs text-rose-600">{errors.phone.message}</p> : null}
+          <label className="text-sm font-medium text-zinc-400">Mobile number *</label>
+          <input {...register("phone")} className="input-field mt-1 w-full bg-[#111111] text-white border-white/10" placeholder="10-digit mobile" />
+          {errors.phone ? <p className="mt-1 text-xs text-rose-500">{errors.phone.message}</p> : null}
         </div>
       </div>
 
@@ -275,9 +275,9 @@ export function GuestBookingForm({ bike, initialPickup, initialDrop }: Props) {
       </div>
 
       {summary ? (
-        <div className="rounded-2xl border border-[#FF653F]/20 bg-[#FF653F]/5 p-5">
-          <p className="text-xs font-semibold uppercase tracking-wider text-[#FF653F]">Booking summary</p>
-          <div className="mt-3 space-y-2 text-sm text-zinc-700">
+        <div className="rounded-2xl border border-[#FF6B1A]/20 bg-[#FF6B1A]/5 p-5">
+          <p className="text-xs font-semibold uppercase tracking-wider text-[#FF6B1A]">Booking summary</p>
+          <div className="mt-3 space-y-2 text-sm text-zinc-400">
             <div className="flex justify-between">
               <span>{summary.duration.label} rental</span>
               <span className="font-semibold">{formatCurrency(summary.rentalAmount)}</span>
@@ -286,9 +286,9 @@ export function GuestBookingForm({ bike, initialPickup, initialDrop }: Props) {
               <span>Security deposit</span>
               <span className="font-semibold">{formatCurrency(summary.securityDeposit)}</span>
             </div>
-            <div className="flex justify-between border-t border-[#FF653F]/20 pt-2 text-base font-bold text-zinc-900">
+            <div className="flex justify-between border-t border-[#FF6B1A]/20 pt-2 text-base font-bold text-white">
               <span>Grand total</span>
-              <span className="text-[#FF653F]">{formatCurrency(summary.totalAmount)}</span>
+              <span className="text-[#FF6B1A]">{formatCurrency(summary.totalAmount)}</span>
             </div>
           </div>
           <p className="mt-3 text-xs text-zinc-500">
@@ -303,7 +303,7 @@ export function GuestBookingForm({ bike, initialPickup, initialDrop }: Props) {
 
       <RazorpayTestHint showTestPayNote={showDevTestPay} />
 
-      <Button type="submit" className="w-full" size="lg" disabled={busy || !summary}>
+      <Button type="submit" className="w-full bg-gradient-to-br from-[#FF6B1A] to-[#FF8A3D] text-white hover:scale-[1.02] shadow-[0_0_20px_rgba(255,107,26,0.3)] transition-all border-0" size="lg" disabled={busy || !summary}>
         {busy ? (
           <>
             <Loader2 className="h-4 w-4 animate-spin" /> Processing…

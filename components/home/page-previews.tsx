@@ -12,7 +12,7 @@ import { siteAssets } from "@/lib/site-assets";
 
 function ViewAll({ href, label }: { href: string; label: string }) {
   return (
-    <Link href={href} className="inline-flex items-center gap-1 text-sm font-semibold text-blue-600 hover:underline">
+    <Link href={href} className="inline-flex items-center gap-1 text-sm font-semibold text-[#FF6B1A] hover:underline">
       {label} <ArrowRight className="h-4 w-4" />
     </Link>
   );
@@ -40,8 +40,8 @@ export function ExplorePagesGrid() {
           {pages.map((p, i) => (
             <SectionReveal key={p.href} delay={i * 0.04}>
               <Link href={p.href} className="card-lift glass block rounded-2xl p-5">
-                <p className="font-semibold text-zinc-900">{p.label}</p>
-                <p className="mt-1 text-sm text-zinc-500">{p.desc}</p>
+                <p className="font-semibold text-white">{p.label}</p>
+                <p className="mt-1 text-sm text-zinc-400">{p.desc}</p>
               </Link>
             </SectionReveal>
           ))}
@@ -68,9 +68,9 @@ export function WhyChoosePreview() {
             return (
               <SectionReveal key={item.title} delay={i * 0.05}>
                 <div className="glass h-full rounded-2xl p-5">
-                  <Icon className="h-6 w-6 text-blue-600" />
-                  <h3 className="mt-3 font-semibold text-zinc-900">{item.title}</h3>
-                  <p className="mt-2 line-clamp-2 text-sm text-zinc-600">{item.desc}</p>
+                  <Icon className="h-6 w-6 text-[#FF6B1A]" />
+                  <h3 className="mt-3 font-semibold text-white">{item.title}</h3>
+                  <p className="mt-2 line-clamp-2 text-sm text-zinc-400">{item.desc}</p>
                 </div>
               </SectionReveal>
             );
@@ -83,12 +83,12 @@ export function WhyChoosePreview() {
 
 export function AboutPreview() {
   return (
-    <section className="bg-zinc-50/80 py-16 md:py-20">
+    <section className="py-16 md:py-20">
       <div className="page-wrap grid items-center gap-10 lg:grid-cols-2">
         <SectionReveal>
-          <p className="text-sm font-semibold uppercase tracking-widest text-cyan-600">About us</p>
-          <h2 className="section-title">Ranchi&apos;s premium rental startup</h2>
-          <p className="section-subtitle mt-4">
+          <p className="text-sm font-semibold uppercase tracking-widest text-[#FF6B1A]">About us</p>
+          <h2 className="section-title text-white">Ranchi&apos;s premium rental startup</h2>
+          <p className="section-subtitle mt-4 text-zinc-400">
             Founded in Ranchi, we&apos;ve completed 20,000+ rides with a mission to make two-wheeler access safe, affordable, and delightful. Meet our team and see how we&apos;re building Jharkhand&apos;s most trusted mobility brand.
           </p>
           <Link href="/about" className="mt-6 inline-block">
@@ -108,23 +108,23 @@ export function AboutPreview() {
             <div className="absolute inset-0 bg-gradient-to-br from-slate-950/80 via-slate-950/20 to-transparent" />
             <div className="relative z-10 flex min-h-[420px] flex-col justify-between p-8 sm:p-10 text-white">
               <div className="space-y-4">
-                <span className="inline-flex rounded-full bg-cyan-500/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-cyan-200">
+                <span className="inline-flex rounded-full bg-[#FF6B1A]/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-[#FF6B1A]">
                   Trusted since 2022
                 </span>
-                <h3 className="text-4xl font-semibold leading-tight">Local ownership, premium service</h3>
-                <p className="max-w-xl text-sm leading-relaxed text-white/75">
+                <h3 className="text-4xl font-semibold leading-tight text-white">Local ownership, premium service</h3>
+                <p className="max-w-xl text-sm leading-relaxed text-zinc-400">
                   Designed for Ranchi riders, our fleet combines modern bikes, instant support, and a genuine local experience.
                 </p>
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2">
-                <div className="rounded-[1.75rem] bg-white/95 p-5 text-slate-950 shadow-lg shadow-slate-900/10">
+                <div className="rounded-[1.75rem] glass p-5 text-white shadow-lg">
                   <p className="text-3xl font-bold">20k+</p>
-                  <p className="mt-2 text-sm text-slate-600">Rides completed</p>
+                  <p className="mt-2 text-sm text-zinc-400">Rides completed</p>
                 </div>
-                <div className="rounded-[1.75rem] bg-white/95 p-5 text-slate-950 shadow-lg shadow-slate-900/10">
+                <div className="rounded-[1.75rem] glass p-5 text-white shadow-lg">
                   <p className="text-3xl font-bold">4.9</p>
-                  <p className="mt-2 text-sm text-slate-600">Average rider rating</p>
+                  <p className="mt-2 text-sm text-zinc-400">Average rider rating</p>
                 </div>
               </div>
             </div>
@@ -138,11 +138,11 @@ export function AboutPreview() {
 export function TestimonialsPreview() {
   const items = testimonials.slice(0, 3);
   return (
-    <section className="py-16 md:py-20 bg-zinc-50/20">
+    <section className="py-16 md:py-20">
       <div className="page-wrap">
         <SectionReveal className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="text-sm font-extrabold uppercase tracking-widest text-[#FF653F]">Testimonials</p>
+            <p className="text-sm font-extrabold uppercase tracking-widest text-[#FF6B1A]">Testimonials</p>
             <h2 className="section-title mt-2">Loved by riders</h2>
           </div>
           <ViewAll href="/testimonials" label="All reviews" />
@@ -150,9 +150,9 @@ export function TestimonialsPreview() {
         <div className="mt-10 grid gap-6 md:grid-cols-3">
           {items.map((t, i) => (
             <SectionReveal key={t.id} delay={i * 0.08}>
-              <div className="group relative flex h-full flex-col justify-between overflow-hidden rounded-3xl border border-zinc-200/60 bg-white/70 p-6 shadow-[0_8px_30px_rgba(0,0,0,0.02)] transition-all duration-300 hover:border-[#FF653F] hover:shadow-[0_20px_45px_rgba(255,101,63,0.1)] hover:-translate-y-1.5 cursor-pointer">
+              <div className="group relative flex h-full flex-col justify-between overflow-hidden rounded-3xl border border-white/10 bg-[#0A0A0A]/80 backdrop-blur-md p-6 shadow-[0_8px_30px_rgba(0,0,0,0.4)] transition-all duration-300 hover:border-[#FF6B1A] hover:shadow-[0_20px_45px_rgba(255,107,26,0.15)] hover:-translate-y-1.5 cursor-pointer">
                 {/* Large Background Quote Symbol */}
-                <span className="absolute right-6 top-2 select-none font-serif text-8xl font-black text-zinc-100 transition-colors duration-300 group-hover:text-orange-500/10 pointer-events-none">
+                <span className="absolute right-6 top-2 select-none font-serif text-8xl font-black text-white/5 transition-colors duration-300 group-hover:text-[#FF6B1A]/10 pointer-events-none">
                   &ldquo;
                 </span>
 
@@ -160,7 +160,7 @@ export function TestimonialsPreview() {
                   <div>
                     {/* User Profile Info */}
                     <div className="flex items-center gap-3">
-                      <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full ring-2 ring-zinc-100 group-hover:ring-[#FF653F]/40 transition-all duration-300">
+                      <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full ring-2 ring-white/10 group-hover:ring-[#FF6B1A]/40 transition-all duration-300">
                         <Image
                           src={t.avatar}
                           alt={t.name}
@@ -171,11 +171,11 @@ export function TestimonialsPreview() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between gap-1">
-                          <h4 className="font-display font-extrabold text-zinc-950 truncate group-hover:text-[#FF653F] transition-colors duration-200">
+                          <h4 className="font-display font-extrabold text-white truncate group-hover:text-[#FF6B1A] transition-colors duration-200">
                             {t.name}
                           </h4>
                           {t.verified && (
-                            <BadgeCheck className="h-5 w-5 text-blue-600 shrink-0 animate-reveal" aria-label="Verified customer" />
+                            <BadgeCheck className="h-5 w-5 text-[#FF6B1A] shrink-0 animate-reveal" aria-label="Verified customer" />
                           )}
                         </div>
                         <p className="text-xs text-zinc-400 truncate mt-0.5">{t.location}</p>
@@ -190,16 +190,16 @@ export function TestimonialsPreview() {
                     </div>
 
                     {/* Review Text */}
-                    <p className="relative z-10 mt-4 line-clamp-4 text-[0.88rem] leading-relaxed text-zinc-500 italic">
+                    <p className="relative z-10 mt-4 line-clamp-4 text-[0.88rem] leading-relaxed text-zinc-400 italic">
                       &ldquo;{t.text}&rdquo;
                     </p>
                   </div>
 
                   {/* Bike Ridden Info Footer */}
                   {t.bike && (
-                    <div className="mt-5 border-t border-zinc-100/80 pt-4 flex items-center justify-between text-xs">
+                    <div className="mt-5 border-t border-white/10 pt-4 flex items-center justify-between text-xs">
                       <span className="font-medium text-zinc-400">Rode:</span>
-                      <span className="font-semibold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full group-hover:bg-[#FF653F]/10 group-hover:text-[#FF653F] transition-colors duration-300">
+                      <span className="font-semibold text-[#FF6B1A] bg-[#FF6B1A]/10 px-2.5 py-1 rounded-full group-hover:bg-[#FF6B1A]/20 transition-colors duration-300">
                         {t.bike}
                       </span>
                     </div>
@@ -216,18 +216,18 @@ export function TestimonialsPreview() {
 
 export function FaqPreview() {
   return (
-    <section className="bg-zinc-50/80 py-16 md:py-20">
+    <section className="py-16 md:py-20">
       <div className="page-wrap max-w-3xl">
         <SectionReveal className="text-center">
-          <h2 className="section-title">Common questions</h2>
+          <h2 className="section-title text-white">Common questions</h2>
           <ViewAll href="/faq" label="View full FAQ" />
         </SectionReveal>
         <div className="mt-8 space-y-3">
           {allFaqs.slice(0, 4).map((f, i) => (
             <SectionReveal key={f.q} delay={i * 0.05}>
               <div className="glass rounded-xl p-4">
-                <p className="font-medium text-zinc-900">{f.q}</p>
-                <p className="mt-2 line-clamp-2 text-sm text-zinc-600">{f.a}</p>
+                <p className="font-medium text-white">{f.q}</p>
+                <p className="mt-2 line-clamp-2 text-sm text-zinc-400">{f.a}</p>
               </div>
             </SectionReveal>
           ))}
@@ -242,8 +242,8 @@ export function ContactPreview() {
     <section className="py-16 md:py-20">
       <div className="page-wrap">
         <SectionReveal className="glass gradient-border rounded-3xl p-8 text-center md:p-12">
-          <h2 className="section-title">Get in touch</h2>
-          <p className="section-subtitle mx-auto">WhatsApp, phone, email, or visit our Ranchi hub.</p>
+          <h2 className="section-title text-white">Get in touch</h2>
+          <p className="section-subtitle mx-auto text-zinc-400">WhatsApp, phone, email, or visit our Ranchi hub.</p>
           <Link href="/contact" className="mt-6 inline-block">
             <Button size="lg">Contact page</Button>
           </Link>
@@ -258,8 +258,8 @@ export function BlogPreview() {
     <section className="py-16 md:py-20">
       <div className="page-wrap text-center">
         <SectionReveal>
-          <h2 className="section-title">Riding guides & Ranchi tips</h2>
-          <p className="section-subtitle mx-auto">Blog articles for SEO and rider education.</p>
+          <h2 className="section-title text-white">Riding guides & Ranchi tips</h2>
+          <p className="section-subtitle mx-auto text-zinc-400">Blog articles for SEO and rider education.</p>
           <Link href="/blog" className="mt-6 inline-block">
             <Button variant="outline">Read the blog</Button>
           </Link>

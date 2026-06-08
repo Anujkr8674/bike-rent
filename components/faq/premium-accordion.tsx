@@ -20,8 +20,8 @@ export function PremiumAccordion({ items, className }: { items: AccordionItem[];
             className={cn(
               "overflow-hidden rounded-2xl border backdrop-blur-xl transition-all duration-300",
               isOpen
-                ? "border-blue-200/80 bg-white/95 shadow-lg shadow-blue-500/15"
-                : "border-zinc-200/80 bg-white/70 hover:border-blue-200/50 hover:bg-white/90 hover:shadow-md hover:shadow-blue-500/5"
+                ? "border-[#FF6B1A]/50 bg-[#0A0A0A]/90 shadow-lg shadow-[#FF6B1A]/20"
+                : "border-white/10 bg-[#0A0A0A]/60 hover:border-[#FF6B1A]/30 hover:bg-[#0A0A0A]/80 hover:shadow-md hover:shadow-[#FF6B1A]/10"
             )}
           >
             <button
@@ -29,13 +29,13 @@ export function PremiumAccordion({ items, className }: { items: AccordionItem[];
               onClick={() => setOpenId(item.id)}
               className="flex w-full items-start justify-between gap-4 p-5 text-left"
             >
-              <span className="min-w-0 flex-1 break-words font-semibold text-zinc-900">{item.question}</span>
+              <span className="min-w-0 flex-1 break-words font-semibold text-white">{item.question}</span>
               <motion.span
                 animate={{ rotate: isOpen ? 180 : 0 }}
                 transition={{ duration: 0.25 }}
-                className="mt-0.5 shrink-0 rounded-full bg-blue-50 p-1"
+                className="mt-0.5 shrink-0 rounded-full bg-[#FF6B1A]/10 p-1"
               >
-                <ChevronDown className="h-5 w-5 text-blue-600" />
+                <ChevronDown className="h-5 w-5 text-[#FF6B1A]" />
               </motion.span>
             </button>
             <AnimatePresence initial={false}>
@@ -47,7 +47,7 @@ export function PremiumAccordion({ items, className }: { items: AccordionItem[];
                   transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                   className="overflow-hidden"
                 >
-                  <p className="break-words px-5 pb-5 text-sm leading-relaxed text-zinc-600">{item.answer}</p>
+                  <p className="break-words px-5 pb-5 text-sm leading-relaxed text-zinc-400">{item.answer}</p>
                 </motion.div>
               )}
             </AnimatePresence>
