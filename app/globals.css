@@ -22,12 +22,12 @@
   --font-display: var(--font-syne);
 }
 
-main:not(:has(.hero-fullbleed)):not(:has(.page-hero-banner)):not(:has(.min-h-screen.bg-zinc-50)) {
+main:not(:has(.hero-fullbleed)):not(:has(.page-hero-banner)):not(:has(.admin-shell-wrapper)) {
   padding-top: 4.5rem;
 }
 
 @media (min-width: 768px) {
-  main:not(:has(.hero-fullbleed)):not(:has(.page-hero-banner)):not(:has(.min-h-screen.bg-zinc-50)) {
+  main:not(:has(.hero-fullbleed)):not(:has(.page-hero-banner)):not(:has(.admin-shell-wrapper)) {
     padding-top: 5rem;
   }
 }
@@ -118,7 +118,7 @@ body {
 }
 
 .input-field {
-  @apply w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-900 shadow-sm outline-none transition placeholder:text-zinc-400 focus:border-[color:var(--primary)] focus:ring-4 focus:ring-[color:color-mix(in_srgb,var(--primary)_16%,transparent)];
+  @apply w-full rounded-xl border border-white/10 bg-[#0A0A0A] px-4 py-3 text-sm text-white shadow-sm outline-none transition placeholder:text-zinc-500 focus:border-[color:var(--primary)] focus:ring-4 focus:ring-[color:color-mix(in_srgb,var(--primary)_16%,transparent)];
 }
 
 .chip {

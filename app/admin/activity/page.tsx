@@ -15,7 +15,7 @@ export default function AdminActivityPage() {
         { label: "System events", value: "0" },
       ]}
     >
-      <div className="rounded-3xl border border-dashed border-zinc-200 bg-white p-8 text-sm text-zinc-500 shadow-sm">
+      <div className="rounded-3xl border border-dashed border-white/10 bg-[#111111] p-8 text-sm text-zinc-400 shadow-xl shadow-black/40">
         Immutable activity log stream will be added here.
       </div>
     </AdminModulePage>

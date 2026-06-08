@@ -67,6 +67,13 @@ export function BikeCard({ bike, days = 1, pickup = "", drop = "", queryString =
           <Mountain className="w-3.5 h-3.5 text-[#FF6B1A]" />
           {bike.category}
         </span>
+        
+        {bike.isAvailableObj && (
+          <span className={`absolute right-1 top-1 rounded-full px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur-md z-20 shadow-[0_0_15px_rgba(0,0,0,0.5)] flex items-center gap-1 ${bike.isAvailableObj.isAvailable ? 'bg-emerald-500/90 border border-emerald-400' : 'bg-rose-500/90 border border-rose-400'}`}>
+            <span className={`w-1.5 h-1.5 rounded-full ${bike.isAvailableObj.isAvailable ? 'bg-emerald-200' : 'bg-rose-200'}`}></span>
+            {bike.isAvailableObj.isAvailable ? "Available Now" : "Currently Booked"}
+          </span>
+        )}
         {/* 
         <button
           type="button"
@@ -124,7 +131,11 @@ export function BikeCard({ bike, days = 1, pickup = "", drop = "", queryString =
             <p className="text-[26px] leading-none font-extrabold text-[#FF6B1A]">
               {formatCurrency(quote.isHourly ? bike.pricePerHour : bike.pricePerDay)}
             </p>
-            {hasWindow ? (
+            {bike.isAvailableObj && !bike.isAvailableObj.isAvailable ? (
+              <p className="mt-1.5 text-xs font-semibold text-rose-400">
+                {bike.isAvailableObj.availabilityMessage}
+              </p>
+            ) : hasWindow ? (
               <p className="mt-1.5 text-xs font-semibold text-[#FF6B1A]/80">
                 {quote.label} · {formatCurrency(quote.total)} total
               </p>

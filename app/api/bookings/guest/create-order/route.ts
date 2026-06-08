@@ -5,6 +5,7 @@ import { razorpay } from "@/lib/razorpay";
 import { guestBookingSchema } from "@/lib/booking/schemas";
 import { computeGuestBookingAmounts } from "@/lib/booking/amounts";
 import { isTestPaymentAllowed } from "@/lib/booking/dev-payment";
+import { checkBikeAvailability } from "@/lib/availability";
 
 const createOrderBodySchema = guestBookingSchema.extend({
   testCheckoutOnly: z.boolean().optional(),
@@ -21,6 +22,11 @@ export async function POST(req: Request) {
     });
     if (!bike) {
       return NextResponse.json({ message: "Bike not found or unavailable." }, { status: 404 });
+    }
+
+    const { isAvailable, reason } = await checkBikeAvailability(bike.id, new Date(body.pickupDate), new Date(body.returnDate));
+    if (!isAvailable) {
+      return NextResponse.json({ message: reason || "Bike is already booked during these dates." }, { status: 400 });
     }
 
     const amounts = computeGuestBookingAmounts(

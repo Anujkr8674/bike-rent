@@ -13,7 +13,7 @@ type Props = { bikeId: string };
 
 function DetailBlock({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+    <section className="rounded-2xl border border-white/10 bg-[#111111] p-5 shadow-xl shadow-black/40">
       <h3 className="text-xs font-semibold uppercase tracking-[0.3em] text-zinc-400">{title}</h3>
       <div className="mt-3">{children}</div>
     </section>
@@ -22,9 +22,9 @@ function DetailBlock({ title, children }: { title: string; children: ReactNode }
 
 function SpecRow({ label, value }: { label: string; value: ReactNode }) {
   return (
-    <div className="flex justify-between gap-4 border-b border-zinc-100 py-2 text-sm last:border-0">
-      <span className="text-zinc-500">{label}</span>
-      <span className="font-medium text-zinc-900 text-right">{value ?? "—"}</span>
+    <div className="flex justify-between gap-4 border-b border-white/5 py-2 text-sm last:border-0">
+      <span className="text-zinc-400">{label}</span>
+      <span className="font-medium text-white text-right">{value ?? "—"}</span>
     </div>
   );
 }
@@ -54,7 +54,7 @@ export function BikeAdminDetail({ bikeId }: Props) {
 
   if (loading) {
     return (
-      <div className="rounded-2xl border border-dashed border-zinc-200 p-12 text-center text-sm text-zinc-500">
+      <div className="rounded-2xl border border-dashed border-white/10 p-12 text-center text-sm text-zinc-400">
         <Loader2 className="mx-auto mb-2 h-5 w-5 animate-spin text-[#FF653F]" />
         Loading bike details...
       </div>
@@ -63,10 +63,10 @@ export function BikeAdminDetail({ bikeId }: Props) {
 
   if (error || !bike) {
     return (
-      <div className="rounded-2xl border border-rose-200 bg-rose-50 p-6 text-sm text-rose-700">
+      <div className="rounded-2xl border border-rose-500/20 bg-rose-500/10 p-6 text-sm text-rose-400">
         {error || "Bike not found."}
         <div className="mt-4">
-          <Link href="/admin/bikes" className="inline-flex h-10 items-center rounded-xl border border-zinc-200 px-4 text-sm font-semibold text-zinc-700 hover:bg-zinc-50">
+          <Link href="/admin/bikes" className="inline-flex h-10 items-center rounded-xl border border-white/10 px-4 text-sm font-semibold text-zinc-300 hover:bg-[#111111]/5">
             Back to bikes
           </Link>
         </div>
@@ -83,15 +83,15 @@ export function BikeAdminDetail({ bikeId }: Props) {
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.35em] text-zinc-400">Bike details</p>
-          <h1 className="font-display mt-2 text-3xl font-bold text-zinc-900">{bike.name}</h1>
-          <p className="mt-1 text-sm text-zinc-500">
+          <h1 className="font-display mt-2 text-3xl font-bold text-white">{bike.name}</h1>
+          <p className="mt-1 text-sm text-zinc-400">
             {bike.brand} · {bike.category ?? "—"} · {bike.city?.name ?? "Ranchi"}
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
           <Link
             href="/admin/bikes"
-            className="inline-flex h-10 items-center gap-2 rounded-xl border border-zinc-200 bg-white px-4 text-sm font-semibold text-zinc-700 hover:bg-zinc-50"
+            className="inline-flex h-10 items-center gap-2 rounded-xl border border-white/10 bg-[#111111] px-4 text-sm font-semibold text-zinc-300 hover:bg-[#111111]/5"
           >
             <ArrowLeft className="h-4 w-4" />
             Back
@@ -108,7 +108,7 @@ export function BikeAdminDetail({ bikeId }: Props) {
 
       <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
         <div className="space-y-5">
-          <div className="overflow-hidden rounded-[1.75rem] border border-zinc-200 bg-white shadow-sm">
+          <div className="overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#111111] shadow-xl shadow-black/40">
             {bike.imageUrl ? (
               <img src={bike.imageUrl} alt={bike.name} className="h-[320px] w-full object-cover" />
             ) : (
@@ -120,7 +120,7 @@ export function BikeAdminDetail({ bikeId }: Props) {
           {gallery.length > 1 ? (
             <div className="flex flex-wrap gap-2">
               {gallery.map((url, index) => (
-                <div key={`${url}-${index}`} className="h-20 w-28 overflow-hidden rounded-xl border border-zinc-200">
+                <div key={`${url}-${index}`} className="h-20 w-28 overflow-hidden rounded-xl border border-white/10">
                   <img src={url} alt="" className="h-full w-full object-cover" />
                 </div>
               ))}
@@ -129,7 +129,7 @@ export function BikeAdminDetail({ bikeId }: Props) {
 
           {bike.shortDescription ? (
             <DetailBlock title="Short description">
-              <p className="text-sm text-zinc-600">{bike.shortDescription}</p>
+              <p className="text-sm text-zinc-400">{bike.shortDescription}</p>
             </DetailBlock>
           ) : null}
 
@@ -151,7 +151,7 @@ export function BikeAdminDetail({ bikeId }: Props) {
             <span
               className={cn(
                 "inline-flex rounded-full px-3 py-1 text-xs font-semibold",
-                bike.isAvailable ? "bg-emerald-100 text-emerald-700" : "bg-zinc-100 text-zinc-600",
+                bike.isAvailable ? "bg-emerald-100 text-emerald-400" : "bg-[#111111]/10 text-zinc-400",
               )}
             >
               {bike.isAvailable ? "Available" : "Unavailable"}
@@ -159,23 +159,23 @@ export function BikeAdminDetail({ bikeId }: Props) {
 
 
             <div className="mt-4 grid gap-2 sm:grid-cols-2">
-              <div className="rounded-xl border border-orange-100 bg-orange-50 p-3">
-                <p className="text-[10px] font-semibold uppercase text-orange-700">Daily rate</p>
-                <p className="text-xl font-bold text-orange-900">{formatCurrency(Number(bike.pricePerDay))}<span className="text-xs font-semibold">/ day</span></p>
+              <div className="rounded-xl border border-orange-500/20 bg-orange-500/10 p-3">
+                <p className="text-[10px] font-semibold uppercase text-orange-400">Daily rate</p>
+                <p className="text-xl font-bold text-orange-200">{formatCurrency(Number(bike.pricePerDay))}<span className="text-xs font-semibold">/ day</span></p>
               </div>
 
 
-              <div className="rounded-xl border-blue-100 bg-blue-50 p-3">
-                <p className="text-[10px] font-semibold uppercase text-blue-700">Hourly rate</p>
-                <p className="text-xl font-bold text-blue-900">
+              <div className="rounded-xl border-blue-500/20 bg-blue-500/10 p-3">
+                <p className="text-[10px] font-semibold uppercase text-blue-400">Hourly rate</p>
+                <p className="text-xl font-bold text-blue-200">
                   {bike.hourlyCharge == null ? "—" : formatCurrency(Number(bike.hourlyCharge))} <span className="text-xs font-semibold">/ hour</span>
                 </p>
               </div>
-              <div className="rounded-xl border-violet-100 bg-violet-50 p-3">
-                <p className="text-[10px] font-semibold uppercase text-violet-700">Security Deposit</p>
-                <p className="text-xl font-bold text-violet-900">{formatCurrency(Number(bike.securityDeposit))}</p>
+              <div className="rounded-xl border-violet-500/20 bg-violet-500/10 p-3">
+                <p className="text-[10px] font-semibold uppercase text-violet-400">Security Deposit</p>
+                <p className="text-xl font-bold text-violet-200">{formatCurrency(Number(bike.securityDeposit))}</p>
               </div>
-              <div className="rounded-xl bg-zinc-50 p-3">
+              <div className="rounded-xl bg-[#111111]/5 p-3">
                 <p className="text-[10px] font-semibold uppercase text-zinc-400">Bike no.</p>
                 <p className="text-lg font-bold truncate">{bike.bikeNo || "—"}</p>
               </div>

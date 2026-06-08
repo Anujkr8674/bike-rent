@@ -15,7 +15,7 @@ export default function AdminProfilePage() {
         { label: "Security score", value: "Basic" },
       ]}
     >
-      <div className="rounded-3xl border border-dashed border-zinc-200 bg-white p-8 text-sm text-zinc-500 shadow-sm">
+      <div className="rounded-3xl border border-dashed border-white/10 bg-[#111111] p-8 text-sm text-zinc-400 shadow-xl shadow-black/40">
         Profile and password management form will be implemented here.
       </div>
     </AdminModulePage>

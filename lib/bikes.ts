@@ -16,6 +16,7 @@ export type BikeItem = {
   gallery?: string[];
   city: "Ranchi";
   category: string;
+  isAvailableObj?: any; // To allow attaching real-time availability info
 };
 
 export const ranchiBikes: BikeItem[] = [

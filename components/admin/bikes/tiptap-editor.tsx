@@ -113,9 +113,9 @@ export function TiptapEditor({ label, value, onChange, placeholder, className }:
 
   return (
     <div className={cn("space-y-2", className)}>
-      <p className="text-sm font-semibold text-zinc-900">{label}</p>
-      <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white">
-        <div className="flex flex-wrap gap-1 border-b border-zinc-100 bg-zinc-50 p-2">
+      <p className="text-sm font-semibold text-white">{label}</p>
+      <div className="overflow-hidden rounded-xl border border-white/10 bg-[#111111]">
+        <div className="flex flex-wrap gap-1 border-b border-white/5 bg-[#111111]/5 p-2">
           {toolBtn(editor.isActive("heading", { level: 1 }), () => editor.chain().focus().toggleHeading({ level: 1 }).run(), <Heading1 className="h-4 w-4" />, "H1")}
           {toolBtn(editor.isActive("heading", { level: 2 }), () => editor.chain().focus().toggleHeading({ level: 2 }).run(), <Heading2 className="h-4 w-4" />, "H2")}
           {toolBtn(editor.isActive("heading", { level: 3 }), () => editor.chain().focus().toggleHeading({ level: 3 }).run(), <Heading3 className="h-4 w-4" />, "H3")}

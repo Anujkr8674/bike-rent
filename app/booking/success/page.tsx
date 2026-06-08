@@ -29,12 +29,12 @@ function SuccessContent() {
       <div className="page-wrap max-w-2xl">
         <div className="glass-strong gradient-border rounded-3xl p-8 text-center md:p-10">
           <CheckCircle2 className="mx-auto h-16 w-16 text-emerald-500" />
-          <h1 className="mt-4 text-3xl font-bold text-zinc-900">Payment successful</h1>
-          <p className="mt-2 text-zinc-600">Your booking is confirmed. Save your tracking ID.</p>
+          <h1 className="mt-4 text-3xl font-bold text-white">Payment successful</h1>
+          <p className="mt-2 text-zinc-300">Your booking is confirmed. Save your tracking ID.</p>
           <p className="mt-6 rounded-2xl bg-[#FF653F]/10 px-6 py-4 text-2xl font-black tracking-wide text-[#FF653F]">
             {tracking}
           </p>
-          <p className="mt-2 text-sm text-zinc-500">Confirmation sent to {email}</p>
+          <p className="mt-2 text-sm text-zinc-400">Confirmation sent to {email}</p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
             <Link href={`/booking/success?tracking=${encodeURIComponent(tracking)}&email=${encodeURIComponent(email)}&upload=1`}>
@@ -50,8 +50,8 @@ function SuccessContent() {
 
         {showUpload ? (
           <div className="mt-8 glass-strong gradient-border rounded-2xl p-6 md:p-8">
-            <h2 className="text-xl font-bold text-zinc-900">Upload verification documents</h2>
-            <p className="mt-1 text-sm text-zinc-500">Driving license and Aadhaar (front & back)</p>
+            <h2 className="text-xl font-bold text-white">Upload verification documents</h2>
+            <p className="mt-1 text-sm text-zinc-400">Driving license and Aadhaar (front & back)</p>
             <div className="mt-6">
               <DocumentUploadForm trackingId={tracking} email={email} />
             </div>

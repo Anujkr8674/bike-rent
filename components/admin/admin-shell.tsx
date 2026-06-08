@@ -15,8 +15,10 @@ import {
   ClipboardList,
   Sparkles,
   CalendarCheck,
+  CalendarDays,
 } from "lucide-react";
 import { logoutCompletely } from "@/lib/auth-client";
+import { siteAssets } from "@/lib/site-assets";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -24,6 +26,7 @@ const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/bikes", label: "Bikes", icon: Bike },
   { href: "/admin/bookings", label: "Bookings", icon: CalendarCheck },
+  { href: "/admin/rental-calendar", label: "Rental Calendar", icon: CalendarDays },
   { href: "/admin/contact", label: "Contacts", icon: Users2 },
   // { href: "/admin/media", label: "Media Library", icon: ImageIcon },
   // { href: "/admin/settings", label: "Settings", icon: Settings2 },
@@ -40,7 +43,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
   if (isLogin) return <div className="mesh-bg min-h-screen">{children}</div>;
 
   return (
-    <div className="min-h-screen bg-zinc-50">
+    <div className="admin-shell-wrapper min-h-screen bg-[#050505] text-white">
       {mobileNavOpen ? (
         <button
           type="button"
@@ -53,19 +56,17 @@ export function AdminShell({ children }: { children: ReactNode }) {
       <div className="grid min-h-screen md:grid-cols-[280px_1fr]">
         <aside
           className={cn(
-            "fixed inset-y-0 left-0 z-50 w-72 border-r border-zinc-200 bg-white/95 backdrop-blur-xl transition-transform duration-300 md:sticky md:top-0 md:z-auto md:h-screen md:max-h-screen md:w-auto md:translate-x-0 md:overflow-y-auto",
+            "fixed inset-y-0 left-0 z-50 w-72 border-r border-white/10 bg-[#111111]/95 backdrop-blur-xl transition-transform duration-300 md:sticky md:top-0 md:z-auto md:h-screen md:max-h-screen md:w-auto md:translate-x-0 md:overflow-y-auto",
             mobileNavOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0",
           )}
         >
           <div className="flex min-h-full flex-col">
-            <div className="border-b border-zinc-100 px-6 py-5">
-              <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-[#FF653F] to-[#FF4F2E] text-white shadow-lg shadow-[#FF653F]/20">
-                  <Sparkles className="h-5 w-5" />
-                </div>
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.3em] text-zinc-400">Admin</p>
-                  <h1 className="font-display text-lg font-bold text-zinc-900">Nextgen Control</h1>
+            <div className="border-b border-white/5 px-6 py-5">
+              <div className="flex flex-col items-center gap-3 text-center">
+                <img src={siteAssets.logo} alt="Nextgen Logo" className="h-16 w-auto object-contain" />
+                <div className="flex items-baseline gap-2 justify-center">
+                  <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#FF653F]">Admin</p>
+                  <h1 className="font-display text-lg font-bold text-white tracking-tight">Control</h1>
                 </div>
               </div>
             </div>
@@ -84,7 +85,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
                       "flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition",
                       active
                         ? "bg-[#FF653F]/10 text-[#FF653F]"
-                        : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900",
+                        : "text-zinc-400 hover:bg-[#111111]/5 hover:text-white",
                     )}
                   >
                     <Icon className="h-4 w-4" />
@@ -94,10 +95,10 @@ export function AdminShell({ children }: { children: ReactNode }) {
               })}
             </nav>
 
-            <div className="border-t border-zinc-100 p-4">
+            <div className="border-t border-white/5 p-4">
               <Link
                 href="/"
-                className="mb-3 flex items-center justify-center rounded-2xl border border-zinc-200 px-4 py-3 text-sm font-medium text-zinc-700 transition hover:border-[#FF653F]/40 hover:bg-[#FF653F]/5 hover:text-[#FF653F]"
+                className="mb-3 flex items-center justify-center rounded-2xl border border-white/10 px-4 py-3 text-sm font-medium text-zinc-300 transition hover:border-[#FF653F]/40 hover:bg-[#FF653F]/5 hover:text-[#FF653F]"
               >
                 View public site
               </Link>
@@ -114,17 +115,17 @@ export function AdminShell({ children }: { children: ReactNode }) {
         </aside>
 
         <div className="min-w-0">
-          <div className="sticky top-0 z-30 border-b border-zinc-200 bg-white/90 px-4 py-3 backdrop-blur-xl md:hidden">
+          <div className="sticky top-0 z-30 border-b border-white/10 bg-[#111111]/90 px-4 py-3 backdrop-blur-xl md:hidden">
             <div className="flex items-center justify-between gap-3">
               <button
                 type="button"
                 onClick={() => setMobileNavOpen(true)}
-                className="inline-flex items-center gap-2 rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm font-semibold text-zinc-800 shadow-sm"
+                className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-[#111111] px-3 py-2 text-sm font-semibold text-white shadow-xl shadow-black/40"
               >
                 <span className="inline-flex h-2 w-2 rounded-full bg-[#FF653F]" />
                 Menu
               </button>
-              <Link href="/" className="text-sm font-medium text-zinc-600 hover:text-[#FF653F]">
+              <Link href="/" className="text-sm font-medium text-zinc-400 hover:text-[#FF653F]">
                 Open site
               </Link>
             </div>

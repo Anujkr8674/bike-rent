@@ -17,7 +17,7 @@ export default function AdminSettingsPage() {
         { label: "SEO status", value: "Draft" },
       ]}
     >
-      <div className="rounded-3xl border border-dashed border-zinc-200 bg-white p-8 text-sm text-zinc-500 shadow-sm">
+      <div className="rounded-3xl border border-dashed border-white/10 bg-[#111111] p-8 text-sm text-zinc-400 shadow-xl shadow-black/40">
         Settings form with validation and sectioned controls will live here.
       </div>
     </AdminModulePage>

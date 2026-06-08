@@ -10,10 +10,10 @@ const buttonVariants = cva(
         default:
           "bg-gradient-to-r from-[#FF653F] via-[#FF4F2E] to-[#FF653F] text-white shadow-lg shadow-[#FF653F]/25 hover:scale-[1.02] hover:shadow-xl hover:shadow-[#FF653F]/30 active:scale-[0.98]",
         outline:
-          "border border-zinc-200 bg-white/80 text-zinc-800 backdrop-blur hover:border-[#FF653F]/60 hover:bg-[#FF653F]/5 hover:text-[#FF653F]",
-        ghost: "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900",
+          "border border-white/10 bg-[#111111]/80 text-white backdrop-blur hover:border-[#FF653F]/60 hover:bg-[#FF653F]/5 hover:text-[#FF653F]",
+        ghost: "text-zinc-400 hover:bg-white/5 hover:text-white",
         glass:
-          "glass border border-white/60 text-zinc-800 hover:border-[#FF653F]/25 hover:shadow-md hover:shadow-[#FF653F]/10",
+          "glass border border-white/10 text-white hover:border-[#FF653F]/25 hover:shadow-md hover:shadow-[#FF653F]/10",
       },
       size: {
         default: "h-12 px-7 text-sm",

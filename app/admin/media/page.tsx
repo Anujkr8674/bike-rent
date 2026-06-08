@@ -17,7 +17,7 @@ export default function AdminMediaPage() {
         { label: "Storage usage", value: "0 MB" },
       ]}
     >
-      <div className="rounded-3xl border border-dashed border-zinc-200 bg-white p-8 text-sm text-zinc-500 shadow-sm">
+      <div className="rounded-3xl border border-dashed border-white/10 bg-[#111111] p-8 text-sm text-zinc-400 shadow-xl shadow-black/40">
         Media grid, preview drawer, copy URL, and delete actions will be built here.
       </div>
     </AdminModulePage>

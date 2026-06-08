@@ -32,8 +32,8 @@ export function CatalogManagerModal({ open, kind, onClose, onUpdated }: CatalogM
   const placeholder = kind === "brand" ? "e.g. Hero, TVS, Bajaj" : "e.g. Sports, Commuter, Scooter";
   const pillClass =
     kind === "brand"
-      ? "border-sky-200 bg-sky-50 text-sky-800"
-      : "border-violet-200 bg-violet-50 text-violet-800";
+      ? "border-sky-500/20 bg-sky-500/10 text-sky-300"
+      : "border-violet-500/20 bg-violet-500/10 text-violet-300";
 
   const loadItems = async () => {
     setLoading(true);
@@ -177,16 +177,16 @@ export function CatalogManagerModal({ open, kind, onClose, onUpdated }: CatalogM
 
   return (
     <div className="fixed inset-0 z-[90] flex items-center justify-center bg-zinc-950/60 px-4 backdrop-blur-sm">
-      <div className="w-full max-w-lg overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xl">
-        <div className="flex items-center justify-between border-b border-zinc-100 px-5 py-4">
+      <div className="w-full max-w-lg overflow-hidden rounded-2xl border border-white/10 bg-[#111111] shadow-2xl">
+        <div className="flex items-center justify-between border-b border-white/5 px-5 py-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-zinc-400">Bike CMS</p>
-            <h3 className="mt-1 text-xl font-bold text-zinc-900">{title}</h3>
+            <h3 className="mt-1 text-xl font-bold text-white">{title}</h3>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg border border-zinc-200 p-2 text-zinc-500 hover:bg-zinc-50"
+            className="rounded-lg border border-white/10 p-2 text-zinc-400 hover:bg-[#111111]/5"
             aria-label="Close"
           >
             <X className="h-4 w-4" />
@@ -199,7 +199,7 @@ export function CatalogManagerModal({ open, kind, onClose, onUpdated }: CatalogM
               value={name}
               onChange={(event) => setName(event.target.value)}
               placeholder={placeholder}
-              className="flex-1 rounded-xl border border-zinc-200 px-4 py-3 text-sm outline-none focus:border-[#FF653F]/50"
+              className="flex-1 rounded-xl border border-white/10 px-4 py-3 text-sm outline-none focus:border-[#FF653F]/50"
               onKeyDown={(event) => {
                 if (event.key === "Enter") {
                   event.preventDefault();
@@ -219,10 +219,10 @@ export function CatalogManagerModal({ open, kind, onClose, onUpdated }: CatalogM
           </div>
 
           {kind === "category" && (
-            <div className="rounded-xl border border-dashed border-zinc-200 p-4 transition-all hover:border-[#FF653F]/30 bg-zinc-50/50">
+            <div className="rounded-xl border border-dashed border-white/10 p-4 transition-all hover:border-[#FF653F]/30 bg-[#111111]/5/50">
               <div className="flex items-center gap-4">
                 {imagePreview ? (
-                  <div className="relative h-16 w-16 overflow-hidden rounded-lg border border-zinc-200 bg-white animate-in fade-in zoom-in-95 duration-200">
+                  <div className="relative h-16 w-16 overflow-hidden rounded-lg border border-white/10 bg-[#111111] animate-in fade-in zoom-in-95 duration-200">
                     <img
                       src={imagePreview}
                       alt="Preview"
@@ -242,7 +242,7 @@ export function CatalogManagerModal({ open, kind, onClose, onUpdated }: CatalogM
                     </button>
                   </div>
                 ) : editingItem?.imageUrl && !deleteImage ? (
-                  <div className="relative h-16 w-16 overflow-hidden rounded-lg border border-zinc-200 bg-white animate-in fade-in zoom-in-95 duration-200">
+                  <div className="relative h-16 w-16 overflow-hidden rounded-lg border border-white/10 bg-[#111111] animate-in fade-in zoom-in-95 duration-200">
                     <img
                       src={editingItem.imageUrl}
                       alt="Existing"
@@ -261,12 +261,12 @@ export function CatalogManagerModal({ open, kind, onClose, onUpdated }: CatalogM
                     </button>
                   </div>
                 ) : (
-                  <div className="flex h-16 w-16 items-center justify-center rounded-lg border border-dashed border-zinc-200 bg-white text-zinc-400 animate-in fade-in zoom-in-95 duration-200">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-lg border border-dashed border-white/10 bg-[#111111] text-zinc-400 animate-in fade-in zoom-in-95 duration-200">
                     <Plus className="h-5 w-5" />
                   </div>
                 )}
                 <div className="flex-1 space-y-1">
-                  <p className="text-xs font-semibold text-zinc-700">
+                  <p className="text-xs font-semibold text-zinc-300">
                     {editingItem ? "Update Image" : "Category Image (Optional)"}
                   </p>
                   <p className="text-[10px] text-zinc-400">
@@ -283,7 +283,7 @@ export function CatalogManagerModal({ open, kind, onClose, onUpdated }: CatalogM
                   />
                   <label
                     htmlFor="category-image-input"
-                    className="inline-flex cursor-pointer items-center justify-center rounded-md border border-zinc-200 bg-white px-2.5 py-1 text-xs font-medium text-zinc-600 shadow-sm hover:bg-zinc-50 hover:text-zinc-700 transition"
+                    className="inline-flex cursor-pointer items-center justify-center rounded-md border border-white/10 bg-[#111111] px-2.5 py-1 text-xs font-medium text-zinc-400 shadow-xl shadow-black/40 hover:bg-[#111111]/5 hover:text-zinc-300 transition"
                   >
                     Select File
                   </label>
@@ -292,29 +292,29 @@ export function CatalogManagerModal({ open, kind, onClose, onUpdated }: CatalogM
             </div>
           )}
 
-          {error ? <p className="text-sm text-rose-600">{error}</p> : null}
+          {error ? <p className="text-sm text-rose-400">{error}</p> : null}
 
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-zinc-400">
               Added {kind === "brand" ? "brands" : "categories"} ({items.length})
             </p>
             {loading ? (
-              <p className="mt-3 text-sm text-zinc-500">Loading...</p>
+              <p className="mt-3 text-sm text-zinc-400">Loading...</p>
             ) : items.length === 0 ? (
-              <p className="mt-3 text-sm text-zinc-500">Nothing added yet.</p>
+              <p className="mt-3 text-sm text-zinc-400">Nothing added yet.</p>
             ) : (
-              <div className="mt-3 max-h-60 overflow-y-auto border border-zinc-200 rounded-2xl divide-y divide-zinc-100 bg-zinc-50/20">
+              <div className="mt-3 max-h-60 overflow-y-auto border border-white/10 rounded-2xl divide-y divide-white/5 bg-[#111111]/5/20">
                 {items.map((item) => (
                   <div
                     key={item.id}
                     className={cn(
                       "flex items-center justify-between p-3 transition-colors",
-                      editingItem?.id === item.id ? "bg-[#FF653F]/5" : "hover:bg-zinc-50/80"
+                      editingItem?.id === item.id ? "bg-[#FF653F]/5" : "hover:bg-[#111111]/5/80"
                     )}
                   >
                     <div className="flex items-center gap-3">
                       {kind === "category" && (
-                        <div className="h-10 w-10 shrink-0 overflow-hidden rounded-xl border border-zinc-200 bg-zinc-100 flex items-center justify-center">
+                        <div className="h-10 w-10 shrink-0 overflow-hidden rounded-xl border border-white/10 bg-[#111111]/10 flex items-center justify-center">
                           {item.imageUrl ? (
                             <img
                               src={item.imageUrl}
@@ -328,7 +328,7 @@ export function CatalogManagerModal({ open, kind, onClose, onUpdated }: CatalogM
                         </div>
                       )}
                       <div>
-                        <p className="text-sm font-semibold text-zinc-800">{item.name}</p>
+                        <p className="text-sm font-semibold text-zinc-200">{item.name}</p>
                         <p className="text-[10px] text-zinc-400">slug: {item.slug}</p>
                       </div>
                     </div>
@@ -336,7 +336,7 @@ export function CatalogManagerModal({ open, kind, onClose, onUpdated }: CatalogM
                       <button
                         type="button"
                         onClick={() => handleStartEdit(item)}
-                        className="rounded-lg p-2 text-zinc-500 hover:bg-white hover:text-zinc-800 border border-transparent hover:border-zinc-200 hover:shadow-sm transition"
+                        className="rounded-lg p-2 text-zinc-400 hover:bg-[#111111] hover:text-zinc-200 border border-transparent hover:border-white/10 hover:shadow-xl shadow-black/40 transition"
                         title="Edit"
                       >
                         <Pencil className="h-4 w-4" />
@@ -345,7 +345,7 @@ export function CatalogManagerModal({ open, kind, onClose, onUpdated }: CatalogM
                         type="button"
                         disabled={deletingId === item.id}
                         onClick={() => void handleDelete(item)}
-                        className="rounded-lg p-2 text-rose-500 hover:bg-rose-50 hover:text-rose-700 transition disabled:opacity-50"
+                        className="rounded-lg p-2 text-rose-500 hover:bg-rose-500/10 hover:text-rose-400 transition disabled:opacity-50"
                         title="Delete"
                       >
                         {deletingId === item.id ? (

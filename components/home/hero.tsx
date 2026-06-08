@@ -148,10 +148,10 @@ export function Hero() {
             </div>
 
             {/* Headline */}
-            <h1 className="mt-6 text-4xl sm:text-5xl lg:text-[4rem] font-black leading-[1.02] tracking-tight text-white max-w-2xl">
+            <h1 className="section-title mt-6 text-4xl sm:text-5xl lg:text-[4rem] font-black leading-[1.02] tracking-tight text-white max-w-2xl">
               Explore India.
               <br />
-              The <span className="bg-gradient-to-r from-[#FF653F] to-[#FFA382] bg-clip-text text-transparent">Nextgen</span> Way
+              The <span className="font-display bg-gradient-to-r from-[#FF653F] to-[#FFA382] bg-clip-text text-transparent !text-transparent">Nextgen</span> Way
             </h1>
 
             {/* Subtitle */}

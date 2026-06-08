@@ -72,11 +72,13 @@ export async function GET(req: Request) {
     db.bikeCategory.count({ where: { isActive: true } }),
   ]);
 
+  const { getBikeCurrentStatus } = await import("@/lib/availability");
   const serializedBikes = await Promise.all(
     bikes.map(async (bike) => {
       const record = bikeRecordFromDb(bike);
       const repaired = await repairBikeMedia(bike.id, record.imageUrl, record.gallery);
-      return { ...record, imageUrl: repaired.imageUrl, gallery: repaired.gallery };
+      const isAvailableObj = await getBikeCurrentStatus(bike.id);
+      return { ...record, imageUrl: repaired.imageUrl, gallery: repaired.gallery, isAvailableObj };
     }),
   );
 

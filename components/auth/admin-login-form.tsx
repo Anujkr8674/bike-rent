@@ -37,12 +37,12 @@ export function AdminLoginForm() {
       <div className="flex flex-col items-center gap-3 text-center">
         <img src={siteAssets.logo} alt="Nextgen Logo" className="h-16 w-auto object-contain drop-shadow-md" />
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">Admin Login</h1>
-          <p className="text-sm text-slate-600">Nextgen control panel</p>
+          <h1 className="text-2xl font-bold text-white">Admin Login</h1>
+          <p className="text-sm text-zinc-400">Nextgen control panel</p>
         </div>
       </div>
 
-      {error && <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>}
+      {error && <p className="rounded-lg border border-red-500/50 bg-red-950/50 px-3 py-2 text-sm text-red-400">{error}</p>}
 
       <form onSubmit={handleSubmit} className="space-y-3">
         <input

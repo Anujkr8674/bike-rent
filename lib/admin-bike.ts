@@ -110,6 +110,7 @@ export type AdminBikeRecord = {
   updatedAt?: string;
   createdAt?: string;
   content?: BikeContentValue;
+  isAvailableObj?: any; // To allow attaching real-time availability info
 };
 
 export function slugifyText(value: string) {

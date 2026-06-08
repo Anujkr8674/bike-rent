@@ -71,8 +71,8 @@ export function RichTextEditor({ label, value, onChange, placeholder, helper, cl
     <div className={cn("space-y-3", className)}>
       <div className="flex items-center justify-between gap-3">
         <div>
-          <p className="text-sm font-semibold text-zinc-900">{label}</p>
-          {helper ? <p className="text-xs text-zinc-500">{helper}</p> : null}
+          <p className="text-sm font-semibold text-white">{label}</p>
+          {helper ? <p className="text-xs text-zinc-400">{helper}</p> : null}
         </div>
         <div className="flex flex-wrap gap-2">
           <Button type="button" variant="outline" size="sm" onClick={() => apply("formatBlock", "h2")}>
@@ -114,12 +114,12 @@ export function RichTextEditor({ label, value, onChange, placeholder, helper, cl
         </div>
       </div>
 
-      <div className="rounded-2xl border border-zinc-200 bg-white shadow-sm">
+      <div className="rounded-2xl border border-white/10 bg-[#111111] shadow-xl shadow-black/40">
         <div
           ref={editorRef}
           contentEditable
           suppressContentEditableWarning
-          className="min-h-[180px] rounded-2xl px-4 py-3 text-sm leading-7 text-zinc-800 outline-none"
+          className="min-h-[180px] rounded-2xl px-4 py-3 text-sm leading-7 text-zinc-200 outline-none"
           onInput={() => emitCurrentHtml(editorRef, onChange)}
           onBlur={() => emitCurrentHtml(editorRef, onChange)}
           data-placeholder={placeholder || "Write content here..."}

@@ -36,6 +36,32 @@ export async function GET(req: Request) {
       : {}),
   };
 
+  const bikeStatus = url.searchParams.get("bikeStatus") || "all";
+
+  const { getBulkBikeAvailability } = await import("@/lib/availability");
+  const bulkStatus = await getBulkBikeAvailability();
+
+  const bikeStatusCounts = {
+    AVAILABLE: 0,
+    RESERVED: 0,
+    ON_RENT: 0,
+    MAINTENANCE: 0,
+  };
+
+  Object.values(bulkStatus).forEach(info => {
+    if (info.availabilityStatus in bikeStatusCounts) {
+      bikeStatusCounts[info.availabilityStatus as keyof typeof bikeStatusCounts]++;
+    }
+  });
+
+  if (bikeStatus !== "all") {
+    const matchingBikeIds = Object.entries(bulkStatus)
+      .filter(([id, info]) => info.availabilityStatus === bikeStatus)
+      .map(([id]) => id);
+    
+    (where as any).bikeId = { in: matchingBikeIds };
+  }
+
   const guestWhere = { trackingId: { not: null } };
 
   const [total, bookings, totalAll, paidCount, awaitingDocs, verificationPending, confirmedCount, activeCount, revenueRows] =
@@ -60,11 +86,17 @@ export async function GET(req: Request) {
     }),
   ]);
 
+  const bookingsWithAvailability = bookings.map((b) => {
+    const statusInfo = bulkStatus[b.bikeId];
+    return { ...b, bikeAvailabilityStatus: statusInfo?.availabilityStatus || "UNKNOWN" };
+  });
+
   const revenue = revenueRows.reduce((sum, row) => sum + Number(row.amount), 0);
 
   return NextResponse.json({
-    bookings,
+    bookings: bookingsWithAvailability,
     stats: {
+      ...bikeStatusCounts,
       total: totalAll,
       paidCount,
       awaitingDocs,

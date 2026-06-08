@@ -12,6 +12,7 @@ import { BikeMediaImage, getBikeGallery } from "@/components/bikes/bike-media-im
 import { PremiumAccordion } from "@/components/faq/premium-accordion";
 import { RichHtmlContent } from "@/components/ui/rich-html-content";
 import { SectionReveal } from "@/components/ui/section-reveal";
+import { AvailabilityChecker } from "@/components/bikes/availability-checker";
 import { cn } from "@/lib/utils";
 import { Star, Fuel, Gauge, Zap, Shield, CheckCircle2, Users } from "lucide-react";
 import { bikeFeatureOptions } from "@/lib/bike-json";
@@ -252,6 +253,26 @@ export function BikeDetailView({ bike, days }: Props) {
                   </p>
                 ) : null}
               </div>
+
+              {/* Current Availability Section */}
+              <div className="rounded-xl border border-white/5 bg-[#111111]/30 p-3">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className={cn(
+                    "w-2 h-2 rounded-full",
+                    bike.isAvailableObj?.isAvailable ? "bg-emerald-400" : "bg-rose-400"
+                  )}></span>
+                  <span className="text-sm font-semibold text-white">
+                    {bike.isAvailableObj?.isAvailable ? "Available Now" : "Currently Booked"}
+                  </span>
+                </div>
+                {!bike.isAvailableObj?.isAvailable && (
+                  <p className="text-xs text-rose-400/90 ml-4">
+                    {bike.isAvailableObj?.availabilityMessage}
+                  </p>
+                )}
+              </div>
+
+              <AvailabilityChecker slug={bike.id} />
 
               <ul className="space-y-2 text-sm text-zinc-400">
                 <li className="flex items-center gap-2">

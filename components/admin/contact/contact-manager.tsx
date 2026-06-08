@@ -74,15 +74,15 @@ type StatusBadgeTone = {
 function getStatusTone(status: string | null | undefined): StatusBadgeTone {
   switch (status) {
     case "NEW":
-      return { wrapper: "bg-sky-50 text-sky-700", label: "New" };
+      return { wrapper: "bg-sky-500/10 text-sky-400", label: "New" };
     case "CLOSED":
-      return { wrapper: "bg-emerald-50 text-emerald-700", label: "Closed" };
+      return { wrapper: "bg-emerald-500/10 text-emerald-400", label: "Closed" };
     case "CONTACTED":
-      return { wrapper: "bg-amber-50 text-amber-800", label: "Contacted" };
+      return { wrapper: "bg-amber-500/10 text-amber-300", label: "Contacted" };
     case "FOLLOW_UP":
-      return { wrapper: "bg-violet-50 text-violet-700", label: "Follow-up" };
+      return { wrapper: "bg-violet-500/10 text-violet-400", label: "Follow-up" };
     default:
-      return { wrapper: "bg-zinc-100 text-zinc-600", label: "Unknown" };
+      return { wrapper: "bg-[#111111]/10 text-zinc-400", label: "Unknown" };
   }
 }
 
@@ -124,20 +124,20 @@ function ModalFrame({
         aria-modal="true"
         aria-label={title}
         className={cn(
-          "relative w-full max-w-5xl overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xl",
+          "relative w-full max-w-5xl overflow-hidden rounded-2xl border border-white/10 bg-[#111111] shadow-2xl",
           className,
         )}
       >
-        <div className="flex items-start justify-between gap-4 border-b border-zinc-100 px-5 py-4 sm:px-6">
+        <div className="flex items-start justify-between gap-4 border-b border-white/5 px-5 py-4 sm:px-6">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wider text-[#FF653F]">Contact inquiry</p>
-            <h3 className="mt-1 text-xl font-bold tracking-tight text-zinc-900 sm:text-2xl">{title}</h3>
-            {description ? <p className="mt-1 max-w-2xl text-sm text-zinc-500">{description}</p> : null}
+            <h3 className="mt-1 text-xl font-bold tracking-tight text-white sm:text-2xl">{title}</h3>
+            {description ? <p className="mt-1 max-w-2xl text-sm text-zinc-400">{description}</p> : null}
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-zinc-200 text-zinc-500 transition hover:border-zinc-300 hover:text-zinc-800"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 text-zinc-400 transition hover:border-white/20 hover:text-zinc-200"
             aria-label="Close modal"
           >
             <X className="h-5 w-5" />
@@ -204,9 +204,9 @@ export function ContactManager() {
   const stats = data?.stats;
 
   const summaryItems = [
-    { label: "Total", value: stats?.total ?? 0, color: "text-zinc-900" },
-    { label: "New", value: stats?.newCount ?? 0, color: "text-sky-600" },
-    { label: "Closed", value: stats?.closedCount ?? 0, color: "text-emerald-600" },
+    { label: "Total", value: stats?.total ?? 0, color: "text-white" },
+    { label: "New", value: stats?.newCount ?? 0, color: "text-sky-400" },
+    { label: "Closed", value: stats?.closedCount ?? 0, color: "text-emerald-400" },
   ] as const;
 
   const exportCsv = () => {
@@ -344,8 +344,8 @@ export function ContactManager() {
       <section className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="text-xs font-semibold uppercase tracking-wider text-[#FF653F]">Admin</p>
-          <h1 className="mt-1 text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl">Contact management</h1>
-          <p className="mt-1 max-w-xl text-sm text-zinc-500">
+          <h1 className="mt-1 text-2xl font-bold tracking-tight text-white sm:text-3xl">Contact management</h1>
+          <p className="mt-1 max-w-xl text-sm text-zinc-400">
             View and manage contact form submissions. Update status, add notes, and export records.
           </p>
         </div>
@@ -361,8 +361,8 @@ export function ContactManager() {
         </div>
       </section>
 
-      <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm">
-        <div className="grid divide-y divide-zinc-100 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+      <div className="overflow-hidden rounded-xl border border-white/10 bg-[#111111] shadow-xl shadow-black/40">
+        <div className="grid divide-y divide-white/5 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
           {summaryItems.map((item) => (
             <div key={item.label} className="px-4 py-4 text-center sm:text-left">
               <p className="text-[11px] font-semibold uppercase tracking-wider text-zinc-400">{item.label}</p>
@@ -373,16 +373,16 @@ export function ContactManager() {
       </div>
 
       {error ? (
-        <div className="rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">{error}</div>
+        <div className="rounded-lg border border-rose-500/20 bg-rose-500/10 px-4 py-3 text-sm text-rose-400">{error}</div>
       ) : null}
       {success ? (
-        <div className="rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+        <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-400">
           {success}
         </div>
       ) : null}
 
-      <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm">
-        <div className="border-b border-zinc-100 p-4 sm:p-5">
+      <div className="overflow-hidden rounded-xl border border-white/10 bg-[#111111] shadow-xl shadow-black/40">
+        <div className="border-b border-white/5 p-4 sm:p-5">
           <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
             <div className="relative flex-1">
               <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
@@ -393,7 +393,7 @@ export function ContactManager() {
                   setQ(event.target.value);
                 }}
                 placeholder="Search name, phone, email, subject or message..."
-                className="h-11 w-full rounded-lg border border-[#FF653F]/50 bg-white pl-10 pr-4 text-sm outline-none transition placeholder:text-zinc-400 focus:border-[#FF653F] focus:ring-2 focus:ring-[#FF653F]/15"
+                className="h-11 w-full rounded-lg border border-[#FF653F]/50 bg-[#111111] pl-10 pr-4 text-sm outline-none transition placeholder:text-zinc-400 focus:border-[#FF653F] focus:ring-2 focus:ring-[#FF653F]/15"
               />
             </div>
             <div className="relative w-full lg:w-48">
@@ -403,7 +403,7 @@ export function ContactManager() {
                   setPage(1);
                   setStatus(event.target.value as ContactStatusFilter);
                 }}
-                className="h-11 w-full appearance-none rounded-lg border border-zinc-200 bg-white px-4 pr-10 text-sm font-medium text-zinc-700 outline-none transition focus:border-[#FF653F]/50 focus:ring-2 focus:ring-[#FF653F]/10"
+                className="h-11 w-full appearance-none rounded-lg border border-white/10 bg-[#111111] px-4 pr-10 text-sm font-medium text-zinc-300 outline-none transition focus:border-[#FF653F]/50 focus:ring-2 focus:ring-[#FF653F]/10"
               >
                 {contactStatusOptions.map((option) => (
                   <option key={option} value={option}>
@@ -414,14 +414,14 @@ export function ContactManager() {
               <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
             </div>
           </div>
-          <p className="mt-3 text-xs text-zinc-500">
+          <p className="mt-3 text-xs text-zinc-400">
             {data?.pagination.total ?? 0} records · Page {data?.pagination.page ?? page} of{" "}
             {data?.pagination.totalPages ?? 1}
           </p>
         </div>
 
         {loading ? (
-          <div className="flex min-h-[320px] items-center justify-center text-sm text-zinc-500">
+          <div className="flex min-h-[320px] items-center justify-center text-sm text-zinc-400">
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             Loading contacts...
           </div>
@@ -430,7 +430,7 @@ export function ContactManager() {
             <div className="hidden overflow-x-auto md:block">
               <table className="min-w-full text-sm">
                 <thead>
-                  <tr className="border-b border-zinc-100 bg-zinc-50/80 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-600">
+                  <tr className="border-b border-white/5 bg-[#111111]/5/80 text-left text-[11px] font-semibold uppercase tracking-wider text-zinc-400">
                     <th className="whitespace-nowrap px-4 py-3.5">Name</th>
                     <th className="whitespace-nowrap px-4 py-3.5">Phone</th>
                     <th className="whitespace-nowrap px-4 py-3.5">Email</th>
@@ -443,33 +443,33 @@ export function ContactManager() {
                     <th className="whitespace-nowrap px-4 py-3.5 text-right">Action</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-zinc-100">
+                <tbody className="divide-y divide-white/5">
                   {(data?.contacts ?? []).map((contact) => {
                     const tone = getStatusTone(contact.status);
                     return (
-                      <tr key={contact.id} className="transition hover:bg-zinc-50/60">
-                        <td className="whitespace-nowrap px-4 py-3.5 font-semibold text-zinc-900">
+                      <tr key={contact.id} className="transition hover:bg-[#111111]/5/60">
+                        <td className="whitespace-nowrap px-4 py-3.5 font-semibold text-white">
                           {contact.fullName}
                         </td>
-                        <td className="whitespace-nowrap px-4 py-3.5 text-zinc-600">
+                        <td className="whitespace-nowrap px-4 py-3.5 text-zinc-400">
                           {contact.phone || "—"}
                         </td>
-                        <td className="max-w-[180px] truncate px-4 py-3.5 text-zinc-600" title={contact.email}>
+                        <td className="max-w-[180px] truncate px-4 py-3.5 text-zinc-400" title={contact.email}>
                           {contact.email}
                         </td>
-                        <td className="max-w-[140px] truncate px-4 py-3.5 text-zinc-700" title={contact.subject}>
+                        <td className="max-w-[140px] truncate px-4 py-3.5 text-zinc-300" title={contact.subject}>
                           {contact.subject}
                         </td>
-                        <td className="max-w-[200px] truncate px-4 py-3.5 text-zinc-500" title={contact.message}>
+                        <td className="max-w-[200px] truncate px-4 py-3.5 text-zinc-400" title={contact.message}>
                           {contact.message}
                         </td>
-                        <td className="whitespace-nowrap px-4 py-3.5 text-zinc-600">
+                        <td className="whitespace-nowrap px-4 py-3.5 text-zinc-400">
                           {formatDateTime(contact.createdAt)}
                         </td>
-                        <td className="whitespace-nowrap px-4 py-3.5 text-zinc-600">
+                        <td className="whitespace-nowrap px-4 py-3.5 text-zinc-400">
                           {formatDateTime(contact.statusUpdatedAt)}
                         </td>
-                        <td className="max-w-[120px] truncate px-4 py-3.5 text-zinc-500" title={contact.notes[0]?.note}>
+                        <td className="max-w-[120px] truncate px-4 py-3.5 text-zinc-400" title={contact.notes[0]?.note}>
                           {latestNotePreview(contact.notes)}
                         </td>
                         <td className="whitespace-nowrap px-4 py-3.5">
@@ -491,7 +491,7 @@ export function ContactManager() {
                                 onChange={(event) =>
                                   openStatusModal(contact.id, event.target.value as ContactStatus)
                                 }
-                                className="h-9 min-w-[120px] appearance-none rounded-lg border border-zinc-200 bg-white pl-3 pr-8 text-xs font-medium text-zinc-700 outline-none focus:border-[#FF653F]/50"
+                                className="h-9 min-w-[120px] appearance-none rounded-lg border border-white/10 bg-[#111111] pl-3 pr-8 text-xs font-medium text-zinc-300 outline-none focus:border-[#FF653F]/50"
                               >
                                 {contactStatusOptions
                                   .filter((item): item is ContactStatus => item !== "all")
@@ -518,7 +518,7 @@ export function ContactManager() {
                   })}
                   {(data?.contacts ?? []).length === 0 ? (
                     <tr>
-                      <td colSpan={10} className="px-4 py-16 text-center text-sm text-zinc-500">
+                      <td colSpan={10} className="px-4 py-16 text-center text-sm text-zinc-400">
                         No contacts found for this filter.
                       </td>
                     </tr>
@@ -533,20 +533,20 @@ export function ContactManager() {
                 return (
                   <article
                     key={contact.id}
-                    className="rounded-lg border border-zinc-200 bg-zinc-50/40 p-4"
+                    className="rounded-lg border border-white/10 bg-[#111111]/5/40 p-4"
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div>
-                        <p className="font-semibold text-zinc-900">{contact.fullName}</p>
-                        <p className="mt-0.5 text-sm text-zinc-500">{contact.email}</p>
-                        <p className="text-sm text-zinc-500">{contact.phone || "—"}</p>
+                        <p className="font-semibold text-white">{contact.fullName}</p>
+                        <p className="mt-0.5 text-sm text-zinc-400">{contact.email}</p>
+                        <p className="text-sm text-zinc-400">{contact.phone || "—"}</p>
                       </div>
                       <span className={cn("shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold", tone.wrapper)}>
                         {tone.label}
                       </span>
                     </div>
-                    <p className="mt-2 text-sm font-medium text-zinc-800">{contact.subject}</p>
-                    <p className="mt-1 line-clamp-2 text-sm text-zinc-500">{contact.message}</p>
+                    <p className="mt-2 text-sm font-medium text-zinc-200">{contact.subject}</p>
+                    <p className="mt-1 line-clamp-2 text-sm text-zinc-400">{contact.message}</p>
                     <p className="mt-2 text-xs text-zinc-400">
                       {formatDateTime(contact.createdAt)} · Updated {formatDateTime(contact.statusUpdatedAt)}
                     </p>
@@ -555,7 +555,7 @@ export function ContactManager() {
                         value={selectableStatus(contact.status)}
                         disabled={busy}
                         onChange={(event) => openStatusModal(contact.id, event.target.value as ContactStatus)}
-                        className="h-9 flex-1 min-w-[120px] rounded-lg border border-zinc-200 bg-white px-3 text-xs font-medium"
+                        className="h-9 flex-1 min-w-[120px] rounded-lg border border-white/10 bg-[#111111] px-3 text-xs font-medium"
                       >
                         {contactStatusOptions
                           .filter((item): item is ContactStatus => item !== "all")
@@ -578,14 +578,14 @@ export function ContactManager() {
                 );
               })}
               {(data?.contacts ?? []).length === 0 ? (
-                <p className="py-12 text-center text-sm text-zinc-500">No contacts found for this filter.</p>
+                <p className="py-12 text-center text-sm text-zinc-400">No contacts found for this filter.</p>
               ) : null}
             </div>
           </>
         )}
 
-        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-zinc-100 px-4 py-3 sm:px-5">
-          <p className="text-sm text-zinc-500">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/5 px-4 py-3 sm:px-5">
+          <p className="text-sm text-zinc-400">
             Page {data?.pagination.page ?? page} of {data?.pagination.totalPages ?? 1}
           </p>
           <div className="flex gap-2">
@@ -623,10 +623,10 @@ export function ContactManager() {
         className="max-w-lg"
       >
         <div className="p-5 sm:p-6">
-          <div className="rounded-lg bg-zinc-50 p-4">
+          <div className="rounded-lg bg-[#111111]/5 p-4">
             <p className="text-xs font-medium uppercase tracking-wider text-zinc-400">Status change</p>
             <div className="mt-2 flex flex-wrap items-center gap-2">
-              <span className="rounded-full bg-white px-3 py-1 text-sm font-medium text-zinc-900 ring-1 ring-zinc-200">
+              <span className="rounded-full bg-[#111111] px-3 py-1 text-sm font-medium text-white ring-1 ring-zinc-200">
                 {data?.contacts.find((c) => c.id === pendingStatus?.contactId)?.fullName ?? "Contact"}
               </span>
               <span className={cn("rounded-full px-3 py-1 text-sm font-semibold", pendingTone.wrapper)}>
@@ -635,13 +635,13 @@ export function ContactManager() {
             </div>
           </div>
           <div className="mt-4">
-            <label className="text-sm font-medium text-zinc-900">Note (optional)</label>
+            <label className="text-sm font-medium text-white">Note (optional)</label>
             <textarea
               value={statusNote}
               onChange={(event) => setStatusNote(event.target.value)}
               rows={4}
               placeholder="Reason for status change, call details, next action..."
-              className="mt-2 w-full rounded-lg border border-zinc-200 px-3 py-2.5 text-sm outline-none focus:border-[#FF653F]/50 focus:ring-2 focus:ring-[#FF653F]/10"
+              className="mt-2 w-full rounded-lg border border-white/10 px-3 py-2.5 text-sm outline-none focus:border-[#FF653F]/50 focus:ring-2 focus:ring-[#FF653F]/10"
             />
           </div>
           <div className="mt-5 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
@@ -683,35 +683,35 @@ export function ContactManager() {
               <span className={cn("rounded-full px-2.5 py-1 text-xs font-semibold", detailTone.wrapper)}>
                 {detailTone.label}
               </span>
-              <span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-600">
+              <span className="rounded-full bg-[#111111]/10 px-2.5 py-1 text-xs font-medium text-zinc-400">
                 {detailContact.source.replace(/_/g, " ")}
               </span>
             </div>
 
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
-              <div className="rounded-lg border border-zinc-100 bg-zinc-50 p-3">
+              <div className="rounded-lg border border-white/5 bg-[#111111]/5 p-3">
                 <p className="text-[11px] font-semibold uppercase tracking-wider text-zinc-400">Email</p>
-                <p className="mt-1 text-sm font-medium text-zinc-800">{detailContact.email}</p>
+                <p className="mt-1 text-sm font-medium text-zinc-200">{detailContact.email}</p>
               </div>
-              <div className="rounded-lg border border-zinc-100 bg-zinc-50 p-3">
+              <div className="rounded-lg border border-white/5 bg-[#111111]/5 p-3">
                 <p className="text-[11px] font-semibold uppercase tracking-wider text-zinc-400">Phone</p>
-                <p className="mt-1 text-sm font-medium text-zinc-800">{detailContact.phone || "—"}</p>
+                <p className="mt-1 text-sm font-medium text-zinc-200">{detailContact.phone || "—"}</p>
               </div>
-              <div className="rounded-lg border border-zinc-100 bg-zinc-50 p-3">
+              <div className="rounded-lg border border-white/5 bg-[#111111]/5 p-3">
                 <p className="text-[11px] font-semibold uppercase tracking-wider text-zinc-400">Created</p>
-                <p className="mt-1 text-sm font-medium text-zinc-800">{formatDateTime(detailContact.createdAt)}</p>
+                <p className="mt-1 text-sm font-medium text-zinc-200">{formatDateTime(detailContact.createdAt)}</p>
               </div>
-              <div className="rounded-lg border border-zinc-100 bg-zinc-50 p-3">
+              <div className="rounded-lg border border-white/5 bg-[#111111]/5 p-3">
                 <p className="text-[11px] font-semibold uppercase tracking-wider text-zinc-400">Status updated</p>
-                <p className="mt-1 text-sm font-medium text-zinc-800">
+                <p className="mt-1 text-sm font-medium text-zinc-200">
                   {formatDateTime(detailContact.statusUpdatedAt)}
                 </p>
               </div>
             </div>
 
-            <div className="mt-4 rounded-lg border border-zinc-100 bg-zinc-50 p-4">
+            <div className="mt-4 rounded-lg border border-white/5 bg-[#111111]/5 p-4">
               <p className="text-[11px] font-semibold uppercase tracking-wider text-zinc-400">Message</p>
-              <p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-zinc-700">{detailContact.message}</p>
+              <p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-zinc-300">{detailContact.message}</p>
             </div>
 
             <div className="mt-4 flex flex-wrap gap-2">
@@ -729,20 +729,20 @@ export function ContactManager() {
               ))}
             </div>
 
-            <div className="mt-6 border-t border-zinc-100 pt-5">
+            <div className="mt-6 border-t border-white/5 pt-5">
               <div className="flex items-center justify-between gap-2">
-                <h4 className="text-sm font-semibold text-zinc-900">Notes</h4>
-                <span className="text-xs text-zinc-500">{detailContact.notes.length} entries</span>
+                <h4 className="text-sm font-semibold text-white">Notes</h4>
+                <span className="text-xs text-zinc-400">{detailContact.notes.length} entries</span>
               </div>
               <div className="mt-3 max-h-48 space-y-2 overflow-y-auto">
                 {detailContact.notes.length === 0 ? (
-                  <p className="rounded-lg border border-dashed border-zinc-200 py-6 text-center text-sm text-zinc-500">
+                  <p className="rounded-lg border border-dashed border-white/10 py-6 text-center text-sm text-zinc-400">
                     No notes yet.
                   </p>
                 ) : (
                   detailContact.notes.map((entry) => (
-                    <div key={entry.id} className="rounded-lg border border-zinc-100 bg-zinc-50 p-3">
-                      <p className="text-sm text-zinc-700">{entry.note}</p>
+                    <div key={entry.id} className="rounded-lg border border-white/5 bg-[#111111]/5 p-3">
+                      <p className="text-sm text-zinc-300">{entry.note}</p>
                       <p className="mt-1 text-xs text-zinc-400">
                         {formatDateTime(entry.createdAt)}
                         {entry.admin?.fullName ? ` · ${entry.admin.fullName}` : ""}
@@ -756,7 +756,7 @@ export function ContactManager() {
                 onChange={(event) => setDetailNote(event.target.value)}
                 rows={3}
                 placeholder="Add a follow-up note..."
-                className="mt-3 w-full rounded-lg border border-zinc-200 px-3 py-2.5 text-sm outline-none focus:border-[#FF653F]/50 focus:ring-2 focus:ring-[#FF653F]/10"
+                className="mt-3 w-full rounded-lg border border-white/10 px-3 py-2.5 text-sm outline-none focus:border-[#FF653F]/50 focus:ring-2 focus:ring-[#FF653F]/10"
               />
               <Button
                 type="button"

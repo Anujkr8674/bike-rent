@@ -96,17 +96,35 @@ export async function serializeAdminBikeImages<T extends { id: string; imageUrl:
   return { ...bike, imageUrl: repaired.imageUrl, gallery: repaired.gallery };
 }
 
-export async function getCatalogBikes() {
+import { checkBikeAvailability, getBikeCurrentStatus } from "@/lib/availability";
+
+export async function getCatalogBikes(targetPickup?: Date, targetReturn?: Date) {
   try {
     const bikes = await db.bike.findMany({
       where: { isAvailable: true },
       include: { city: true, content: true, categoryRef: true },
       orderBy: { updatedAt: "desc" },
     });
-    const mapped: BikeDetailItem[] = [];
+    
+    const mapped: (BikeDetailItem & { isAvailableObj?: any })[] = [];
+    
     for (const bike of bikes) {
       try {
-        mapped.push(await mapDbBikeToBikeItem(bike));
+        const item = await mapDbBikeToBikeItem(bike);
+        
+        let availability;
+        if (targetPickup && targetReturn) {
+           availability = await checkBikeAvailability(bike.id, targetPickup, targetReturn);
+           if (!availability.isAvailable) continue; // Skip unavailable bikes during a strict search
+        }
+        
+        // Let's attach the current availability info so the UI can show "Available Now" vs "Currently Booked"
+        const currentStatus = await getBikeCurrentStatus(bike.id);
+        
+        mapped.push({
+           ...item,
+           isAvailableObj: currentStatus
+        });
       } catch {
         // skip rows that fail media mapping
       }
@@ -118,13 +136,17 @@ export async function getCatalogBikes() {
   return ranchiBikes;
 }
 
-export async function getCatalogBikeBySlug(slug: string): Promise<BikeDetailItem | null> {
+export async function getCatalogBikeBySlug(slug: string): Promise<BikeDetailItem & { isAvailableObj?: any } | null> {
   try {
     const bike = await db.bike.findFirst({
       where: { slug, isAvailable: true },
       include: { city: true, content: true, categoryRef: true },
     });
-    if (bike) return mapDbBikeToBikeItem(bike);
+    if (bike) {
+      const item = await mapDbBikeToBikeItem(bike);
+      const currentStatus = await getBikeCurrentStatus(bike.id);
+      return { ...item, isAvailableObj: currentStatus };
+    }
   } catch {
     // fall through
   }
@@ -138,5 +160,10 @@ export async function getCatalogBikeBySlug(slug: string): Promise<BikeDetailItem
     gallery: fallback.gallery?.length ? fallback.gallery : [fallback.image],
     features: parseBikeFeatures(null),
     securityDepositAmount: 2000,
+    isAvailableObj: {
+      isAvailable: true,
+      availabilityStatus: "AVAILABLE",
+      availabilityMessage: "Available Now"
+    }
   };
 }

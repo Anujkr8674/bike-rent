@@ -28,7 +28,7 @@ export function ImageUploadField({
   return (
     <div className={cn("space-y-3", className)}>
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <label htmlFor={inputId} className="text-sm font-semibold text-zinc-900">
+        <label htmlFor={inputId} className="text-sm font-semibold text-white">
           {label}
           {required ? <span className="ml-2 text-[10px] font-bold uppercase tracking-wider text-[#FF653F]">Required</span> : null}
         </label>
@@ -57,7 +57,7 @@ export function ImageUploadField({
           event.target.value = "";
         }}
       />
-      <p className="text-xs text-zinc-500">JPG, PNG or WebP. {multiple ? "You can select multiple files." : "One main photo for listings."}</p>
+      <p className="text-xs text-zinc-400">JPG, PNG or WebP. {multiple ? "You can select multiple files." : "One main photo for listings."}</p>
     </div>
   );
 }
@@ -71,7 +71,7 @@ export function ImagePreviewGrid({ urls }: ImagePreviewGridProps) {
   return (
     <div className="flex flex-wrap gap-2">
       {urls.map((item) => (
-        <div key={item.key} className="group relative h-20 w-20 overflow-hidden rounded-xl border border-zinc-200 shadow-sm">
+        <div key={item.key} className="group relative h-20 w-20 overflow-hidden rounded-xl border border-white/10 shadow-xl shadow-black/40">
           <img src={item.src} alt="" className="h-full w-full object-cover" />
           {item.onRemove ? (
             <button

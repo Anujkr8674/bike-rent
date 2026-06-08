@@ -28,7 +28,7 @@ export function ImpactSection() {
         <div className="hidden max-w-6xl grid-cols-5 items-stretch gap-4 overflow-visible md:grid lg:gap-6">
           <motion.div
             whileHover={{ y: -4 }}
-            className="relative z-10 flex aspect-square flex-col justify-center rounded-[24px] border border-white/10 bg-[#111111] p-5 shadow-[0_4px_20px_rgba(0,0,0,0.5)]"
+            className="relative z-10 flex aspect-square flex-col justify-center rounded-[24px] border border-white/10 bg-[#111111] p-5 shadow-[0_4px_20px_rgba(0,0,0,0.5)] transition-colors duration-300 hover:border-[#FF6B1A] hover:shadow-[0_0_20px_rgba(255,107,26,0.3)]"
           >
             <span className="font-sans text-xs font-black uppercase tracking-widest text-zinc-400">
               REGULARLY SERVICED
@@ -52,21 +52,21 @@ export function ImpactSection() {
             </svg>
           </motion.div>
 
-          <div className="aspect-square overflow-hidden rounded-[24px] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+          <div className="aspect-square overflow-hidden rounded-[24px] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)] transition-all duration-300 hover:-translate-y-1 hover:border-[#FF6B1A] hover:shadow-[0_0_20px_rgba(255,107,26,0.3)]">
             <img src={images.cleaning} alt="Fleet cleaning" className="h-full w-full select-none object-cover" />
           </div>
 
-          <div className="aspect-square overflow-hidden rounded-[24px] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+          <div className="aspect-square overflow-hidden rounded-[24px] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)] transition-all duration-300 hover:-translate-y-1 hover:border-[#FF6B1A] hover:shadow-[0_0_20px_rgba(255,107,26,0.3)]">
             <img src={images.helmet} alt="Helmet rider" className="h-full w-full select-none object-cover" />
           </div>
 
-          <div className="aspect-square overflow-hidden rounded-[24px] border-4 border-[#FF6B1A] shadow-[0_0_20px_rgba(255,107,26,0.3)]">
+          <div className="aspect-square overflow-hidden rounded-[24px] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)] transition-all duration-300 hover:-translate-y-1 hover:border-[#FF6B1A] hover:shadow-[0_0_20px_rgba(255,107,26,0.3)]">
             <img src={images.sunset} alt="Sunset bike ride" className="h-full w-full select-none object-cover" />
           </div>
 
           <motion.div
             whileHover={{ y: -4 }}
-            className="flex aspect-square flex-col justify-center rounded-[24px] border border-white/10 bg-[#111111] p-5 shadow-[0_4px_20px_rgba(0,0,0,0.5)]"
+            className="flex aspect-square flex-col justify-center rounded-[24px] border border-white/10 bg-[#111111] p-5 shadow-[0_4px_20px_rgba(0,0,0,0.5)] transition-colors duration-300 hover:border-[#FF6B1A] hover:shadow-[0_0_20px_rgba(255,107,26,0.3)]"
           >
             <span className="font-sans text-4xl font-black text-white lg:text-5xl">100+</span>
             <span className="mt-2 font-sans text-xs font-black uppercase tracking-widest text-zinc-400">
@@ -74,17 +74,17 @@ export function ImpactSection() {
             </span>
           </motion.div>
 
-          <div className="aspect-square overflow-hidden rounded-[24px] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+          <div className="aspect-square overflow-hidden rounded-[24px] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)] transition-all duration-300 hover:-translate-y-1 hover:border-[#FF6B1A] hover:shadow-[0_0_20px_rgba(255,107,26,0.3)]">
             <img src={images.scooter1} alt="Scooter rider" className="h-full w-full select-none object-cover" />
           </div>
 
-          <div className="aspect-square overflow-hidden rounded-[24px] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+          <div className="aspect-square overflow-hidden rounded-[24px] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)] transition-all duration-300 hover:-translate-y-1 hover:border-[#FF6B1A] hover:shadow-[0_0_20px_rgba(255,107,26,0.3)]">
             <img src={images.bikerider} alt="Motorcycle commuter" className="h-full w-full select-none object-cover" />
           </div>
 
           <motion.div
             whileHover={{ y: -4 }}
-            className="flex aspect-square flex-col items-center justify-center rounded-[24px] border border-white/10 bg-[#111111] p-4 text-center shadow-[0_4px_20px_rgba(0,0,0,0.5)]"
+            className="flex aspect-square flex-col items-center justify-center rounded-[24px] border border-white/10 bg-[#111111] p-4 text-center shadow-[0_4px_20px_rgba(0,0,0,0.5)] transition-colors duration-300 hover:border-[#FF6B1A] hover:shadow-[0_0_20px_rgba(255,107,26,0.3)]"
           >
             <div className="relative flex h-16 w-16 items-center justify-center rounded-full border-4 border-[#FF6B1A] font-black text-3xl text-white lg:h-20 lg:w-20 lg:text-4xl shadow-[0_0_15px_rgba(255,107,26,0.3)]">
               10
@@ -94,7 +94,7 @@ export function ImpactSection() {
             </span>
           </motion.div>
 
-          <div className="relative z-10 aspect-square overflow-hidden rounded-[24px] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+          <div className="relative z-10 aspect-square overflow-hidden rounded-[24px] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)] transition-all duration-300 hover:-translate-y-1 hover:border-[#FF6B1A] hover:shadow-[0_0_20px_rgba(255,107,26,0.3)]">
             <img src={images.twins} alt="Adventure touring twins" className="h-full w-full select-none object-cover" />
             <svg
               className="absolute left-[-20px] bottom-[-20px] z-20 h-14 w-14 rotate-[-10deg] text-zinc-600 pointer-events-none hidden lg:block"
@@ -112,13 +112,13 @@ export function ImpactSection() {
             </svg>
           </div>
 
-          <div className="aspect-square overflow-hidden rounded-[24px] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+          <div className="aspect-square overflow-hidden rounded-[24px] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)] transition-all duration-300 hover:-translate-y-1 hover:border-[#FF6B1A] hover:shadow-[0_0_20px_rgba(255,107,26,0.3)]">
             <img src={images.highway} alt="Highway cruising" className="h-full w-full select-none object-cover" />
           </div>
 
           <motion.div
             whileHover={{ y: -4 }}
-            className="flex aspect-square flex-col justify-center rounded-[24px] border border-white/10 bg-[#111111] p-5 shadow-[0_4px_20px_rgba(0,0,0,0.5)]"
+            className="flex aspect-square flex-col justify-center rounded-[24px] border border-white/10 bg-[#111111] p-5 shadow-[0_4px_20px_rgba(0,0,0,0.5)] transition-colors duration-300 hover:border-[#FF6B1A] hover:shadow-[0_0_20px_rgba(255,107,26,0.3)]"
           >
             <span className="font-sans text-xs font-black uppercase tracking-widest text-zinc-400">
               SPREAD ACROSS
@@ -128,21 +128,21 @@ export function ImpactSection() {
             </span>
           </motion.div>
 
-          <div className="aspect-square overflow-hidden rounded-[24px] border-4 border-[#FF6B1A] shadow-[0_0_20px_rgba(255,107,26,0.3)]">
+          <div className="aspect-square overflow-hidden rounded-[24px] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)] transition-all duration-300 hover:-translate-y-1 hover:border-[#FF6B1A] hover:shadow-[0_0_20px_rgba(255,107,26,0.3)]">
             <img src={images.parked} alt="Clean rental fleet parked" className="h-full w-full select-none object-cover" />
           </div>
 
-          <div className="aspect-square overflow-hidden rounded-[24px] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+          <div className="aspect-square overflow-hidden rounded-[24px] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)] transition-all duration-300 hover:-translate-y-1 hover:border-[#FF6B1A] hover:shadow-[0_0_20px_rgba(255,107,26,0.3)]">
             <img src={images.front} alt="Motorcycle showroom line" className="h-full w-full select-none object-cover" />
           </div>
 
-          <div className="aspect-square overflow-hidden rounded-[24px] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+          <div className="aspect-square overflow-hidden rounded-[24px] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)] transition-all duration-300 hover:-translate-y-1 hover:border-[#FF6B1A] hover:shadow-[0_0_20px_rgba(255,107,26,0.3)]">
             <img src={images.scooter2} alt="City scooter rider" className="h-full w-full select-none object-cover" />
           </div>
 
           <motion.div
             whileHover={{ y: -4 }}
-            className="flex aspect-square flex-col justify-center rounded-[24px] border border-white/10 bg-[#111111] p-5 shadow-[0_4px_20px_rgba(0,0,0,0.5)]"
+            className="flex aspect-square flex-col justify-center rounded-[24px] border border-white/10 bg-[#111111] p-5 shadow-[0_4px_20px_rgba(0,0,0,0.5)] transition-colors duration-300 hover:border-[#FF6B1A] hover:shadow-[0_0_20px_rgba(255,107,26,0.3)]"
           >
             <span className="font-sans text-4xl font-black text-[#FF6B1A] lg:text-5xl">1.8M+</span>
             <span className="mt-2 font-sans text-xs font-black uppercase tracking-widest text-zinc-400">
@@ -169,20 +169,20 @@ export function ImpactSection() {
           </div>
 
           <div className="grid w-full grid-cols-3 items-stretch gap-3">
-            <div className="aspect-square overflow-hidden rounded-[16px] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+            <div className="aspect-square overflow-hidden rounded-[16px] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)] transition-all duration-300 hover:-translate-y-1 hover:border-[#FF6B1A] hover:shadow-[0_0_15px_rgba(255,107,26,0.3)]">
               <img src={images.cleaning} alt="Cleaning" className="h-full w-full object-cover" />
             </div>
-            <div className="aspect-square overflow-hidden rounded-[16px] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+            <div className="aspect-square overflow-hidden rounded-[16px] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)] transition-all duration-300 hover:-translate-y-1 hover:border-[#FF6B1A] hover:shadow-[0_0_15px_rgba(255,107,26,0.3)]">
               <img src={images.helmet} alt="Rider" className="h-full w-full object-cover" />
             </div>
-            <div className="aspect-square overflow-hidden rounded-[16px] border-2 border-[#FF6B1A] shadow-[0_0_15px_rgba(255,107,26,0.3)]">
+            <div className="aspect-square overflow-hidden rounded-[16px] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)] transition-all duration-300 hover:-translate-y-1 hover:border-[#FF6B1A] hover:shadow-[0_0_15px_rgba(255,107,26,0.3)]">
               <img src={images.sunset} alt="Sunset" className="h-full w-full object-cover" />
             </div>
 
-            <div className="aspect-square overflow-hidden rounded-[16px] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+            <div className="aspect-square overflow-hidden rounded-[16px] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)] transition-all duration-300 hover:-translate-y-1 hover:border-[#FF6B1A] hover:shadow-[0_0_15px_rgba(255,107,26,0.3)]">
               <img src={images.scooter1} alt="Scooter" className="h-full w-full object-cover" />
             </div>
-            <div className="flex aspect-square flex-col items-center justify-center rounded-[16px] border border-white/10 bg-[#111111] p-2 text-center shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+            <div className="flex aspect-square flex-col items-center justify-center rounded-[16px] border border-white/10 bg-[#111111] p-2 text-center shadow-[0_4px_20px_rgba(0,0,0,0.5)] transition-colors duration-300 hover:border-[#FF6B1A] hover:shadow-[0_0_15px_rgba(255,107,26,0.3)]">
               <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#FF6B1A] text-md font-black text-white shadow-[0_0_10px_rgba(255,107,26,0.3)]">
                 10
               </div>
@@ -190,17 +190,17 @@ export function ImpactSection() {
                 YEARS OF EXCELLENCE
               </span>
             </div>
-            <div className="aspect-square overflow-hidden rounded-[16px] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+            <div className="aspect-square overflow-hidden rounded-[16px] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)] transition-all duration-300 hover:-translate-y-1 hover:border-[#FF6B1A] hover:shadow-[0_0_15px_rgba(255,107,26,0.3)]">
               <img src={images.twins} alt="Twins" className="h-full w-full object-cover" />
             </div>
 
-            <div className="aspect-square overflow-hidden rounded-[16px] border-2 border-[#FF6B1A] shadow-[0_0_15px_rgba(255,107,26,0.3)]">
+            <div className="aspect-square overflow-hidden rounded-[16px] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)] transition-all duration-300 hover:-translate-y-1 hover:border-[#FF6B1A] hover:shadow-[0_0_15px_rgba(255,107,26,0.3)]">
               <img src={images.parked} alt="Parked" className="h-full w-full object-cover" />
             </div>
-            <div className="aspect-square overflow-hidden rounded-[16px] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+            <div className="aspect-square overflow-hidden rounded-[16px] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)] transition-all duration-300 hover:-translate-y-1 hover:border-[#FF6B1A] hover:shadow-[0_0_15px_rgba(255,107,26,0.3)]">
               <img src={images.front} alt="Fleet" className="h-full w-full object-cover" />
             </div>
-            <div className="aspect-square overflow-hidden rounded-[16px] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+            <div className="aspect-square overflow-hidden rounded-[16px] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)] transition-all duration-300 hover:-translate-y-1 hover:border-[#FF6B1A] hover:shadow-[0_0_15px_rgba(255,107,26,0.3)]">
               <img src={images.scooter2} alt="Scooter" className="h-full w-full object-cover" />
             </div>
           </div>

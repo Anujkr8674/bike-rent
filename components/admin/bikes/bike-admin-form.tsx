@@ -146,7 +146,7 @@ export function BikeAdminForm({ bikeId, onSaved }: BikeAdminFormProps) {
     }
   }, [currentName, currentSlug, isEditing, setValue]);
 
-  const inputClass = "w-full rounded-xl border border-zinc-200 px-4 py-3 text-sm outline-none focus:border-[#FF653F]/50";
+  const inputClass = "w-full rounded-xl border border-white/10 px-4 py-3 text-sm outline-none focus:border-[#FF653F]/50";
 
   const onSubmit = (values: BikeAdminFormValues) => {
     setPendingValues(values);
@@ -198,7 +198,7 @@ export function BikeAdminForm({ bikeId, onSaved }: BikeAdminFormProps) {
   const formErrorMessage = Object.values(errors)[0]?.message;
 
   return (
-    <div className="space-y-5 rounded-[2rem] border border-zinc-200 bg-white p-5 shadow-sm">
+    <div className="space-y-5 rounded-[2rem] border border-white/10 bg-[#111111] p-5 shadow-xl shadow-black/40">
       <ActionModal
         state={modalState}
         title={isEditing ? "Update Bike" : "Create Bike"}
@@ -210,11 +210,11 @@ export function BikeAdminForm({ bikeId, onSaved }: BikeAdminFormProps) {
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.35em] text-zinc-400">{isEditing ? "Edit bike" : "Create bike"}</p>
-          <h2 className="font-display mt-2 text-2xl font-bold text-zinc-900">{isEditing ? selectedBike?.name : "New bike"}</h2>
+          <h2 className="font-display mt-2 text-2xl font-bold text-white">{isEditing ? selectedBike?.name : "New bike"}</h2>
         </div>
         <Link
           href="/admin/bikes"
-          className="inline-flex h-10 shrink-0 items-center gap-2 rounded-xl border border-zinc-200 bg-white px-4 text-sm font-semibold text-zinc-700 hover:bg-zinc-50"
+          className="inline-flex h-10 shrink-0 items-center gap-2 rounded-xl border border-white/10 bg-[#111111] px-4 text-sm font-semibold text-zinc-300 hover:bg-[#111111]/5"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to bikes
@@ -222,15 +222,15 @@ export function BikeAdminForm({ bikeId, onSaved }: BikeAdminFormProps) {
       </div>
 
       {loadingBike ? (
-        <div className="rounded-2xl border border-dashed border-zinc-200 p-8 text-center text-sm text-zinc-500">
+        <div className="rounded-2xl border border-dashed border-white/10 p-8 text-center text-sm text-zinc-400">
           <Loader2 className="mx-auto mb-2 h-4 w-4 animate-spin text-[#FF653F]" />
           Loading bike...
         </div>
       ) : null}
 
-      {error ? <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">{error}</div> : null}
+      {error ? <div className="rounded-2xl border border-rose-500/20 bg-rose-500/10 px-4 py-3 text-sm text-rose-400">{error}</div> : null}
       {formErrorMessage ? (
-        <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">{String(formErrorMessage)}</div>
+        <div className="rounded-2xl border border-rose-500/20 bg-rose-500/10 px-4 py-3 text-sm text-rose-400">{String(formErrorMessage)}</div>
       ) : null}
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
@@ -320,16 +320,16 @@ export function BikeAdminForm({ bikeId, onSaved }: BikeAdminFormProps) {
             <div><FieldLabel label="Max booking days" /><input type="number" {...register("maximumBookingDays", { valueAsNumber: true })} className={inputClass} /></div>
             <div><FieldLabel label="Late return charge" /><input type="number" {...register("lateReturnCharge", { valueAsNumber: true })} className={inputClass} /></div>
           </div>
-          <label className="mt-4 flex items-center gap-3 rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3">
+          <label className="mt-4 flex items-center gap-3 rounded-xl border border-white/10 bg-[#111111]/5 px-4 py-3">
             <input type="checkbox" {...register("isAvailable")} className="h-4 w-4" />
-            <span className="text-sm font-medium text-zinc-700">Available for booking</span>
+            <span className="text-sm font-medium text-zinc-300">Available for booking</span>
           </label>
         </FormSection>
 
         <FormSection title="4. Features" description="Saved as JSON in PostgreSQL.">
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {bikeFeatureOptions.map((feature) => (
-              <label key={feature.key} className="flex items-center gap-2 rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm">
+              <label key={feature.key} className="flex items-center gap-2 rounded-xl border border-white/10 bg-[#111111]/5 px-3 py-2 text-sm">
                 <input type="checkbox" {...register(`features.${feature.key}`)} className="h-4 w-4" />
                 {feature.label}
               </label>
@@ -356,20 +356,20 @@ export function BikeAdminForm({ bikeId, onSaved }: BikeAdminFormProps) {
 
         <FormSection title="7. Images" description="Supabase Storage: assets/admin/bike/{bikeId}/">
           <div className="space-y-4">
-            <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-4">
+            <div className="rounded-xl border border-white/10 bg-[#111111]/5 p-4">
               <ImageUploadField
                 label="Primary image"
                 required={!isEditing}
                 onFiles={(files) => setPrimaryImage(files[0] ?? null)}
               />
               {isEditing && selectedBike?.imageUrl ? (
-                <button type="button" onClick={() => setRemovePrimaryImage((c) => !c)} className="mt-2 text-xs font-semibold text-rose-600">
+                <button type="button" onClick={() => setRemovePrimaryImage((c) => !c)} className="mt-2 text-xs font-semibold text-rose-400">
                   {removePrimaryImage ? "Restore existing primary" : "Remove existing primary"}
                 </button>
               ) : null}
-              {currentPrimaryUrl ? <img src={currentPrimaryUrl} alt="Primary" className="mt-3 h-44 w-full rounded-xl border border-zinc-200 object-cover" /> : null}
+              {currentPrimaryUrl ? <img src={currentPrimaryUrl} alt="Primary" className="mt-3 h-44 w-full rounded-xl border border-white/10 object-cover" /> : null}
             </div>
-            <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-4">
+            <div className="rounded-xl border border-white/10 bg-[#111111]/5 p-4">
               <ImageUploadField label="Gallery images" multiple onFiles={(files) => setGalleryImages((current) => [...current, ...files])} />
               <ImagePreviewGrid
                 urls={[
