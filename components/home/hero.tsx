@@ -149,9 +149,9 @@ export function Hero() {
 
             {/* Headline */}
             <h1 className="mt-6 text-4xl sm:text-5xl lg:text-[4rem] font-black leading-[1.02] tracking-tight text-white max-w-2xl">
-              Ride the City.
+              Explore India.
               <br />
-              Live the <span className="bg-gradient-to-r from-[#FF653F] to-[#FFA382] bg-clip-text text-transparent">Freedom.</span>
+              The <span className="bg-gradient-to-r from-[#FF653F] to-[#FFA382] bg-clip-text text-transparent">Nextgen</span> Way
             </h1>
 
             {/* Subtitle */}
@@ -223,7 +223,7 @@ export function Hero() {
                 <img src={siteAssets.impact.sunset} alt="User" className="w-10 h-10 rounded-full border-2 border-[#0A0A0B] object-cover" />
               </div>
               <p className="text-[11px] leading-tight text-zinc-400 font-medium">
-                Join thousands of happy riders<br/>
+                Join thousands of happy riders<br />
                 who trust <span className="text-[#FF653F]">Nextgen</span> every day.
               </p>
             </div>
@@ -255,14 +255,14 @@ export function Hero() {
             <div className="flex justify-between items-center mb-5 border-l-2 border-[#FF653F] pl-3">
               <h4 className="font-display font-semibold text-white">Choose Your Ride</h4>
               <div className="flex gap-2">
-                <button 
+                <button
                   onClick={handlePrev}
                   disabled={bikeIndex === 0}
                   className="h-7 w-7 rounded-full border border-white/20 flex justify-center items-center text-white/50 hover:text-white hover:bg-white/10 transition disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   <ArrowRight className="h-3 w-3 rotate-180" />
                 </button>
-                <button 
+                <button
                   onClick={handleNext}
                   disabled={bikeIndex >= popularBikes.length - 2}
                   className="h-7 w-7 rounded-full border border-white/20 flex justify-center items-center text-white/50 hover:text-white hover:bg-white/10 transition disabled:opacity-30 disabled:cursor-not-allowed"
