@@ -32,6 +32,7 @@ const navItems = [
   // { href: "/admin/settings", label: "Settings", icon: Settings2 },
   // { href: "/admin/activity", label: "Activity Logs", icon: History },
   { href: "/admin/profile", label: "Profile", icon: UserCircle2 },
+  { href: "/admin/change-password", label: "Change Password", icon: Settings2 },
   // { href: "/admin/content", label: "CMS Content", icon: ClipboardList },
 ];
 

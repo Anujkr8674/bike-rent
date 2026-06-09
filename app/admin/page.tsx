@@ -50,12 +50,13 @@ export default function AdminPage() {
   }, []);
 
   const cards = [
-    { label: "Total bikes", value: summary?.totalBikes ?? 0, hint: "Managed in Supabase/Prisma", icon: Bike },
-    { label: "Available", value: summary?.availableBikes ?? 0, hint: "Ready for booking", icon: Users2 },
-    { label: "Unavailable", value: summary?.unavailableBikes ?? 0, hint: "Booked or blocked", icon: Bike },
-    { label: "Contacts", value: summary?.totalContacts ?? 0, hint: "All inquiries", icon: PhoneCall },
-    { label: "Bookings", value: summary?.totalBookings ?? 0, hint: "All booking records", icon: FileText },
-    { label: "Revenue", value: formatCurrency(summary?.revenue ?? 0), hint: "Paid payments", icon: Users2 },
+    { label: "Total bikes", value: summary?.totalBikes ?? 0, hint: "Total fleet size", icon: Bike, href: "/admin/bikes" },
+    { label: "Available Bikes", value: summary?.availableBikes ?? 0, hint: "Ready for booking", icon: Bike, href: "/admin/bikes?status=available" },
+    { label: "Unavailable Bikes", value: summary?.unavailableBikes ?? 0, hint: "Booked or blocked", icon: Bike, href: "/admin/bikes?status=unavailable" },
+    { label: "Total Users", value: summary?.totalUsers ?? 0, hint: "Registered users", icon: Users2, href: "/admin/users" },
+    { label: "Contacts", value: summary?.totalContacts ?? 0, hint: "All inquiries", icon: PhoneCall, href: "/admin/contact" },
+    { label: "Bookings", value: summary?.totalBookings ?? 0, hint: "All booking records", icon: CalendarCheck, href: "/admin/bookings" },
+    { label: "Revenue", value: formatCurrency(summary?.revenue ?? 0), hint: "Paid payments", icon: FileText, href: "/admin/bookings" },
   ];
 
   return (
@@ -86,20 +87,30 @@ export default function AdminPage() {
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {cards.map((card, i) => {
           const Icon = card.icon;
+          const CardContent = (
+            <div className="rounded-3xl border border-white/10 bg-[#111111] p-5 shadow-xl shadow-black/40 transition hover:border-[#FF653F]/30 hover:bg-[#FF653F]/5 cursor-pointer h-full flex flex-col justify-between">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-sm font-medium text-zinc-400">{card.label}</p>
+                  <p className="mt-2 font-display text-3xl font-bold text-white">{card.value}</p>
+                </div>
+                <div className="rounded-2xl bg-[#FF653F]/10 p-3 text-[#FF653F]">
+                  <Icon className="h-5 w-5" />
+                </div>
+              </div>
+              <p className="mt-3 text-xs font-medium uppercase tracking-[0.25em] text-zinc-400">{card.hint}</p>
+            </div>
+          );
+
           return (
             <SectionReveal key={card.label} delay={i * 0.05}>
-              <div className="rounded-3xl border border-white/10 bg-[#111111] p-5 shadow-xl shadow-black/40">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <p className="text-sm font-medium text-zinc-400">{card.label}</p>
-                    <p className="mt-2 font-display text-3xl font-bold text-white">{card.value}</p>
-                  </div>
-                  <div className="rounded-2xl bg-[#FF653F]/10 p-3 text-[#FF653F]">
-                    <Icon className="h-5 w-5" />
-                  </div>
-                </div>
-                <p className="mt-3 text-xs font-medium uppercase tracking-[0.25em] text-zinc-400">{card.hint}</p>
-              </div>
+              {card.href ? (
+                <Link href={card.href} className="block h-full">
+                  {CardContent}
+                </Link>
+              ) : (
+                CardContent
+              )}
             </SectionReveal>
           );
         })}
