@@ -131,8 +131,8 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
       })
       .catch(() => undefined);
 
-    revalidateTag("bike-details");
-    revalidateTag("bikes");
+    revalidateTag("bike-details", "max");
+    revalidateTag("bikes", "max");
     const bike = await serializeAdminBike(id);
     return NextResponse.json({ success: true, bike });
   } catch (error) {

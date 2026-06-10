@@ -48,7 +48,7 @@ export async function POST(req: Request) {
       update: { name, isActive: true },
       create: { name, slug, isActive: true },
     });
-    revalidateTag("bike-brands");
+    revalidateTag("bike-brands", "max");
     return NextResponse.json({ success: true, brand });
   } catch {
     return NextResponse.json({ message: "Brand already exists or could not be saved." }, { status: 409 });
@@ -78,7 +78,7 @@ export async function PATCH(req: Request) {
       where: { id },
       data: { name, slug },
     });
-    revalidateTag("bike-brands");
+    revalidateTag("bike-brands", "max");
     return NextResponse.json({ success: true, brand: updatedBrand });
   } catch (error) {
     console.error("PATCH Brand Error:", error);
@@ -107,6 +107,6 @@ export async function DELETE(req: Request) {
   }
 
   await db.bikeBrand.update({ where: { id }, data: { isActive: false } });
-  revalidateTag("bike-brands");
+  revalidateTag("bike-brands", "max");
   return NextResponse.json({ success: true });
 }

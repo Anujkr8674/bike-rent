@@ -79,7 +79,7 @@ export async function POST(req: Request) {
       }
     }
 
-    revalidateTag("bike-categories");
+    revalidateTag("bike-categories", "max");
     return NextResponse.json({ success: true, category });
   } catch (dbError) {
     console.error("Category DB operation failed:", dbError);
@@ -146,7 +146,7 @@ export async function PATCH(req: Request) {
       );
     }
 
-    revalidateTag("bike-categories");
+    revalidateTag("bike-categories", "max");
     return NextResponse.json({ success: true, category: updatedCategory });
   } catch (error) {
     console.error("PATCH Category Error:", error);
@@ -187,6 +187,6 @@ export async function DELETE(req: Request) {
     where: { id },
     data: { isActive: false, imageUrl: null },
   });
-  revalidateTag("bike-categories");
+  revalidateTag("bike-categories", "max");
   return NextResponse.json({ success: true });
 }

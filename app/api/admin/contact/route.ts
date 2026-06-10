@@ -134,7 +134,7 @@ export async function PATCH(req: Request) {
     })
     .catch(() => undefined);
 
-  revalidateTag("contact-counts");
+  revalidateTag("contact-counts", "max");
 
   return NextResponse.json({ success: true, contact });
 }
