@@ -56,7 +56,8 @@ export async function GET(req: Request) {
     ];
   }
 
-  const [bikes, totalFiltered, total, available, unavailable, brands, categories] = await Promise.all([
+  const { getBulkBikeAvailability } = await import("@/lib/availability");
+  const [bikes, totalFiltered, availabilityStats, brands, categories, statuses] = await Promise.all([
     db.bike.findMany({ 
       where, 
       include: bikeAdminInclude, 
@@ -65,19 +66,24 @@ export async function GET(req: Request) {
       take: limit,
     }),
     db.bike.count({ where }),
-    db.bike.count(),
-    db.bike.count({ where: { isAvailable: true } }),
-    db.bike.count({ where: { isAvailable: false } }),
+    db.bike.groupBy({
+      by: ["isAvailable"],
+      _count: { isAvailable: true },
+    }),
     db.bikeBrand.count({ where: { isActive: true } }),
     db.bikeCategory.count({ where: { isActive: true } }),
+    getBulkBikeAvailability(),
   ]);
 
-  const { getBikeCurrentStatus } = await import("@/lib/availability");
+  const available = availabilityStats.find(s => s.isAvailable)?._count.isAvailable || 0;
+  const unavailable = availabilityStats.find(s => !s.isAvailable)?._count.isAvailable || 0;
+  const total = available + unavailable;
+
   const serializedBikes = await Promise.all(
     bikes.map(async (bike) => {
       const record = bikeRecordFromDb(bike);
       const repaired = await repairBikeMedia(bike.id, record.imageUrl, record.gallery);
-      const isAvailableObj = await getBikeCurrentStatus(bike.id);
+      const isAvailableObj = statuses[bike.id];
       return { ...record, imageUrl: repaired.imageUrl, gallery: repaired.gallery, isAvailableObj };
     }),
   );

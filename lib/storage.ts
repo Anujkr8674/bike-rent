@@ -134,7 +134,7 @@ function isBrokenBikeMediaUrl(url: string) {
   return (
     resolved.includes("/bike-images/") ||
     resolved.includes(`/public/${ADMIN_BIKE_BUCKET}/${ADMIN_BIKE_BUCKET}/`) ||
-    !resolved.startsWith("http")
+    !(resolved.startsWith("http") || resolved.startsWith("/"))
   );
 }
 

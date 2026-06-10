@@ -35,6 +35,7 @@ import {
 import { makeBikeFormData, submitBikeMutation } from "@/lib/bike-form-client";
 import { cn, formatCurrency } from "@/lib/utils";
 import { BikeAdminForm } from "./bike-admin-form";
+import { BikeMediaImage } from "@/components/bikes/bike-media-image";
 
 type BikeListResponse = {
   bikes: AdminBikeRecord[];
@@ -505,7 +506,7 @@ export function BikeManager({ view = "full", bikeId }: BikeManagerProps) {
                         <div className="border-b border-white/5 bg-[#111111]/5 p-2.5 lg:border-b-0 lg:border-r">
                           <div className="relative h-[125px] overflow-hidden rounded-xl bg-[#111111]/10">
                             {mainImage ? (
-                              <img src={mainImage} alt={bike.name} className="h-full w-full object-cover" />
+                              <BikeMediaImage src={mainImage} alt={bike.name} fill />
                             ) : (
                               <div className="flex h-[125px] tems-center justify-center text-zinc-400">
                                 <Bike className="h-8 w-8" />
@@ -534,7 +535,7 @@ export function BikeManager({ view = "full", bikeId }: BikeManagerProps) {
                                       activeIndex === index ? "border-white" : "border-white/40",
                                     )}
                                   >
-                                    <img src={url} alt={`${bike.name} ${index + 1}`} className="h-full w-full object-cover" />
+                                    <BikeMediaImage src={url} alt={`${bike.name} ${index + 1}`} fill />
                                   </button>
                                 ))}
                                 {extraCount > 0 ? (

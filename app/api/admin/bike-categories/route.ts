@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { unstable_cache, revalidateTag } from "next/cache";
 import { getSession } from "@/lib/auth";
 import { slugifyText } from "@/lib/admin-bike";
 
@@ -15,10 +16,18 @@ export async function GET() {
   const session = await assertAdmin();
   if (!session) return NextResponse.json({ message: "Forbidden" }, { status: 403 });
 
-  const categories = await db.bikeCategory.findMany({
-    where: { isActive: true },
-    orderBy: { name: "asc" },
-  });
+  const getCachedCategories = unstable_cache(
+    async () => {
+      return await db.bikeCategory.findMany({
+        where: { isActive: true },
+        orderBy: { name: "asc" },
+      });
+    },
+    ["active-bike-categories"],
+    { tags: ["bike-categories"], revalidate: 86400 }
+  );
+
+  const categories = await getCachedCategories();
 
   return NextResponse.json({ categories });
 }
@@ -70,6 +79,7 @@ export async function POST(req: Request) {
       }
     }
 
+    revalidateTag("bike-categories");
     return NextResponse.json({ success: true, category });
   } catch (dbError) {
     console.error("Category DB operation failed:", dbError);
@@ -136,6 +146,7 @@ export async function PATCH(req: Request) {
       );
     }
 
+    revalidateTag("bike-categories");
     return NextResponse.json({ success: true, category: updatedCategory });
   } catch (error) {
     console.error("PATCH Category Error:", error);
@@ -176,5 +187,6 @@ export async function DELETE(req: Request) {
     where: { id },
     data: { isActive: false, imageUrl: null },
   });
+  revalidateTag("bike-categories");
   return NextResponse.json({ success: true });
 }

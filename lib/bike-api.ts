@@ -1,3 +1,4 @@
+import { unstable_cache } from "next/cache";
 import { Prisma } from "@prisma/client";
 import { db } from "@/lib/db";
 import type { BikeAdminFormValues } from "@/lib/admin-bike";
@@ -21,6 +22,14 @@ export async function serializeAdminBike(bikeId: string) {
   const repaired = await repairBikeMedia(bike.id, record.imageUrl, record.gallery);
   return { ...record, imageUrl: repaired.imageUrl, gallery: repaired.gallery };
 }
+
+export const getCachedAdminBike = unstable_cache(
+  async (bikeId: string) => {
+    return await serializeAdminBike(bikeId);
+  },
+  ["admin-bike-details"],
+  { tags: ["bikes", "bike-details"], revalidate: 3600 }
+);
 
 export async function buildBikeCreateData(payload: BikeAdminFormValues, cityId: string) {
   const { brand, category } = await resolveBrandCategoryIds(payload);

@@ -19,34 +19,32 @@ export async function GET(req: Request) {
   const startDate = new Date(startParam);
   const endDate = new Date(endParam);
 
-  // Fetch all active bikes to display on the y-axis
-  const bikes = await db.bike.findMany({
-    orderBy: { name: "asc" },
-    select: { id: true, name: true, bikeNo: true, isAvailable: true }
-  });
-
-  // Fetch all bookings that overlap with the requested date range and are not cancelled/completed
-  const bookings = await db.booking.findMany({
-    where: {
-      status: { in: ["AWAITING_DOCUMENTS", "VERIFICATION_PENDING", "CONFIRMED", "ACTIVE", "RETURNED"] },
-      dropDate: { gte: startDate },
-      pickupDate: { lte: endDate }
-    },
-    select: {
-      id: true,
-      bikeId: true,
-      pickupDate: true,
-      pickupTime: true,
-      dropDate: true,
-      returnTime: true,
-      customerName: true,
-      status: true,
-      bookingRef: true
-    }
-  });
-
-  // Also get the buffer time from settings to visualize buffer periods
-  const setting = await db.siteSetting.findUnique({ where: { key: "rental_buffer_time" } });
+  // Fetch everything concurrently to avoid sequential latency penalties
+  const [bikes, bookings, setting] = await Promise.all([
+    db.bike.findMany({
+      orderBy: { name: "asc" },
+      select: { id: true, name: true, bikeNo: true, isAvailable: true }
+    }),
+    db.booking.findMany({
+      where: {
+        status: { in: ["AWAITING_DOCUMENTS", "VERIFICATION_PENDING", "CONFIRMED", "ACTIVE", "RETURNED"] },
+        dropDate: { gte: startDate },
+        pickupDate: { lte: endDate }
+      },
+      select: {
+        id: true,
+        bikeId: true,
+        pickupDate: true,
+        pickupTime: true,
+        dropDate: true,
+        returnTime: true,
+        customerName: true,
+        status: true,
+        bookingRef: true
+      }
+    }),
+    db.siteSetting.findUnique({ where: { key: "rental_buffer_time" } })
+  ]);
   const bufferMinutes = setting?.value ? parseInt(String(setting.value), 10) : 30;
 
   return NextResponse.json({ bikes, bookings, bufferMinutes });

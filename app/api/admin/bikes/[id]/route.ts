@@ -5,6 +5,7 @@ import { getSession } from "@/lib/auth";
 import { bikeAdminFormSchema, coerceBoolean, normalizeBikeForm, slugifyText } from "@/lib/admin-bike";
 import { rentalTermsContent, serializeAdminBike } from "@/lib/bike-api";
 import { bikeAdminInclude, bikeScalarDataFromPayload, resolveBrandCategoryIds, syncBikeImages } from "@/lib/bike-db";
+import { revalidateTag } from "next/cache";
 import { deleteStoragePaths, extractStoragePath, uploadBikeFile } from "@/lib/storage";
 
 async function assertAdmin() {
@@ -18,7 +19,8 @@ export async function GET(_: Request, { params }: { params: Promise<{ id: string
   if (!session) return NextResponse.json({ message: "Forbidden" }, { status: 403 });
   const { id } = await params;
 
-  const bike = await serializeAdminBike(id);
+  const { getCachedAdminBike } = await import("@/lib/bike-api");
+  const bike = await getCachedAdminBike(id);
   if (!bike) return NextResponse.json({ message: "Bike not found." }, { status: 404 });
 
   return NextResponse.json({ bike });
@@ -129,6 +131,8 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
       })
       .catch(() => undefined);
 
+    revalidateTag("bike-details");
+    revalidateTag("bikes");
     const bike = await serializeAdminBike(id);
     return NextResponse.json({ success: true, bike });
   } catch (error) {

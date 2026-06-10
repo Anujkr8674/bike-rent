@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { unstable_cache, revalidateTag } from "next/cache";
 import { getSession } from "@/lib/auth";
 import { slugifyText } from "@/lib/admin-bike";
 
@@ -13,10 +14,18 @@ export async function GET() {
   const session = await assertAdmin();
   if (!session) return NextResponse.json({ message: "Forbidden" }, { status: 403 });
 
-  const brands = await db.bikeBrand.findMany({
-    where: { isActive: true },
-    orderBy: { name: "asc" },
-  });
+  const getCachedBrands = unstable_cache(
+    async () => {
+      return await db.bikeBrand.findMany({
+        where: { isActive: true },
+        orderBy: { name: "asc" },
+      });
+    },
+    ["active-bike-brands"],
+    { tags: ["bike-brands"], revalidate: 86400 }
+  );
+
+  const brands = await getCachedBrands();
 
   return NextResponse.json({ brands });
 }
@@ -39,6 +48,7 @@ export async function POST(req: Request) {
       update: { name, isActive: true },
       create: { name, slug, isActive: true },
     });
+    revalidateTag("bike-brands");
     return NextResponse.json({ success: true, brand });
   } catch {
     return NextResponse.json({ message: "Brand already exists or could not be saved." }, { status: 409 });
@@ -68,6 +78,7 @@ export async function PATCH(req: Request) {
       where: { id },
       data: { name, slug },
     });
+    revalidateTag("bike-brands");
     return NextResponse.json({ success: true, brand: updatedBrand });
   } catch (error) {
     console.error("PATCH Brand Error:", error);
@@ -96,5 +107,6 @@ export async function DELETE(req: Request) {
   }
 
   await db.bikeBrand.update({ where: { id }, data: { isActive: false } });
+  revalidateTag("bike-brands");
   return NextResponse.json({ success: true });
 }

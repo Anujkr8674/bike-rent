@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { LeadStatus as ContactStatus } from "@prisma/client";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
+import { unstable_cache, revalidateTag } from "next/cache";
 
 async function assertAdmin() {
   const session = await getSession();
@@ -37,10 +38,22 @@ export async function GET(req: Request) {
       : {}),
   };
 
-  const [total, newCount, closedCount, contacts] = await Promise.all([
+  const getCachedCounts = unstable_cache(
+    async () => {
+      const [newCount, closedCount] = await Promise.all([
+        db.contact.count({ where: { status: ContactStatus.NEW } }),
+        db.contact.count({ where: { status: ContactStatus.CLOSED } }),
+      ]);
+      return { newCount, closedCount };
+    },
+    ["contact-status-counts"],
+    { tags: ["contact-counts"], revalidate: 3600 }
+  );
+
+  const countsPromise = getCachedCounts();
+
+  const [total, contacts, { newCount, closedCount }] = await Promise.all([
       db.contact.count({ where }),
-      db.contact.count({ where: { status: ContactStatus.NEW } }),
-      db.contact.count({ where: { status: ContactStatus.CLOSED } }),
       db.contact.findMany({
         where,
         orderBy: { createdAt: "desc" },
@@ -55,6 +68,7 @@ export async function GET(req: Request) {
           },
         },
       }),
+      countsPromise
     ]);
 
   return NextResponse.json({
@@ -119,6 +133,8 @@ export async function PATCH(req: Request) {
       },
     })
     .catch(() => undefined);
+
+  revalidateTag("contact-counts");
 
   return NextResponse.json({ success: true, contact });
 }

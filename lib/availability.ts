@@ -192,9 +192,6 @@ export async function checkBikeAvailability(
   };
 }
 
-/**
- * Gets the current real-time status of a bike.
- */
 export async function getBikeCurrentStatus(bikeId: string): Promise<AvailabilityInfo> {
   const bufferMinutes = await getRentalBufferMinutes();
   
@@ -209,6 +206,35 @@ export async function getBikeCurrentStatus(bikeId: string): Promise<Availability
   });
 
   return computeAvailabilityFromBookings(bookings, bufferMinutes);
+}
+
+/**
+ * Gets the current real-time status of multiple bikes in bulk efficiently.
+ */
+export async function getBikesCurrentStatus(bikeIds: string[]): Promise<Record<string, AvailabilityInfo>> {
+  const bufferMinutes = await getRentalBufferMinutes();
+  
+  const bookings = await db.booking.findMany({
+    where: {
+      bikeId: { in: bikeIds },
+      status: {
+        in: [...BLOCKING_STATUSES, "RETURNED"],
+      },
+    },
+    orderBy: { pickupDate: 'asc' }
+  });
+
+  const byBike = bookings.reduce((acc, b) => {
+    if (!acc[b.bikeId]) acc[b.bikeId] = [];
+    acc[b.bikeId].push(b);
+    return acc;
+  }, {} as Record<string, Booking[]>);
+
+  const result: Record<string, AvailabilityInfo> = {};
+  for (const bikeId of bikeIds) {
+    result[bikeId] = computeAvailabilityFromBookings(byBike[bikeId] || [], bufferMinutes);
+  }
+  return result;
 }
 
 /**
