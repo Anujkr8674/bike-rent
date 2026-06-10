@@ -15,7 +15,7 @@ import { useDefaultPickupDrop, useRentalWindow } from "@/hooks/use-rental-window
 
 const PAGE_SIZE = 16;
 
-function BikesContent({ embedded = false }: { embedded?: boolean }) {
+function BikesContent({ embedded = false, initialBikes = [] }: { embedded?: boolean; initialBikes?: BikeItem[] }) {
   const router = useRouter();
   const pathname = usePathname();
   const params = useSearchParams();
@@ -24,8 +24,9 @@ function BikesContent({ embedded = false }: { embedded?: boolean }) {
 
   const [pickup, setPickup] = useState(urlPickup || defaults.pickup);
   const [drop, setDrop] = useState(urlDrop || defaults.drop);
-  const [catalog, setCatalog] = useState<BikeItem[]>([]);
-  const [loadingCatalog, setLoadingCatalog] = useState(true);
+  // Use initialBikes directly, or fallback to ranchiBikes if empty
+  const [catalog, setCatalog] = useState<BikeItem[]>(initialBikes.length ? initialBikes : ranchiBikes);
+  const [loadingCatalog, setLoadingCatalog] = useState(false); // No longer loading from client
   const [filters, setFilters] = useState<FilterState>({
     ...defaultFilters,
     category: params.get("category") || "all",
@@ -68,27 +69,6 @@ function BikesContent({ embedded = false }: { embedded?: boolean }) {
     const qs = buildRentalSearchParams({ pickup, drop, category: next.category });
     router.replace(`${pathname}?${qs.toString()}`, { scroll: false });
   };
-
-  useEffect(() => {
-    let active = true;
-    fetch("/api/bikes", { cache: "no-store" })
-      .then((res) => res.json())
-      .then((data: { bikes?: BikeItem[] }) => {
-        if (!active) return;
-        if (Array.isArray(data.bikes)) {
-          setCatalog(data.bikes.length ? data.bikes : ranchiBikes);
-        }
-      })
-      .catch(() => {
-        if (active) setCatalog(ranchiBikes);
-      })
-      .finally(() => {
-        if (active) setLoadingCatalog(false);
-      });
-    return () => {
-      active = false;
-    };
-  }, []);
 
   const searchQuery = params.get("q") || "";
 
@@ -231,10 +211,10 @@ function BikesContent({ embedded = false }: { embedded?: boolean }) {
   );
 }
 
-export function BikesListing({ embedded = false }: { embedded?: boolean }) {
+export function BikesListing({ embedded = false, initialBikes = [] }: { embedded?: boolean; initialBikes?: BikeItem[] }) {
   return (
     <Suspense fallback={<div className="page-wrap py-20 animate-pulse text-zinc-400">Loading fleet...</div>}>
-      <BikesContent embedded={embedded} />
+      <BikesContent embedded={embedded} initialBikes={initialBikes} />
     </Suspense>
   );
 }

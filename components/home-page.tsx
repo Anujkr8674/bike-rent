@@ -22,7 +22,22 @@ import {
 } from "@/components/home/page-previews";
 import { calcRentalDays } from "@/lib/pricing";
 
-function HomeContent() {
+import type { BikeItem } from "@/lib/bikes";
+
+interface CategoryItem {
+  id: string;
+  name: string;
+  slug: string;
+  imageUrl: string | null;
+}
+
+function HomeContent({
+  initialBikes,
+  initialCategories
+}: {
+  initialBikes: BikeItem[];
+  initialCategories: CategoryItem[];
+}) {
   const params = useSearchParams();
   const pickup = params.get("pickup") || "";
   const drop = params.get("drop") || "";
@@ -42,10 +57,10 @@ function HomeContent() {
       </div>
       <TrustStrip />
 
-      <PopularSlider days={days} pickup={pickup} drop={drop} />
-      <CategorySection />
+      <PopularSlider days={days} pickup={pickup} drop={drop} bikes={initialBikes} />
+      <CategorySection categories={initialCategories} bikes={initialBikes} />
       <ServicesSection />
-      <TrendingBikes days={days} pickup={pickup} drop={drop} />
+      <TrendingBikes days={days} pickup={pickup} drop={drop} bikes={initialBikes} />
       {/* <ShowcaseBand /> */}
 
       <WhyChooseSection />
@@ -61,10 +76,16 @@ function HomeContent() {
   );
 }
 
-export function HomePage() {
+export function HomePage({
+  initialBikes,
+  initialCategories
+}: {
+  initialBikes: BikeItem[];
+  initialCategories: CategoryItem[];
+}) {
   return (
     <Suspense fallback={<div className="min-h-screen bg-zinc-50" />}>
-      <HomeContent />
+      <HomeContent initialBikes={initialBikes} initialCategories={initialCategories} />
     </Suspense>
   );
 }

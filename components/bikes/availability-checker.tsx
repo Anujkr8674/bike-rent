@@ -13,6 +13,9 @@ export function AvailabilityChecker({ slug }: { slug: string }) {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{ isAvailable: boolean; message: string } | null>(null);
 
+  const today = new Date();
+  const minDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+
   const handleCheck = async () => {
     if (!pickupDate || !pickupTime || !returnDate || !returnTime) return;
 
@@ -61,6 +64,7 @@ export function AvailabilityChecker({ slug }: { slug: string }) {
             type="date" 
             className="w-full rounded-md border border-white/10 bg-[#0A0A0A] p-2 text-sm text-white"
             value={pickupDate}
+            min={minDate}
             onChange={(e) => setPickupDate(e.target.value)}
           />
         </div>
@@ -82,6 +86,7 @@ export function AvailabilityChecker({ slug }: { slug: string }) {
             type="date" 
             className="w-full rounded-md border border-white/10 bg-[#0A0A0A] p-2 text-sm text-white"
             value={returnDate}
+            min={pickupDate || minDate}
             onChange={(e) => setReturnDate(e.target.value)}
           />
         </div>

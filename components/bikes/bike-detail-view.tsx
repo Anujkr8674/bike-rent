@@ -107,7 +107,7 @@ export function BikeDetailView({ bike, days }: Props) {
               <div className="absolute bottom-[12%] w-[45%] h-3 bg-white/40 rounded-[50%] blur-[4px] opacity-80 transition-transform duration-500 scale-[1.20] md:scale-[1.25] z-0" />
 
               {/* Bike Image Area */}
-              <div className="relative z-10 w-[85%] h-[85%] transition-transform duration-500 group-hover:scale-105 group-hover:-translate-y-2">
+              <div className="relative z-10 w-[95%] h-[95%] transition-transform duration-500 group-hover:scale-105 group-hover:-translate-y-2">
                 <BikeMediaImage 
                   src={gallery[activeImage] ?? bike.image} 
                   alt={bike.name} 
@@ -142,7 +142,13 @@ export function BikeDetailView({ bike, days }: Props) {
             <h2 className="font-display text-2xl font-bold text-white">Bike details</h2>
             <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {detailSpecs.map((s) => (
-                <div key={s.label} className="rounded-xl border border-white/10 bg-[#0A0A0A]/80 p-4">
+                <div 
+                  key={s.label} 
+                  className={cn(
+                    "rounded-xl border border-white/10 bg-[#0A0A0A]/80 p-4 transition-all duration-300",
+                    "hover:-translate-y-1 hover:scale-[1.02] hover:border-[#FF6B1A] hover:shadow-[0_8px_24px_rgba(255,107,26,0.15)] hover:bg-[#111111]"
+                  )}
+                >
                   <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">{s.label}</p>
                   <p className="mt-1 font-semibold text-white">{s.value}</p>
                 </div>
@@ -215,7 +221,12 @@ export function BikeDetailView({ bike, days }: Props) {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="rounded-[24px] border border-white/10 bg-[#0A0A0A]/80 shadow-[0_8px_30px_rgba(0,0,0,0.4)] backdrop-blur-md overflow-hidden"
+            className={cn(
+              "rounded-[24px] bg-[#0A0A0A]/80 shadow-[0_8px_30px_rgba(0,0,0,0.4)] backdrop-blur-md",
+              "border border-[#FF6B1A]/30 transition-all duration-300",
+              "hover:border-[#FF6B1A] hover:shadow-[0_0_30px_rgba(255,107,26,0.15)]",
+              "max-h-[calc(100vh-8rem)] overflow-y-auto overflow-x-hidden"
+            )}
           >
             <div className="border-b border-white/10 p-6">
               <div className="flex items-center gap-2">

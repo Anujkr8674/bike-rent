@@ -96,9 +96,14 @@ export async function serializeAdminBikeImages<T extends { id: string; imageUrl:
   return { ...bike, imageUrl: repaired.imageUrl, gallery: repaired.gallery };
 }
 
-import { checkBikeAvailability, getBikeCurrentStatus } from "@/lib/availability";
+import { checkBikeAvailability, getBikeCurrentStatus, getBulkBikeAvailability } from "@/lib/availability";
 
-export async function getCatalogBikes(targetPickup?: Date, targetReturn?: Date) {
+let cachedStaticBikes: BikeDetailItem[] | null = null;
+let lastStaticCacheTime = 0;
+const CACHE_TTL = 60000; // 1 minute
+let isFetchingStaticBikes = false;
+
+async function fetchStaticBikes() {
   try {
     const bikes = await db.bike.findMany({
       where: { isAvailable: true },
@@ -106,29 +111,71 @@ export async function getCatalogBikes(targetPickup?: Date, targetReturn?: Date) 
       orderBy: { updatedAt: "desc" },
     });
     
-    const mapped: (BikeDetailItem & { isAvailableObj?: any })[] = [];
-    
-    for (const bike of bikes) {
+    const mappedPromises = bikes.map(async (bike) => {
       try {
-        const item = await mapDbBikeToBikeItem(bike);
-        
-        let availability;
-        if (targetPickup && targetReturn) {
-           availability = await checkBikeAvailability(bike.id, targetPickup, targetReturn);
-           if (!availability.isAvailable) continue; // Skip unavailable bikes during a strict search
-        }
-        
-        // Let's attach the current availability info so the UI can show "Available Now" vs "Currently Booked"
-        const currentStatus = await getBikeCurrentStatus(bike.id);
-        
-        mapped.push({
-           ...item,
-           isAvailableObj: currentStatus
-        });
+        return await mapDbBikeToBikeItem(bike);
       } catch {
-        // skip rows that fail media mapping
+        return null;
+      }
+    });
+    
+    cachedStaticBikes = (await Promise.all(mappedPromises)).filter(Boolean) as BikeDetailItem[];
+    lastStaticCacheTime = Date.now();
+  } catch {
+    // keep old cache on failure
+  } finally {
+    isFetchingStaticBikes = false;
+  }
+}
+
+export async function getCatalogBikes(targetPickup?: Date, targetReturn?: Date) {
+  try {
+    const needsRefresh = !cachedStaticBikes || Date.now() - lastStaticCacheTime > CACHE_TTL;
+    
+    if (needsRefresh && !isFetchingStaticBikes) {
+      isFetchingStaticBikes = true;
+      if (!cachedStaticBikes) {
+        await fetchStaticBikes();
+      } else {
+        // Run in background so we don't block the request (Stale-while-revalidate)
+        fetchStaticBikes();
       }
     }
+
+    const staticBikes = cachedStaticBikes;
+    if (!staticBikes) return ranchiBikes;
+
+    const bulkAvailability = await getBulkBikeAvailability();
+
+    const finalMappedPromises = staticBikes.map(async (item) => {
+      try {
+        let availability;
+        if (targetPickup && targetReturn) {
+           availability = await checkBikeAvailability(item.dbId, targetPickup, targetReturn);
+           if (!availability.isAvailable) return null;
+        }
+        
+        const currentStatus = bulkAvailability[item.dbId] || await getBikeCurrentStatus(item.dbId);
+        
+        const safeStatus = {
+          isAvailable: currentStatus.isAvailable,
+          availabilityStatus: currentStatus.availabilityStatus,
+          nextAvailableAt: currentStatus.nextAvailableAt,
+          bufferMinutes: currentStatus.bufferMinutes,
+          availabilityMessage: currentStatus.availabilityMessage,
+        };
+        
+        return {
+           ...item,
+           isAvailableObj: safeStatus
+        };
+      } catch {
+        return null;
+      }
+    });
+
+    const mapped = (await Promise.all(finalMappedPromises)).filter(Boolean) as (BikeDetailItem & { isAvailableObj?: any })[];
+    
     if (mapped.length) return mapped;
   } catch {
     // fall through when DB unavailable
@@ -145,7 +192,16 @@ export async function getCatalogBikeBySlug(slug: string): Promise<BikeDetailItem
     if (bike) {
       const item = await mapDbBikeToBikeItem(bike);
       const currentStatus = await getBikeCurrentStatus(bike.id);
-      return { ...item, isAvailableObj: currentStatus };
+      
+      const safeStatus = {
+        isAvailable: currentStatus.isAvailable,
+        availabilityStatus: currentStatus.availabilityStatus,
+        nextAvailableAt: currentStatus.nextAvailableAt,
+        bufferMinutes: currentStatus.bufferMinutes,
+        availabilityMessage: currentStatus.availabilityMessage,
+      };
+
+      return { ...item, isAvailableObj: safeStatus };
     }
   } catch {
     // fall through
@@ -166,4 +222,47 @@ export async function getCatalogBikeBySlug(slug: string): Promise<BikeDetailItem
       availabilityMessage: "Available Now"
     }
   };
+}
+
+let cachedCategories: { id: string; name: string; slug: string; imageUrl: string | null }[] | null = null;
+let lastCategoryCacheTime = 0;
+let isFetchingCategories = false;
+
+export async function getCachedCategories() {
+  const needsRefresh = !cachedCategories || Date.now() - lastCategoryCacheTime > CACHE_TTL;
+
+  if (needsRefresh && !isFetchingCategories) {
+    isFetchingCategories = true;
+    const fetchCats = async () => {
+      try {
+        cachedCategories = await db.bikeCategory.findMany({
+          where: { isActive: true },
+          orderBy: { name: "asc" },
+          select: { id: true, name: true, slug: true, imageUrl: true },
+        });
+        lastCategoryCacheTime = Date.now();
+      } catch {
+        // Keep old cache
+      } finally {
+        isFetchingCategories = false;
+      }
+    };
+
+    if (!cachedCategories) {
+      await fetchCats();
+    } else {
+      fetchCats(); // run in background
+    }
+  }
+
+  if (cachedCategories && cachedCategories.length > 0) {
+    return cachedCategories;
+  }
+
+  return [
+    { id: "sports", name: "Sports", slug: "sports", imageUrl: null },
+    { id: "cruiser", name: "Cruiser", slug: "cruiser", imageUrl: null },
+    { id: "scooter", name: "Scooter", slug: "scooter", imageUrl: null },
+    { id: "commuter", name: "Commuter", slug: "commuter", imageUrl: null },
+  ];
 }

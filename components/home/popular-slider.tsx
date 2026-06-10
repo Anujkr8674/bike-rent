@@ -4,23 +4,25 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { BikeCard } from "@/components/bikes/bike-card";
-import { useCatalogBikes } from "@/components/bikes/use-catalog-bikes";
 import { SectionReveal } from "@/components/ui/section-reveal";
+import type { BikeItem } from "@/lib/bikes";
 
 export function PopularSlider({
   days = 1,
   pickup = "",
   drop = "",
+  bikes = [],
 }: {
   days?: number;
   pickup?: string;
   drop?: string;
+  bikes?: BikeItem[];
 }) {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const bikes = useCatalogBikes(8);
+  const displayBikes = bikes.slice(0, 8);
   const [isPaused, setIsPaused] = useState(false);
 
-  const allBikes = [...bikes, ...bikes];
+  const allBikes = [...displayBikes, ...displayBikes];
 
   const scroll = (dir: number) => {
     if (!scrollRef.current) return;

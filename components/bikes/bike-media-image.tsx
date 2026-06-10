@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 const FALLBACK_IMAGE =
@@ -9,9 +10,21 @@ const FALLBACK_IMAGE =
 function normalizeSrc(src: string) {
   const trimmed = src?.trim() ?? "";
   if (!trimmed) return "";
-  if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) return trimmed;
-  if (trimmed.startsWith("/")) return trimmed;
-  return "";
+  
+  let validUrl = "";
+  if (trimmed.startsWith("http://") || trimmed.startsWith("https://") || trimmed.startsWith("/")) {
+    validUrl = trimmed;
+  }
+  
+  if (!validUrl) return "";
+
+  try {
+    // Escape spaces and special characters so Next.js Image Optimization doesn't crash
+    return encodeURI(decodeURI(validUrl));
+  } catch {
+    // If decode fails, just encode it
+    return encodeURI(validUrl).replace(/%25/g, '%'); // prevent double encoding of already encoded chars if possible
+  }
 }
 
 type BikeMediaImageProps = {
@@ -23,34 +36,38 @@ type BikeMediaImageProps = {
   sizes?: string;
 };
 
-export function BikeMediaImage({ src, alt, className, fill, priority }: BikeMediaImageProps) {
+export function BikeMediaImage({ src, alt, className, fill, priority, sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" }: BikeMediaImageProps) {
   const [failed, setFailed] = useState(false);
   const resolved = failed ? FALLBACK_IMAGE : normalizeSrc(src) || FALLBACK_IMAGE;
 
   if (fill) {
     return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
+      <Image
         src={resolved}
         alt={alt}
-        loading={priority ? "eager" : "lazy"}
-        decoding="async"
+        fill
+        unoptimized
+        priority={priority}
+        sizes={sizes}
         onError={() => setFailed(true)}
-        className={cn("absolute inset-0 h-full w-full object-cover", className)}
+        className={cn("object-cover", className)}
       />
     );
   }
 
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={resolved}
-      alt={alt}
-      loading={priority ? "eager" : "lazy"}
-      decoding="async"
-      onError={() => setFailed(true)}
-      className={className}
-    />
+    <div className={cn("relative overflow-hidden", className)}>
+      <Image
+        src={resolved}
+        alt={alt}
+        fill
+        unoptimized
+        priority={priority}
+        sizes={sizes}
+        onError={() => setFailed(true)}
+        className="object-cover"
+      />
+    </div>
   );
 }
 

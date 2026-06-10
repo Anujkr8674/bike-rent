@@ -8,6 +8,7 @@ import { faqCategories } from "@/lib/content/faqs";
 import { coveredCities } from "@/lib/constants";
 import { BikesListing } from "@/components/bikes/bikes-listing";
 import { heroImages } from "@/lib/content/hero-images";
+import { getCatalogBikes } from "@/lib/bike-catalog";
 
 export const metadata: Metadata = {
   title: "Bike Rental in Ranchi | Best Bike Rent Service Jharkhand",
@@ -41,8 +42,9 @@ const seoSections = [
   },
 ];
 
-export default function RanchiPage() {
+export default async function RanchiPage() {
   const localFaqs = faqCategories.slice(0, 2);
+  const bikes = await getCatalogBikes();
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -95,7 +97,7 @@ export default function RanchiPage() {
         </SectionReveal>
       </div>
 
-      <BikesListing embedded />
+      <BikesListing embedded initialBikes={bikes} />
 
       <div className="page-wrap py-16">
         <h2 className="section-title">Ranchi rental FAQ</h2>

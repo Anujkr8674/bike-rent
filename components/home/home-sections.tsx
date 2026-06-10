@@ -65,12 +65,14 @@ export function TrendingBikes({
   days = 1,
   pickup = "",
   drop = "",
+  bikes = [],
 }: {
   days?: number;
   pickup?: string;
   drop?: string;
+  bikes?: any[];
 }) {
-  const bikes = useCatalogBikes(6);
+  const displayBikes = bikes.slice(0, 6);
   return (
     <section className="py-20 md:py-10">
       <div className="page-wrap">
@@ -79,7 +81,7 @@ export function TrendingBikes({
           <h2 className="section-title mt-2">Hot rides this week</h2>
         </SectionReveal>
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {bikes.map((bike, i) => (
+          {displayBikes.map((bike, i) => (
             <BikeCard key={bike.id} bike={bike} days={days} pickup={pickup} drop={drop} index={i} />
           ))}
         </div>

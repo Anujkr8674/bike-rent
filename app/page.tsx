@@ -1,6 +1,7 @@
 import { HomePage } from "@/components/home-page";
+import { getCatalogBikes, getCachedCategories } from "@/lib/bike-catalog";
 
-export default function Home() {
+export default async function Home() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
@@ -10,10 +11,13 @@ export default function Home() {
     serviceType: "Bike rental",
   };
 
+  const bikes = await getCatalogBikes();
+  const categories = await getCachedCategories();
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <HomePage />
+      <HomePage initialBikes={bikes} initialCategories={categories} />
     </>
   );
 }

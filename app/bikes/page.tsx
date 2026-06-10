@@ -2,13 +2,15 @@ import type { Metadata } from "next";
 import { BikesListing } from "@/components/bikes/bikes-listing";
 import { PageHero } from "@/components/layout/page-hero";
 import { heroImages } from "@/lib/content/hero-images";
+import { getCatalogBikes } from "@/lib/bike-catalog";
 
 export const metadata: Metadata = {
   title: "Bikes for Rent in Ranchi",
   description: "Browse motorcycles and scooters for rent in Ranchi. Filter by price, CC, fuel type. Live daily pricing.",
 };
 
-export default function BikesPage() {
+export default async function BikesPage() {
+  const bikes = await getCatalogBikes();
   return (
     <>
       <PageHero
@@ -18,7 +20,7 @@ export default function BikesPage() {
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Bikes" }]}
         backgroundImage={heroImages.bikes}
       />
-      <BikesListing embedded />
+      <BikesListing embedded initialBikes={bikes} />
     </>
   );
 }
